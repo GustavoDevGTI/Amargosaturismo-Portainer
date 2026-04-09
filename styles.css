@@ -942,6 +942,28 @@ section h2::after {
     margin-top: 2rem;
 }
 
+.attractions-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 2.5rem;
+}
+
+.attractions-cta .btn {
+    min-width: min(100%, 320px);
+}
+
+.attractions-cta__button {
+    background-color: var(--primary-color);
+    color: var(--white);
+    box-shadow: 0 8px 18px rgba(21, 124, 98, 0.24);
+}
+
+.attractions-cta__button:hover,
+.attractions-cta__button:focus-visible {
+    background-color: var(--secondary-color);
+    color: var(--white);
+}
+
 .attraction-card {
     background: var(--white);
     border-radius: 8px;
