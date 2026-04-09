@@ -20,6 +20,7 @@ const desktopGalleryDropdownItem = document.querySelector('.menu-sub-campo--drop
 const desktopGalleryDropdownButton = desktopGalleryDropdownItem?.querySelector('.menu-btn');
 const desktopGalleryDropdownSubmenu = desktopGalleryDropdownItem?.querySelector('.submenu');
 const sectionMenuButtons = document.querySelectorAll('.menu-sub-campo--link .menu-btn[data-target], .menu-sub-campo--link .menu-btn[data-url]');
+const attractionCardsWithLinks = document.querySelectorAll('.attraction-card[data-url]');
 const menuToggleLine01 = menuToggle?.querySelector('.menu-mobile-hamburger-01');
 const menuToggleLine02 = menuToggle?.querySelector('.menu-mobile-hamburger-02');
 const menuToggleLine03 = menuToggle?.querySelector('.menu-mobile-hamburger-03');
@@ -528,6 +529,31 @@ sectionMenuButtons.forEach((button) => {
         }
 
         smoothScrollTo(button.dataset.target);
+    });
+});
+
+attractionCardsWithLinks.forEach((card) => {
+    const targetUrl = card.dataset.url;
+
+    if (!targetUrl) {
+        return;
+    }
+
+    card.addEventListener('click', (event) => {
+        if (event.target.closest('a, button')) {
+            return;
+        }
+
+        openMenuUrl(targetUrl);
+    });
+
+    card.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') {
+            return;
+        }
+
+        event.preventDefault();
+        openMenuUrl(targetUrl);
     });
 });
 

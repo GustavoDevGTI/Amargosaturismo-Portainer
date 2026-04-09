@@ -1017,12 +1017,48 @@ section h2::after {
     flex-direction: column;
 }
 
+#pontos .attraction-card--link {
+    cursor: pointer;
+}
+
+#pontos .attraction-card--link:focus-visible {
+    outline: 3px solid rgba(21, 124, 98, 0.26);
+    outline-offset: 4px;
+}
+
 #pontos .card-content > p:not(.subtitle-card):not(.highlights) {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 4;
     overflow: hidden;
     min-height: calc(1.6em * 4);
+}
+
+.attraction-card__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    margin-top: auto;
+    padding: 0 22px;
+    border-radius: 999px;
+    border: 1px solid rgba(21, 124, 98, 0.22);
+    background: linear-gradient(135deg, rgba(21, 124, 98, 0.12), rgba(51, 154, 128, 0.18));
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    transition: var(--transition);
+}
+
+.attraction-card__button:hover,
+.attraction-card__button:focus-visible,
+.attraction-card--link:hover .attraction-card__button,
+.attraction-card--link:focus-visible .attraction-card__button {
+    background: linear-gradient(135deg, rgba(21, 124, 98, 0.18), rgba(51, 154, 128, 0.26));
+    border-color: rgba(21, 124, 98, 0.34);
+    transform: translateY(-2px);
 }
 
 .featured-events .attraction-card {
