@@ -67,10 +67,9 @@ a {
 
 .sj-hero__content {
     max-width: 860px;
-    padding: 7rem 1.5rem 2rem;
+    padding: 6.2rem 1.5rem 0.8rem;
 }
 
-.sj-eyebrow,
 .sj-section__eyebrow {
     display: inline-flex;
     align-items: center;
@@ -94,10 +93,11 @@ a {
 
 .sj-hero h1 {
     margin: 0;
-    max-width: 10ch;
-    font-size: clamp(3rem, 7vw, 5.6rem);
-    line-height: 0.94;
+    max-width: none;
+    font-size: clamp(2.8rem, 5.6vw, 5rem);
+    line-height: 1;
     color: var(--sj-primary);
+    white-space: nowrap;
 }
 
 .sj-button {
@@ -132,11 +132,11 @@ a {
 .sj-main {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 1rem 1.5rem 3rem;
+    padding: 0.15rem 1.5rem 3rem;
 }
 
 .sj-section {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     padding: 2rem;
     border: 1px solid rgba(142, 47, 27, 0.1);
     border-radius: 32px;
@@ -259,7 +259,7 @@ a {
     }
 
     .sj-hero__content {
-        padding-top: 6.5rem;
+        padding-top: 5.8rem;
     }
 
     .sj-experience__grid {
@@ -284,7 +284,11 @@ a {
     }
 
     .sj-hero__content {
-        padding: 5.5rem 0 0;
+        padding: 5rem 0 0.25rem;
+    }
+
+    .sj-hero h1 {
+        white-space: normal;
     }
 
     .sj-section {
