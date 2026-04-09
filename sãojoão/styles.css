@@ -43,8 +43,8 @@ a {
 .sj-hero {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.8fr);
-    gap: 1.5rem;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
     align-items: end;
     max-width: 1200px;
     margin: 0 auto;
@@ -60,13 +60,13 @@ a {
     opacity: 0.95;
 }
 
-.sj-hero__content,
-.sj-hero__card {
+.sj-hero__content {
     position: relative;
     z-index: 1;
 }
 
 .sj-hero__content {
+    max-width: 860px;
     padding: 7rem 1.5rem 2rem;
 }
 
@@ -87,7 +87,6 @@ a {
 }
 
 .sj-hero h1,
-.sj-hero__card h2,
 .sj-section h2,
 .sj-highlight-card h3,
 .sj-experience__card h3 {
@@ -144,41 +143,6 @@ a {
     background: rgba(255, 249, 242, 0.78);
     color: var(--sj-primary);
     border: 1px solid rgba(142, 47, 27, 0.14);
-}
-
-.sj-hero__card {
-    align-self: center;
-    padding: 1.6rem;
-    border: 1px solid rgba(142, 47, 27, 0.12);
-    border-radius: 28px;
-    background:
-        linear-gradient(180deg, rgba(255, 248, 235, 0.95), rgba(255, 241, 221, 0.96)),
-        url('../public/images/sao-joao/hero.jpg') center / cover;
-    box-shadow: var(--sj-shadow);
-}
-
-.sj-card__tag {
-    display: inline-flex;
-    padding: 0.35rem 0.75rem;
-    border-radius: 999px;
-    background: rgba(47, 108, 83, 0.12);
-    color: var(--sj-green);
-    font-size: 0.78rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
-.sj-hero__card h2 {
-    margin: 1rem 0 0.75rem;
-    font-size: clamp(2rem, 3vw, 2.8rem);
-    color: var(--sj-primary);
-}
-
-.sj-hero__card p {
-    margin: 0;
-    line-height: 1.75;
-    color: var(--sj-muted);
 }
 
 .sj-main {
@@ -311,7 +275,6 @@ a {
 }
 
 @media (max-width: 1080px) {
-    .sj-hero,
     .sj-story {
         grid-template-columns: 1fr;
     }
