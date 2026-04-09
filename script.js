@@ -183,6 +183,34 @@ function createMobileMenuDetails(titleText, sourceLinks = []) {
     return details;
 }
 
+function isExternalMenuUrl(url) {
+    if (!url) {
+        return false;
+    }
+
+    try {
+        const resolvedUrl = new URL(url, window.location.href);
+        return resolvedUrl.origin !== window.location.origin;
+    } catch (error) {
+        return /^(https?:|mailto:|tel:)/i.test(url);
+    }
+}
+
+function openMenuUrl(url) {
+    if (!url) {
+        return;
+    }
+
+    const isExternal = isExternalMenuUrl(url);
+
+    if (isExternal) {
+        window.open(url, '_blank', 'noopener,noreferrer');
+        return;
+    }
+
+    window.location.assign(url);
+}
+
 function createMobileMenuShortcut(button) {
     const label = button.querySelector('.menu-btn-nome')?.textContent.trim();
     const targetSelector = button.dataset.target;
@@ -197,8 +225,12 @@ function createMobileMenuShortcut(button) {
 
         mobileLink.className = 'menu-mobile-links-btn menu-mobile-links-btn--atalho';
         mobileLink.setAttribute('href', targetUrl);
-        mobileLink.setAttribute('target', '_blank');
-        mobileLink.setAttribute('rel', 'noreferrer');
+
+        if (isExternalMenuUrl(targetUrl)) {
+            mobileLink.setAttribute('target', '_blank');
+            mobileLink.setAttribute('rel', 'noreferrer');
+        }
+
         mobileLink.textContent = label;
 
         return mobileLink;
@@ -491,7 +523,7 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
 sectionMenuButtons.forEach((button) => {
     button.addEventListener('click', () => {
         if (button.dataset.url) {
-            window.open(button.dataset.url, '_blank', 'noopener,noreferrer');
+            openMenuUrl(button.dataset.url);
             return;
         }
 
