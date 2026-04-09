@@ -1,0 +1,368 @@
+:root {
+    --sj-bg: #fff4e6;
+    --sj-surface: rgba(255, 250, 244, 0.94);
+    --sj-surface-strong: rgba(255, 246, 233, 0.98);
+    --sj-text: #3c1b17;
+    --sj-muted: #6a4c46;
+    --sj-primary: #8e2f1b;
+    --sj-secondary: #d96727;
+    --sj-accent: #ffd56a;
+    --sj-green: #2f6c53;
+    --sj-shadow: 0 28px 60px rgba(97, 31, 14, 0.18);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Nunito Sans', sans-serif;
+    color: var(--sj-text);
+    background:
+        linear-gradient(180deg, rgba(255, 236, 208, 0.9) 0%, rgba(255, 244, 230, 0.96) 42%, rgba(255, 250, 244, 1) 100%),
+        url('../public/images/sao-joao/tecido.png') center top / 680px repeat;
+}
+
+a {
+    color: inherit;
+}
+
+.sj-shell {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, rgba(255, 213, 106, 0.38), transparent 36%),
+        radial-gradient(circle at top right, rgba(217, 103, 39, 0.22), transparent 28%);
+}
+
+.sj-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.8fr);
+    gap: 1.5rem;
+    align-items: end;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 1.5rem;
+}
+
+.sj-hero__texture {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 180px;
+    background: url('../public/images/sao-joao/bandeirolas.png') top center / 780px repeat-x;
+    pointer-events: none;
+    opacity: 0.95;
+}
+
+.sj-hero__content,
+.sj-hero__card {
+    position: relative;
+    z-index: 1;
+}
+
+.sj-hero__content {
+    padding: 7rem 1.5rem 2rem;
+}
+
+.sj-eyebrow,
+.sj-section__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 0.85rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(255, 213, 106, 0.26);
+    color: var(--sj-primary);
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.sj-hero h1,
+.sj-hero__card h2,
+.sj-section h2,
+.sj-highlight-card h3,
+.sj-experience__card h3 {
+    font-family: 'Bree Serif', serif;
+}
+
+.sj-hero h1 {
+    margin: 0;
+    max-width: 10ch;
+    font-size: clamp(3rem, 7vw, 5.6rem);
+    line-height: 0.94;
+    color: var(--sj-primary);
+}
+
+.sj-lead {
+    max-width: 62ch;
+    margin: 1.25rem 0 0;
+    font-size: 1.1rem;
+    line-height: 1.75;
+    color: var(--sj-muted);
+}
+
+.sj-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-top: 1.75rem;
+}
+
+.sj-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0.85rem 1.35rem;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 800;
+    transition: transform 0.24s ease, box-shadow 0.24s ease, background-color 0.24s ease;
+}
+
+.sj-button:hover,
+.sj-button:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(97, 31, 14, 0.18);
+}
+
+.sj-button--primary {
+    background: linear-gradient(135deg, var(--sj-primary), var(--sj-secondary));
+    color: #fff9f2;
+}
+
+.sj-button--secondary {
+    background: rgba(255, 249, 242, 0.78);
+    color: var(--sj-primary);
+    border: 1px solid rgba(142, 47, 27, 0.14);
+}
+
+.sj-hero__card {
+    align-self: center;
+    padding: 1.6rem;
+    border: 1px solid rgba(142, 47, 27, 0.12);
+    border-radius: 28px;
+    background:
+        linear-gradient(180deg, rgba(255, 248, 235, 0.95), rgba(255, 241, 221, 0.96)),
+        url('../public/images/sao-joao/hero.jpg') center / cover;
+    box-shadow: var(--sj-shadow);
+}
+
+.sj-card__tag {
+    display: inline-flex;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(47, 108, 83, 0.12);
+    color: var(--sj-green);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.sj-hero__card h2 {
+    margin: 1rem 0 0.75rem;
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    color: var(--sj-primary);
+}
+
+.sj-hero__card p {
+    margin: 0;
+    line-height: 1.75;
+    color: var(--sj-muted);
+}
+
+.sj-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem 3rem;
+}
+
+.sj-section {
+    margin-top: 1.5rem;
+    padding: 2rem;
+    border: 1px solid rgba(142, 47, 27, 0.1);
+    border-radius: 32px;
+    background: var(--sj-surface);
+    box-shadow: var(--sj-shadow);
+    backdrop-filter: blur(8px);
+}
+
+.sj-section__heading {
+    margin-bottom: 1.5rem;
+}
+
+.sj-section h2 {
+    margin: 0;
+    font-size: clamp(2rem, 3vw, 3rem);
+    line-height: 1.05;
+    color: var(--sj-primary);
+}
+
+.sj-highlight-grid,
+.sj-experience__grid {
+    display: grid;
+    gap: 1rem;
+}
+
+.sj-highlight-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.sj-highlight-card {
+    padding: 1.4rem;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.68);
+    border: 1px solid rgba(142, 47, 27, 0.08);
+}
+
+.sj-highlight-card h3,
+.sj-experience__card h3 {
+    margin: 0 0 0.65rem;
+    font-size: 1.45rem;
+    color: var(--sj-primary);
+}
+
+.sj-highlight-card p,
+.sj-story__content p,
+.sj-experience__card p,
+.sj-gallery-cta p {
+    margin: 0;
+    line-height: 1.7;
+    color: var(--sj-muted);
+}
+
+.sj-story {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.sj-story__media img,
+.sj-experience__card img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.sj-story__media img {
+    min-height: 360px;
+    border-radius: 28px;
+    box-shadow: 0 18px 40px rgba(97, 31, 14, 0.16);
+}
+
+.sj-story__content {
+    display: grid;
+    gap: 1rem;
+}
+
+.sj-experience__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.sj-experience__card {
+    overflow: hidden;
+    border-radius: 26px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(142, 47, 27, 0.08);
+}
+
+.sj-experience__card img {
+    height: 260px;
+}
+
+.sj-experience__card div {
+    padding: 1.3rem;
+}
+
+.sj-gallery-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    background:
+        linear-gradient(135deg, rgba(142, 47, 27, 0.94), rgba(217, 103, 39, 0.92)),
+        url('../public/images/sao-joao/bandeirolas.png') center top / 520px repeat-x;
+    color: #fff7f0;
+}
+
+.sj-gallery-cta .sj-section__eyebrow,
+.sj-gallery-cta h2,
+.sj-gallery-cta p {
+    color: inherit;
+}
+
+.sj-gallery-cta .sj-section__eyebrow {
+    background: rgba(255, 213, 106, 0.2);
+}
+
+.sj-gallery-cta p {
+    max-width: 58ch;
+}
+
+@media (max-width: 1080px) {
+    .sj-hero,
+    .sj-story {
+        grid-template-columns: 1fr;
+    }
+
+    .sj-hero__content {
+        padding-top: 6.5rem;
+    }
+
+    .sj-highlight-grid,
+    .sj-experience__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sj-gallery-cta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 720px) {
+    .sj-hero,
+    .sj-main {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .sj-hero__texture {
+        background-size: 520px;
+    }
+
+    .sj-hero__content {
+        padding: 5.5rem 0 0;
+    }
+
+    .sj-section {
+        padding: 1.3rem;
+        border-radius: 24px;
+    }
+
+    .sj-story__media img,
+    .sj-experience__card img {
+        min-height: 240px;
+        height: 240px;
+    }
+
+    .sj-actions,
+    .sj-gallery-cta .sj-button {
+        width: 100%;
+    }
+
+    .sj-button {
+        width: 100%;
+    }
+}

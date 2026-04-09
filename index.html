@@ -336,7 +336,7 @@
                     </div>
                 </div>
 
-                <div class="attraction-card">
+                <div class="attraction-card attraction-card--link attraction-card--event-modal attraction-card--sao-joao" data-sao-joao-modal-trigger tabindex="0" role="button" aria-haspopup="dialog" aria-controls="sao-joao-modal" aria-label="Abrir especial do S&atilde;o Jo&atilde;o de Amargosa">
                     <img src="public/images/sao-joao-principais-eventos-2026.jpeg" alt="Show no S&atilde;o Jo&atilde;o de Amargosa">
                     <div class="card-content">
                         <h3>S&atilde;o Jo&atilde;o</h3>
@@ -348,6 +348,7 @@
                         <p class="highlights">
                             <strong>Destaques:</strong> Forr&oacute;, tradi&ccedil;&atilde;o junina, gastronomia t&iacute;pica e programa&ccedil;&atilde;o cultural
                         </p>
+                        <p class="event-card-hint">Clique no card para abrir o especial do S&atilde;o Jo&atilde;o.</p>
                         <p class="event-gallery-button-label">Confira as fotos do S&atilde;o Jo&atilde;o</p>
                         <button class="gallery-name-card gallery-name-card--button event-gallery-button" type="button" data-gallery-key="sao-joao" data-gallery-cover="public/images/sao-joao-principais-eventos-2026.jpeg" aria-label="Abrir galeria do S&atilde;o Jo&atilde;o">
                             <span class="event-gallery-button__cover" aria-hidden="true">
@@ -684,6 +685,33 @@
                 <button class="gallery-modal__pagination-btn" type="button" id="gallery-modal-page-next" aria-label="Ir para a próxima página">
                     <span class="material-symbols-outlined">chevron_right</span>
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="event-modal event-modal--sao-joao" id="sao-joao-modal" hidden>
+        <div class="event-modal__backdrop" data-sao-joao-modal-close></div>
+        <div class="event-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="sao-joao-modal-title">
+            <button class="event-modal__close" type="button" data-sao-joao-modal-close aria-label="Fechar especial do S&atilde;o Jo&atilde;o">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+
+            <div class="event-modal__content">
+                <div class="event-modal__intro">
+                    <span class="event-modal__eyebrow">Especial Junino</span>
+                    <h3 id="sao-joao-modal-title">S&atilde;o Jo&atilde;o de Amargosa</h3>
+                    <p class="event-modal__lead">Um preview do novo subsite com clima junino, imagens da festa e conte&uacute;dos inspirados no portal oficial do S&atilde;o Jo&atilde;o.</p>
+                    <p class="event-modal__copy">Neste espa&ccedil;o, o visitante encontra uma apresenta&ccedil;&atilde;o r&aacute;pida da festa, da Vila Junina, das tradi&ccedil;&otilde;es culturais e um atalho direto para a galeria tem&aacute;tica do portal principal.</p>
+
+                    <div class="event-modal__actions">
+                        <a class="event-modal__action" href="./sãojoão/" target="_blank" rel="noreferrer">Abrir p&aacute;gina completa</a>
+                        <a class="event-modal__action event-modal__action--secondary" href="./index.html?gallery=sao-joao#galeria">Ir para a galeria</a>
+                    </div>
+                </div>
+
+                <div class="event-modal__frame-shell">
+                    <iframe class="event-modal__frame" src="./sãojoão/" title="Subsite do S&atilde;o Jo&atilde;o de Amargosa" loading="lazy"></iframe>
+                </div>
             </div>
         </div>
     </div>

@@ -47,6 +47,9 @@ const galleryModalPreviewCaption = document.querySelector('#gallery-modal-previe
 const galleryModalPreviewCloseButton = document.querySelector('#gallery-modal-preview-close');
 const galleryModalCloseButton = galleryModal?.querySelector('.gallery-modal__close');
 const eventGalleryButtons = Array.from(document.querySelectorAll('.event-gallery-button[data-gallery-key]'));
+const saoJoaoModal = document.querySelector('#sao-joao-modal');
+const saoJoaoModalCloseButton = saoJoaoModal?.querySelector('.event-modal__close');
+const saoJoaoModalTriggers = Array.from(document.querySelectorAll('[data-sao-joao-modal-trigger]'));
 const heroCarousel = document.querySelector('.hero-carousel');
 const heroSlides = Array.from(document.querySelectorAll('[data-hero-slide]'));
 const heroPrevButton = document.querySelector('[data-hero-control="prev"]');
@@ -102,6 +105,7 @@ const galleryState = {
 };
 
 let lastGalleryTrigger = null;
+let lastSaoJoaoModalTrigger = null;
 let heroActiveIndex = heroSlides.findIndex((slide) => slide.classList.contains('is-active'));
 let heroAutoplayId = 0;
 
@@ -1204,6 +1208,30 @@ function closeGalleryModal() {
     lastGalleryTrigger?.focus?.();
 }
 
+function openSaoJoaoModal(trigger = null) {
+    if (!saoJoaoModal) {
+        return;
+    }
+
+    if (trigger instanceof Element && !saoJoaoModal.contains(trigger)) {
+        lastSaoJoaoModalTrigger = trigger;
+    }
+
+    saoJoaoModal.hidden = false;
+    body.classList.add('sao-joao-modal-open');
+    saoJoaoModalCloseButton?.focus();
+}
+
+function closeSaoJoaoModal() {
+    if (!saoJoaoModal || saoJoaoModal.hidden) {
+        return;
+    }
+
+    saoJoaoModal.hidden = true;
+    body.classList.remove('sao-joao-modal-open');
+    lastSaoJoaoModalTrigger?.focus?.();
+}
+
 function showGalleryModalShell() {
     if (!galleryModal) {
         return;
@@ -1290,6 +1318,59 @@ function openGalleryHub(trigger = null) {
     renderGalleryCollections();
     renderGalleryGrid();
     setGalleryStatus('');
+}
+
+function initSaoJoaoModal() {
+    if (!saoJoaoModal || !saoJoaoModalTriggers.length) {
+        return;
+    }
+
+    saoJoaoModalTriggers.forEach((trigger) => {
+        trigger.addEventListener('click', (event) => {
+            if (event.target.closest('a, button')) {
+                return;
+            }
+
+            openSaoJoaoModal(trigger);
+        });
+
+        trigger.addEventListener('keydown', (event) => {
+            if (event.key !== 'Enter' && event.key !== ' ') {
+                return;
+            }
+
+            event.preventDefault();
+            openSaoJoaoModal(trigger);
+        });
+    });
+
+    saoJoaoModal.addEventListener('click', (event) => {
+        if (!(event.target instanceof Element)) {
+            return;
+        }
+
+        if (event.target.closest('[data-sao-joao-modal-close]')) {
+            closeSaoJoaoModal();
+        }
+    });
+}
+
+async function handleGalleryDeepLink() {
+    const url = new URL(window.location.href);
+    const galleryKey = url.searchParams.get('gallery');
+
+    if (!galleryKey || !galleryThemeCards.some((card) => card.key === galleryKey)) {
+        return;
+    }
+
+    const galleryTrigger = document.querySelector(`[data-gallery-key="${galleryKey}"]`);
+
+    smoothScrollTo('#galeria');
+    await openGallery(galleryKey, galleryTrigger);
+
+    url.searchParams.delete('gallery');
+    url.hash = 'galeria';
+    window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
 }
 
 function applyGalleryOverview(payload) {
@@ -1483,9 +1564,11 @@ function initTooltips() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     initTooltips();
-    initEventGalleryButtons();
+    initSaoJoaoModal();
+    await initEventGalleryButtons();
+    await handleGalleryDeepLink();
     console.log('Página de Turismo de Amargosa carregada com sucesso!');
 });
 
@@ -1526,6 +1609,11 @@ document.addEventListener('keydown', (event) => {
                 closeGalleryModal();
             }
 
+            return;
+        }
+
+        if (saoJoaoModal && !saoJoaoModal.hidden) {
+            closeSaoJoaoModal();
             return;
         }
 
