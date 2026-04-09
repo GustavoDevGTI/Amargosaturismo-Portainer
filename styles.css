@@ -1261,16 +1261,16 @@ section h2::after {
 
 .calendar-embed-shell {
     margin-top: 1.75rem;
-    border-radius: 26px;
+    border-radius: 30px;
     overflow: hidden;
-    background: transparent;
-    border: 0;
-    box-shadow: none;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.94) 100%);
+    border: 1px solid rgba(21, 124, 98, 0.12);
+    box-shadow: 0 28px 48px rgba(26, 37, 46, 0.14);
 }
 
 .calendar-embed-frame {
     padding: 0;
-    background: transparent;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(228, 231, 236, 0.9));
 }
 
 .calendar-embed-iframe,
@@ -1279,8 +1279,8 @@ section h2::after {
     width: 100%;
     min-height: 1240px;
     border: 0;
-    border-radius: 0;
-    background: transparent;
+    border-radius: 26px;
+    background-color: var(--white);
 }
 
 .gallery {
@@ -2147,7 +2147,7 @@ section h2::after {
     .calendar-embed-iframe,
     .calendar-embed-frame iframe {
         min-height: 1160px;
-        border-radius: 0;
+        border-radius: 22px;
     }
 }
 
@@ -2335,7 +2335,7 @@ section h2::after {
     .calendar-embed-iframe,
     .calendar-embed-frame iframe {
         min-height: 900px;
-        border-radius: 0;
+        border-radius: 18px;
     }
 
     .gallery-grid {
@@ -2680,9 +2680,9 @@ body.modo_escuro .event-attractions {
 }
 
 body.modo_escuro .calendar-embed-shell {
-    background: transparent;
-    border-color: transparent;
-    box-shadow: none;
+    background: linear-gradient(180deg, rgba(23, 33, 30, 0.94) 0%, rgba(18, 26, 24, 0.98) 100%);
+    border-color: rgba(116, 217, 188, 0.14);
+    box-shadow: var(--shadow);
 }
 
 body.modo_escuro .calendar-embed-top {
@@ -2695,11 +2695,11 @@ body.modo_escuro .calendar-embed-status {
 }
 
 body.modo_escuro .calendar-embed-frame {
-    background: transparent;
+    background: linear-gradient(180deg, rgba(13, 20, 18, 0.86), rgba(16, 24, 22, 0.96));
 }
 
 body.modo_escuro .calendar-embed-frame iframe {
-    background: transparent;
+    background-color: #0f1715;
 }
 
 body.modo_escuro .form-group input,
