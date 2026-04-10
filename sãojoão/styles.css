@@ -154,16 +154,6 @@ a {
     gap: 1.5rem;
 }
 
-.sj-story__header::after {
-    content: "";
-    display: block;
-    width: 168px;
-    height: 34px;
-    margin-top: 0.25rem;
-    background: url('../public/images/sao-joao/oficial/logo-sj-linha.png') left center / contain no-repeat;
-    opacity: 0.42;
-}
-
 .sj-story--merged {
     align-items: start;
 }
