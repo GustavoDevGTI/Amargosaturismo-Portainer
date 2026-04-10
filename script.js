@@ -53,6 +53,8 @@ const saoJoaoModalTriggers = Array.from(document.querySelectorAll('[data-sao-joa
 const festivalForroModal = document.querySelector('#festival-forro-modal');
 const festivalForroModalCloseButton = festivalForroModal?.querySelector('.event-modal__close');
 const festivalForroModalTriggers = Array.from(document.querySelectorAll('[data-festival-forro-modal-trigger]'));
+const eventModalFrames = Array.from(document.querySelectorAll('.event-modal__frame'));
+const eventModalMobileMediaQuery = window.matchMedia('(max-width: 960px)');
 const heroCarousel = document.querySelector('.hero-carousel');
 const heroSlides = Array.from(document.querySelectorAll('[data-hero-slide]'));
 const heroPrevButton = document.querySelector('[data-hero-control="prev"]');
@@ -1212,6 +1214,54 @@ function closeGalleryModal() {
     lastGalleryTrigger?.focus?.();
 }
 
+function getFrameDocumentHeight(frame) {
+    const frameDocument = frame.contentDocument || frame.contentWindow?.document;
+
+    if (!frameDocument) {
+        return 0;
+    }
+
+    const { body: frameBody, documentElement } = frameDocument;
+
+    return Math.max(
+        frameBody?.scrollHeight || 0,
+        documentElement?.scrollHeight || 0,
+        frameBody?.offsetHeight || 0,
+        documentElement?.offsetHeight || 0
+    );
+}
+
+function syncEventModalFrameHeights() {
+    const shouldUseSingleScroll = eventModalMobileMediaQuery.matches;
+
+    eventModalFrames.forEach((frame) => {
+        if (!shouldUseSingleScroll) {
+            frame.style.removeProperty('height');
+            frame.removeAttribute('scrolling');
+            return;
+        }
+
+        try {
+            const frameHeight = getFrameDocumentHeight(frame);
+
+            if (frameHeight > 0) {
+                frame.style.height = `${frameHeight}px`;
+                frame.setAttribute('scrolling', 'no');
+            }
+        } catch (error) {
+            frame.style.removeProperty('height');
+            frame.removeAttribute('scrolling');
+        }
+    });
+}
+
+function queueEventModalFrameSync() {
+    window.requestAnimationFrame(() => {
+        syncEventModalFrameHeights();
+        window.setTimeout(syncEventModalFrameHeights, 200);
+    });
+}
+
 function openSaoJoaoModal(trigger = null) {
     if (!saoJoaoModal) {
         return;
@@ -1224,6 +1274,7 @@ function openSaoJoaoModal(trigger = null) {
     saoJoaoModal.hidden = false;
     body.classList.add('sao-joao-modal-open');
     saoJoaoModalCloseButton?.focus();
+    queueEventModalFrameSync();
 }
 
 function closeSaoJoaoModal() {
@@ -1248,6 +1299,7 @@ function openFestivalForroModal(trigger = null) {
     festivalForroModal.hidden = false;
     body.classList.add('festival-forro-modal-open');
     festivalForroModalCloseButton?.focus();
+    queueEventModalFrameSync();
 }
 
 function closeFestivalForroModal() {
@@ -1417,6 +1469,18 @@ function initFestivalForroModal() {
         }
     });
 }
+
+eventModalFrames.forEach((frame) => {
+    frame.addEventListener('load', queueEventModalFrameSync);
+});
+
+if (typeof eventModalMobileMediaQuery.addEventListener === 'function') {
+    eventModalMobileMediaQuery.addEventListener('change', syncEventModalFrameHeights);
+} else {
+    eventModalMobileMediaQuery.addListener(syncEventModalFrameHeights);
+}
+
+window.addEventListener('resize', syncEventModalFrameHeights);
 
 async function handleGalleryDeepLink() {
     const url = new URL(window.location.href);
