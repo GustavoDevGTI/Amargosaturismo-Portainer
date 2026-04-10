@@ -50,6 +50,9 @@ const eventGalleryButtons = Array.from(document.querySelectorAll('.event-gallery
 const saoJoaoModal = document.querySelector('#sao-joao-modal');
 const saoJoaoModalCloseButton = saoJoaoModal?.querySelector('.event-modal__close');
 const saoJoaoModalTriggers = Array.from(document.querySelectorAll('[data-sao-joao-modal-trigger]'));
+const festivalForroModal = document.querySelector('#festival-forro-modal');
+const festivalForroModalCloseButton = festivalForroModal?.querySelector('.event-modal__close');
+const festivalForroModalTriggers = Array.from(document.querySelectorAll('[data-festival-forro-modal-trigger]'));
 const heroCarousel = document.querySelector('.hero-carousel');
 const heroSlides = Array.from(document.querySelectorAll('[data-hero-slide]'));
 const heroPrevButton = document.querySelector('[data-hero-control="prev"]');
@@ -67,7 +70,7 @@ const galleryRuntimeConfig = {
 const galleryCollectionCoverMap = {
     'carnaval-cultural::2026': 'public/images/carnaval-cultural-2026-cover.png',
     'sao-joao::2026': 'public/images/sao-joao-principais-eventos-2026.jpeg',
-    'festival-de-forro::2026': 'public/images/festival-de-forro-principais-eventos-2026.jpeg'
+    'festival-de-forro::2026': 'public/images/festival-forro/palco.jpg'
 };
 
 const galleryThemeCards = [
@@ -87,7 +90,7 @@ const galleryThemeCards = [
         key: 'festival-de-forro',
         title: 'Festival de Forr\u00f3',
         subtitle: 'Veja as fotos do Festival de Forr\u00f3.',
-        coverUrl: 'public/images/festival-de-forro-principais-eventos-2026.jpeg'
+        coverUrl: 'public/images/festival-forro/palco.jpg'
     }
 ];
 
@@ -106,6 +109,7 @@ const galleryState = {
 
 let lastGalleryTrigger = null;
 let lastSaoJoaoModalTrigger = null;
+let lastFestivalForroModalTrigger = null;
 let heroActiveIndex = heroSlides.findIndex((slide) => slide.classList.contains('is-active'));
 let heroAutoplayId = 0;
 
@@ -1232,6 +1236,30 @@ function closeSaoJoaoModal() {
     lastSaoJoaoModalTrigger?.focus?.();
 }
 
+function openFestivalForroModal(trigger = null) {
+    if (!festivalForroModal) {
+        return;
+    }
+
+    if (trigger instanceof Element && !festivalForroModal.contains(trigger)) {
+        lastFestivalForroModalTrigger = trigger;
+    }
+
+    festivalForroModal.hidden = false;
+    body.classList.add('festival-forro-modal-open');
+    festivalForroModalCloseButton?.focus();
+}
+
+function closeFestivalForroModal() {
+    if (!festivalForroModal || festivalForroModal.hidden) {
+        return;
+    }
+
+    festivalForroModal.hidden = true;
+    body.classList.remove('festival-forro-modal-open');
+    lastFestivalForroModalTrigger?.focus?.();
+}
+
 function showGalleryModalShell() {
     if (!galleryModal) {
         return;
@@ -1351,6 +1379,41 @@ function initSaoJoaoModal() {
 
         if (event.target.closest('[data-sao-joao-modal-close]')) {
             closeSaoJoaoModal();
+        }
+    });
+}
+
+function initFestivalForroModal() {
+    if (!festivalForroModal || !festivalForroModalTriggers.length) {
+        return;
+    }
+
+    festivalForroModalTriggers.forEach((trigger) => {
+        trigger.addEventListener('click', (event) => {
+            if (event.target.closest('a, button')) {
+                return;
+            }
+
+            openFestivalForroModal(trigger);
+        });
+
+        trigger.addEventListener('keydown', (event) => {
+            if (event.key !== 'Enter' && event.key !== ' ') {
+                return;
+            }
+
+            event.preventDefault();
+            openFestivalForroModal(trigger);
+        });
+    });
+
+    festivalForroModal.addEventListener('click', (event) => {
+        if (!(event.target instanceof Element)) {
+            return;
+        }
+
+        if (event.target.closest('[data-festival-forro-modal-close]')) {
+            closeFestivalForroModal();
         }
     });
 }
@@ -1567,6 +1630,7 @@ function initTooltips() {
 document.addEventListener('DOMContentLoaded', async () => {
     initTooltips();
     initSaoJoaoModal();
+    initFestivalForroModal();
     await initEventGalleryButtons();
     await handleGalleryDeepLink();
     console.log('Página de Turismo de Amargosa carregada com sucesso!');
@@ -1614,6 +1678,11 @@ document.addEventListener('keydown', (event) => {
 
         if (saoJoaoModal && !saoJoaoModal.hidden) {
             closeSaoJoaoModal();
+            return;
+        }
+
+        if (festivalForroModal && !festivalForroModal.hidden) {
+            closeFestivalForroModal();
             return;
         }
 

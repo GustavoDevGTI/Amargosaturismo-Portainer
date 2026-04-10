@@ -354,8 +354,8 @@
                     </div>
                 </div>
 
-                <div class="attraction-card">
-                    <img src="public/images/festival-de-forro-principais-eventos-2026.jpeg" alt="Apresenta&ccedil;&atilde;o no Festival de Forr&oacute; de Amargosa">
+                <div class="attraction-card attraction-card--link attraction-card--event-modal attraction-card--festival-forro" data-festival-forro-modal-trigger tabindex="0" role="button" aria-haspopup="dialog" aria-controls="festival-forro-modal" aria-label="Abrir especial do Festival de Forr&oacute; de Amargosa">
+                    <img src="public/images/festival-forro/palco.jpg" alt="Apresenta&ccedil;&atilde;o no Festival de Forr&oacute; de Amargosa">
                     <div class="card-content">
                         <h3>Festival de Forr&oacute;</h3>
                         <p class="subtitle-card">M&uacute;sica e dan&ccedil;a para celebrar Amargosa</p>
@@ -366,10 +366,11 @@
                         <p class="highlights">
                             <strong>Destaques:</strong> Shows, dan&ccedil;a, forr&oacute;, artistas regionais e clima de celebra&ccedil;&atilde;o
                         </p>
+                        <p class="event-card-hint">Clique no card para abrir o especial do Festival de Forr&oacute;</p>
                         <p class="event-gallery-button-label">Confira as fotos do Festival de Forr&oacute;</p>
-                        <button class="gallery-name-card gallery-name-card--button event-gallery-button" type="button" data-gallery-key="festival-de-forro" data-gallery-cover="public/images/festival-de-forro-principais-eventos-2026.jpeg" aria-label="Abrir galeria do Festival de Forr&oacute;">
+                        <button class="gallery-name-card gallery-name-card--button event-gallery-button" type="button" data-gallery-key="festival-de-forro" data-gallery-cover="public/images/festival-forro/palco.jpg" aria-label="Abrir galeria do Festival de Forr&oacute;">
                             <span class="event-gallery-button__cover" aria-hidden="true">
-                                <img src="public/images/festival-de-forro-principais-eventos-2026.jpeg" alt="" loading="lazy" decoding="async">
+                                <img src="public/images/festival-forro/palco.jpg" alt="" loading="lazy" decoding="async">
                             </span>
                             <span class="event-gallery-button__sr-only">Confira as imagens do Festival de Forr&oacute;</span>
                         </button>
@@ -704,6 +705,33 @@
 
                 <div class="event-modal__frame-shell">
                     <iframe class="event-modal__frame" src="./sãojoão/" title="Subsite do S&atilde;o Jo&atilde;o de Amargosa" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="event-modal event-modal--festival-forro" id="festival-forro-modal" hidden>
+        <div class="event-modal__backdrop" data-festival-forro-modal-close></div>
+        <div class="event-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="festival-forro-modal-title">
+            <button class="event-modal__close" type="button" data-festival-forro-modal-close aria-label="Fechar especial do Festival de Forr&oacute;">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+
+            <div class="event-modal__content">
+                <div class="event-modal__intro">
+                    <span class="event-modal__eyebrow">Especial musical</span>
+                    <h3 id="festival-forro-modal-title">Festival de Forr&oacute; de Amargosa</h3>
+                    <p class="event-modal__lead">Um preview do novo subsite com tema azul claro, imagens do festival e conte&uacute;dos inspirados no especial do S&atilde;o Jo&atilde;o.</p>
+                    <p class="event-modal__copy">Neste espa&ccedil;o, o visitante encontra uma apresenta&ccedil;&atilde;o r&aacute;pida da festa, da dan&ccedil;a, das tradi&ccedil;&otilde;es culturais e um atalho direto para a galeria tem&aacute;tica do portal principal.</p>
+
+                    <div class="event-modal__actions">
+                        <a class="event-modal__action" href="./festival-de-forro/">Abrir p&aacute;gina completa</a>
+                        <a class="event-modal__action event-modal__action--secondary" href="./index.html?gallery=festival-de-forro#galeria">Ir para a galeria</a>
+                    </div>
+                </div>
+
+                <div class="event-modal__frame-shell">
+                    <iframe class="event-modal__frame" src="./festival-de-forro/" title="Subsite do Festival de Forr&oacute; de Amargosa" loading="lazy"></iframe>
                 </div>
             </div>
         </div>
