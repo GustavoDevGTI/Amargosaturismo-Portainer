@@ -151,7 +151,7 @@ a {
     position: absolute;
     inset: 0 1.5rem auto;
     height: 78px;
-    background: url('../public/images/sao-joao/oficial/bandeirolas.png') top center / 520px repeat-x;
+    background: url('../public/images/sao-joao/oficial/bandeirolas.png') top center / min(760px, 96vw) auto no-repeat;
     opacity: 0.58;
     pointer-events: none;
 }
