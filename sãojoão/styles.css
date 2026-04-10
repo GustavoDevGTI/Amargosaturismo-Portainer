@@ -40,27 +40,6 @@ a {
         radial-gradient(circle at top right, rgba(217, 103, 39, 0.22), transparent 28%);
 }
 
-.sj-hero {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0;
-    align-items: end;
-    max-width: 1200px;
-    margin: 0 auto;
-    min-height: 82px;
-    padding: 1.2rem 1.5rem 0;
-}
-
-.sj-hero__texture {
-    position: absolute;
-    inset: 0 0 auto;
-    height: 180px;
-    background: url('../public/images/sao-joao/bandeirolas.png') top center / 780px repeat-x;
-    pointer-events: none;
-    opacity: 0.95;
-}
-
 .sj-section__eyebrow {
     display: inline-flex;
     align-items: center;
@@ -245,11 +224,6 @@ a {
 }
 
 @media (max-width: 1080px) {
-    .sj-hero {
-        min-height: 68px;
-        padding-top: 0.9rem;
-    }
-
     .sj-story__body {
         grid-template-columns: 1fr;
     }
@@ -265,14 +239,9 @@ a {
 }
 
 @media (max-width: 720px) {
-    .sj-hero,
     .sj-main {
         padding-left: 1rem;
         padding-right: 1rem;
-    }
-
-    .sj-hero__texture {
-        background-size: 520px;
     }
 
     .sj-section {
