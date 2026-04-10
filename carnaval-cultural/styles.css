@@ -155,6 +155,10 @@ a {
     height: 320px;
 }
 
+.cc-experience__image--caretas {
+    object-position: center 18%;
+}
+
 .cc-experience__card div {
     padding: 1.3rem;
 }
