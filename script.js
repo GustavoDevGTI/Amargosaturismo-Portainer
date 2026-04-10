@@ -47,6 +47,7 @@ const galleryModalPreviewCaption = document.querySelector('#gallery-modal-previe
 const galleryModalPreviewCloseButton = document.querySelector('#gallery-modal-preview-close');
 const galleryModalCloseButton = galleryModal?.querySelector('.gallery-modal__close');
 const eventGalleryButtons = Array.from(document.querySelectorAll('.event-gallery-button[data-gallery-key]'));
+const eventModalOpenButtons = Array.from(document.querySelectorAll('[data-event-modal-open]'));
 const carnavalCulturalModal = document.querySelector('#carnaval-cultural-modal');
 const carnavalCulturalModalCloseButton = carnavalCulturalModal?.querySelector('.event-modal__close');
 const carnavalCulturalModalTriggers = Array.from(document.querySelectorAll('[data-carnaval-cultural-modal-trigger]'));
@@ -1291,6 +1292,22 @@ function closeCarnavalCulturalModal() {
     lastCarnavalCulturalModalTrigger?.focus?.();
 }
 
+function openEventModalByKey(eventKey, trigger = null) {
+    if (eventKey === 'carnaval-cultural') {
+        openCarnavalCulturalModal(trigger);
+        return;
+    }
+
+    if (eventKey === 'sao-joao') {
+        openSaoJoaoModal(trigger);
+        return;
+    }
+
+    if (eventKey === 'festival-de-forro') {
+        openFestivalForroModal(trigger);
+    }
+}
+
 function openSaoJoaoModal(trigger = null) {
     if (!saoJoaoModal) {
         return;
@@ -1427,6 +1444,16 @@ function openGalleryHub(trigger = null) {
     renderGalleryCollections();
     renderGalleryGrid();
     setGalleryStatus('');
+}
+
+function initEventModalOpenButtons() {
+    eventModalOpenButtons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            openEventModalByKey(button.dataset.eventModalOpen, button);
+        });
+    });
 }
 
 function initCarnavalCulturalModal() {
@@ -1757,6 +1784,7 @@ function initTooltips() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     initTooltips();
+    initEventModalOpenButtons();
     initCarnavalCulturalModal();
     initSaoJoaoModal();
     initFestivalForroModal();
