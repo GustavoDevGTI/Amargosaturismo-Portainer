@@ -1613,7 +1613,7 @@ section h2::after {
 .event-modal__close {
     position: absolute;
     top: 1rem;
-    right: 1rem;
+    right: 2.4rem;
     width: 48px;
     height: 48px;
     display: inline-flex;
@@ -3205,7 +3205,7 @@ body.modo_escuro .event-modal__frame-shell {
 
     .event-modal__close {
         top: 0.75rem;
-        right: 0.75rem;
+        right: 1.65rem;
         width: 42px;
         height: 42px;
     }
