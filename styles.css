@@ -2566,7 +2566,7 @@ section h2::after {
 
     .calendar-embed-iframe,
     .calendar-embed-frame iframe {
-        min-height: 1180px;
+        min-height: 900px;
         border-radius: 0;
     }
 
@@ -2672,7 +2672,7 @@ section h2::after {
 
     .calendar-embed-iframe,
     .calendar-embed-frame iframe {
-        min-height: 1120px;
+        min-height: 840px;
         border-radius: 0;
     }
 
