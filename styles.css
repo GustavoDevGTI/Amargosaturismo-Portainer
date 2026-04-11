@@ -2481,8 +2481,8 @@ section h2::after {
 @media (max-width: 768px) {
     .container--calendar-embed {
         max-width: 1200px;
-        padding-left: 20px;
-        padding-right: 20px;
+        padding-left: 8px;
+        padding-right: 8px;
     }
 
     .hero {
@@ -2556,7 +2556,7 @@ section h2::after {
 
     .calendar-embed-iframe,
     .calendar-embed-frame iframe {
-        min-height: 1120px;
+        min-height: 1180px;
     }
 
     .gallery-grid {
@@ -2661,7 +2661,7 @@ section h2::after {
 
     .calendar-embed-iframe,
     .calendar-embed-frame iframe {
-        min-height: 1040px;
+        min-height: 1120px;
         border-radius: 8px;
     }
 
