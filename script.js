@@ -1782,8 +1782,33 @@ function initTooltips() {
     });
 }
 
+function initCalendarIframeScrollBridge() {
+    window.addEventListener('message', (event) => {
+        if (event.origin !== window.location.origin) {
+            return;
+        }
+
+        const data = event.data;
+        if (!data || data.type !== 'amargosa-calendar-scroll') {
+            return;
+        }
+
+        const deltaY = Number(data.deltaY) || 0;
+        if (!deltaY) {
+            return;
+        }
+
+        window.scrollBy({
+            top: deltaY,
+            left: 0,
+            behavior: 'auto'
+        });
+    });
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     initTooltips();
+    initCalendarIframeScrollBridge();
     initEventModalOpenButtons();
     initCarnavalCulturalModal();
     initSaoJoaoModal();
