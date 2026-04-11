@@ -873,11 +873,11 @@ section h2::after {
 }
 
 /* ========================================
-   SEÇÃO SOBRE
+   SEÇÃO PONTOS TURÍSTICOS
    ======================================== */
 
 .about {
-    background-color: var(--light-bg);
+    background: linear-gradient(135deg, var(--light-bg) 0%, var(--surface-soft) 100%);
 }
 
 .about-content {
@@ -886,6 +886,46 @@ section h2::after {
     gap: 3rem;
     align-items: start;
     margin-top: 2rem;
+}
+
+.tourism-points__photo-stack {
+    align-self: stretch;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.tourism-points__photo-stack:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.tourism-points__photo-frame {
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.tourism-points__photo-stack img {
+    width: 100%;
+    height: 100%;
+    min-height: 220px;
+    object-fit: cover;
+    display: block;
+    transition: var(--transition);
+}
+
+.tourism-points__photo-stack:hover img,
+.tourism-points__photo-frame:hover img {
+    transform: scale(1.05);
+}
+
+.tourism-points__grid {
+    margin-top: 2.5rem;
 }
 
 .about-text h3 {
