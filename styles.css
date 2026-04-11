@@ -532,6 +532,7 @@ body.festival-forro-modal-open {
 
 .hero-carousel {
     padding: 0;
+    touch-action: pan-y;
 }
 
 .hero-slide {
@@ -680,13 +681,13 @@ body.festival-forro-modal-open {
 }
 
 .hero-slide--calendar {
-    --hero-image: url('public/images/hero-calendario-praca-lourival-monte.jpg');
-    --hero-overlay: linear-gradient(115deg, rgba(8, 31, 49, 0.38) 0%, rgba(25, 92, 112, 0.12) 52%, rgba(8, 28, 44, 0.42) 100%);
+    --hero-image: url('public/images/hero-calendario-verde.jpg');
+    --hero-overlay: linear-gradient(115deg, rgba(5, 45, 34, 0.72) 0%, rgba(25, 124, 91, 0.22) 52%, rgba(5, 36, 27, 0.72) 100%);
     --hero-position: center 52%;
 }
 
 .hero-slide--calendar::after {
-    background: linear-gradient(180deg, rgba(4, 17, 32, 0.08) 0%, rgba(4, 17, 32, 0.2) 44%, rgba(4, 17, 32, 0.46) 100%);
+    background: linear-gradient(180deg, rgba(4, 32, 23, 0.08) 0%, rgba(4, 32, 23, 0.2) 44%, rgba(4, 32, 23, 0.48) 100%);
 }
 
 .hero-slide--events .hero-slide__content,
@@ -715,17 +716,19 @@ body.festival-forro-modal-open {
 }
 
 .hero-slide--events {
-    --hero-image: url('public/images/hero-amargosa.jpeg');
+    --hero-image: url('public/images/sao-joao/hero.jpg');
     --hero-overlay: linear-gradient(115deg, rgba(6, 34, 28, 0.72) 0%, rgba(15, 86, 70, 0.22) 54%, rgba(6, 28, 24, 0.72) 100%);
     --hero-position: center 58%;
 }
 
 .hero-slide--attractions {
+    --hero-image: url('public/images/praca-do-bosque-antiga-estacao.jpg');
     --hero-overlay: linear-gradient(115deg, rgba(50, 32, 10, 0.82) 0%, rgba(179, 122, 35, 0.22) 54%, rgba(46, 28, 8, 0.76) 100%);
     --hero-position: center 62%;
 }
 
 .hero-slide--gallery {
+    --hero-image: url('public/images/carnaval-cultural/festa.jpg');
     --hero-overlay: linear-gradient(115deg, rgba(39, 17, 21, 0.82) 0%, rgba(145, 74, 81, 0.24) 54%, rgba(38, 16, 22, 0.76) 100%);
     --hero-position: center 52%;
 }

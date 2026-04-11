@@ -466,6 +466,53 @@ if (heroCarousel && heroSlides.length > 1) {
         });
     });
 
+    let heroTouchStartX = 0;
+    let heroTouchStartY = 0;
+    let heroSwipeSuppressClick = false;
+
+    heroCarousel.addEventListener('touchstart', (event) => {
+        const touch = event.touches && event.touches[0];
+        if (!touch) {
+            return;
+        }
+
+        heroTouchStartX = touch.clientX;
+        heroTouchStartY = touch.clientY;
+        heroSwipeSuppressClick = false;
+        stopHeroAutoplay();
+    }, { passive: true });
+
+    heroCarousel.addEventListener('touchend', (event) => {
+        const touch = event.changedTouches && event.changedTouches[0];
+        if (!touch) {
+            startHeroAutoplay();
+            return;
+        }
+
+        const deltaX = touch.clientX - heroTouchStartX;
+        const deltaY = touch.clientY - heroTouchStartY;
+        const isHorizontalSwipe = Math.abs(deltaX) > 44 && Math.abs(deltaX) > Math.abs(deltaY) * 1.25;
+
+        if (isHorizontalSwipe) {
+            heroSwipeSuppressClick = true;
+            setHeroSlide(heroActiveIndex + (deltaX < 0 ? 1 : -1));
+            window.setTimeout(() => {
+                heroSwipeSuppressClick = false;
+            }, 250);
+        }
+
+        resetHeroAutoplay();
+    }, { passive: true });
+
+    heroCarousel.addEventListener('click', (event) => {
+        if (!heroSwipeSuppressClick) {
+            return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+    }, true);
+
     heroCarousel.addEventListener('mouseenter', stopHeroAutoplay);
     heroCarousel.addEventListener('mouseleave', startHeroAutoplay);
     heroCarousel.addEventListener('focusin', stopHeroAutoplay);
@@ -1784,6 +1831,7 @@ function initTooltips() {
 
 function initCalendarIframeScrollBridge() {
     const scrollMultiplier = 4.4;
+    const calendarIframe = document.querySelector('.calendar-embed-iframe');
     let pendingDeltaY = 0;
     let animationFrameId = 0;
 
@@ -1803,6 +1851,15 @@ function initCalendarIframeScrollBridge() {
         }
 
         const data = event.data;
+        if (data && data.type === 'amargosa-calendar-height') {
+            const nextHeight = Math.ceil(Number(data.height) || 0);
+            if (calendarIframe && nextHeight > 0) {
+                calendarIframe.style.height = `${nextHeight}px`;
+                calendarIframe.style.minHeight = '0';
+            }
+            return;
+        }
+
         if (!data || data.type !== 'amargosa-calendar-scroll') {
             return;
         }
