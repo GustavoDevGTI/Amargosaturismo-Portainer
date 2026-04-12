@@ -681,18 +681,19 @@ body.festival-forro-modal-open {
 }
 
 .hero-slide--calendar {
-    --hero-image: url('public/images/hero-calendario-verde.jpg');
-    --hero-overlay: linear-gradient(115deg, rgba(5, 45, 34, 0.72) 0%, rgba(25, 124, 91, 0.22) 52%, rgba(5, 36, 27, 0.72) 100%);
-    --hero-position: center 52%;
+    --hero-image: url('public/images/agenda-cultural-carousel.png');
+    --hero-overlay: linear-gradient(115deg, rgba(5, 45, 34, 0.62) 0%, rgba(25, 124, 91, 0.18) 52%, rgba(5, 36, 27, 0.66) 100%);
+    --hero-position: center;
 }
 
 .hero-slide--calendar::after {
-    background: linear-gradient(180deg, rgba(4, 32, 23, 0.08) 0%, rgba(4, 32, 23, 0.2) 44%, rgba(4, 32, 23, 0.48) 100%);
+    background: linear-gradient(180deg, rgba(4, 32, 23, 0.04) 0%, rgba(4, 32, 23, 0.18) 44%, rgba(4, 32, 23, 0.46) 100%);
 }
 
 .hero-slide--events .hero-slide__content,
 .hero-slide--calendar .hero-slide__content,
 .hero-slide--attractions .hero-slide__content,
+.hero-slide--guide .hero-slide__content,
 .hero-slide--gallery .hero-slide__content {
     margin-bottom: 160px;
 }
@@ -700,6 +701,7 @@ body.festival-forro-modal-open {
 .hero-slide--events .hero-slide__title,
 .hero-slide--calendar .hero-slide__title,
 .hero-slide--attractions .hero-slide__title,
+.hero-slide--guide .hero-slide__title,
 .hero-slide--gallery .hero-slide__title {
     color: var(--white);
     margin-left: 0;
@@ -710,6 +712,7 @@ body.festival-forro-modal-open {
 .hero-slide--events .hero-slide__title::after,
 .hero-slide--calendar .hero-slide__title::after,
 .hero-slide--attractions .hero-slide__title::after,
+.hero-slide--guide .hero-slide__title::after,
 .hero-slide--gallery .hero-slide__title::after {
     left: 0;
     transform: none;
@@ -725,6 +728,12 @@ body.festival-forro-modal-open {
     --hero-image: url('public/images/praca-do-bosque-antiga-estacao.jpg');
     --hero-overlay: linear-gradient(115deg, rgba(50, 32, 10, 0.82) 0%, rgba(179, 122, 35, 0.22) 54%, rgba(46, 28, 8, 0.76) 100%);
     --hero-position: center 62%;
+}
+
+.hero-slide--guide {
+    --hero-image: url('public/images/amargosa-google-sem-poi-recorte.png');
+    --hero-overlay: linear-gradient(115deg, rgba(5, 54, 43, 0.78) 0%, rgba(18, 126, 97, 0.24) 54%, rgba(6, 43, 34, 0.72) 100%);
+    --hero-position: center;
 }
 
 .hero-slide--gallery {
@@ -2556,6 +2565,7 @@ section h2::after {
     .hero-slide--events .hero-slide__content,
     .hero-slide--calendar .hero-slide__content,
     .hero-slide--attractions .hero-slide__content,
+    .hero-slide--guide .hero-slide__content,
     .hero-slide--gallery .hero-slide__content {
         margin: 0 20px 146px;
     }
@@ -2637,6 +2647,7 @@ section h2::after {
     .hero-slide--events .hero-slide__content,
     .hero-slide--calendar .hero-slide__content,
     .hero-slide--attractions .hero-slide__content,
+    .hero-slide--guide .hero-slide__content,
     .hero-slide--gallery .hero-slide__content {
         margin: 0 16px 124px;
     }

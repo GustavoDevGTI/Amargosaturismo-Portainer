@@ -199,17 +199,37 @@ function createMobileMenuDetails(titleText, sourceLinks = []) {
     return details;
 }
 
-function isExternalMenuUrl(url) {
-    if (!url) {
+function shouldOpenInNewTab(url) {
+    if (!url || url.startsWith('#')) {
         return false;
     }
 
     try {
         const resolvedUrl = new URL(url, window.location.href);
-        return resolvedUrl.origin !== window.location.origin;
+        const currentPath = window.location.pathname.replace(/\/index\.html$/i, '/');
+        const nextPath = resolvedUrl.pathname.replace(/\/index\.html$/i, '/');
+
+        if (resolvedUrl.origin !== window.location.origin) {
+            return true;
+        }
+
+        return nextPath !== currentPath;
     } catch (error) {
         return /^(https?:|mailto:|tel:)/i.test(url);
     }
+}
+
+function applyNewTabToRedirectLinks(rootElement = document) {
+    rootElement.querySelectorAll('a[href]').forEach((link) => {
+        const href = link.getAttribute('href');
+
+        if (!shouldOpenInNewTab(href)) {
+            return;
+        }
+
+        link.setAttribute('target', '_blank');
+        link.setAttribute('rel', 'noopener noreferrer');
+    });
 }
 
 function openMenuUrl(url) {
@@ -217,9 +237,7 @@ function openMenuUrl(url) {
         return;
     }
 
-    const isExternal = isExternalMenuUrl(url);
-
-    if (isExternal) {
+    if (shouldOpenInNewTab(url)) {
         window.open(url, '_blank', 'noopener,noreferrer');
         return;
     }
@@ -242,9 +260,9 @@ function createMobileMenuShortcut(button) {
         mobileLink.className = 'menu-mobile-links-btn menu-mobile-links-btn--atalho';
         mobileLink.setAttribute('href', targetUrl);
 
-        if (isExternalMenuUrl(targetUrl)) {
+        if (shouldOpenInNewTab(targetUrl)) {
             mobileLink.setAttribute('target', '_blank');
-            mobileLink.setAttribute('rel', 'noreferrer');
+            mobileLink.setAttribute('rel', 'noopener noreferrer');
         }
 
         mobileLink.textContent = label;
@@ -382,6 +400,7 @@ function getScrollOffset() {
 }
 
 buildMobileMenuFromDesktop();
+applyNewTabToRedirectLinks();
 
 function setHeroSlide(nextIndex) {
     if (!heroSlides.length) {
