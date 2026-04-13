@@ -3325,7 +3325,7 @@ body.modo_escuro .gallery-modal[data-gallery-theme] .gallery-modal__theme {
 
     .gallery-modal__dialog {
         max-height: 92vh;
-        padding: 1.15rem;
+        padding: 3.25rem 1.15rem 1.15rem;
         border-radius: 22px;
     }
 
