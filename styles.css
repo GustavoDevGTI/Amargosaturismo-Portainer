@@ -374,51 +374,6 @@ body.festival-forro-modal-open {
     text-decoration: underline;
 }
 
-.menu-sub-campo--dropdown .submenu {
-    left: 50%;
-    transform: translateX(-50%);
-    top: calc(100% + 6px);
-}
-
-.menu-sub-campo--dropdown .submenu-box {
-    min-width: clamp(280px, 22vw, 360px);
-    padding: clamp(10px, 0.8vw, 14px);
-    border-radius: 14px;
-    background: linear-gradient(135deg, rgba(15, 111, 90, 0.96), rgba(22, 138, 114, 0.96));
-    border: 1px solid rgba(255, 255, 255, 0.24);
-    display: grid;
-    gap: clamp(8px, 0.8vw, 12px);
-}
-
-.menu-sub-campo--dropdown .submenu-btn {
-    padding: 0;
-    font-size: clamp(0.95rem, 0.92vw, 1.02rem);
-    line-height: 1.35;
-    color: var(--padrao04);
-}
-
-.menu-sub-campo--dropdown .submenu-btn a {
-    min-height: clamp(56px, 4.4vw, 72px);
-    border-radius: 12px;
-    background: linear-gradient(135deg, rgba(245, 251, 248, 0.95), rgba(214, 236, 229, 0.97));
-    border: 1px solid rgba(255, 255, 255, 0.34);
-    padding: clamp(14px, 1vw, 18px) clamp(16px, 1.2vw, 22px);
-    align-items: center;
-    font-weight: 600;
-    text-decoration: none;
-    box-shadow: 0 8px 18px rgba(4, 52, 42, 0.14);
-    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-}
-
-.menu-sub-campo--dropdown .submenu-btn a:hover,
-.menu-sub-campo--dropdown .submenu-btn a:focus-visible {
-    text-decoration: none;
-    background: linear-gradient(135deg, #ffffff, #eef8f5);
-    border-color: rgba(255, 255, 255, 0.72);
-    box-shadow: 0 12px 22px rgba(4, 52, 42, 0.18);
-    transform: translateY(-1px);
-}
-
 .submenu_horizontal {
     width: min(61vw, 920px);
     background: linear-gradient(135deg, rgba(15, 111, 90, 0.96), rgba(22, 138, 114, 0.96));
@@ -447,8 +402,15 @@ body.festival-forro-modal-open {
 }
 
 .menu-sub-campo.hamburger .submenu_horizontal--simple {
-    width: min(62vw, 760px);
+    width: min(360px, calc(100vw - 48px));
     max-width: calc(100vw - 48px);
+    padding: 8px 10px;
+    border-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background: rgba(15, 111, 90, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    gap: 0;
 }
 
 .menu-sub-campo.hamburger.is-open .submenu_horizontal {
@@ -472,6 +434,10 @@ body.festival-forro-modal-open {
 
 .submenu_horizontal--simple .submenu_horizontal_col_dir {
     width: 100%;
+}
+
+.menu-sub-campo.hamburger .submenu_horizontal--simple .submenu_horizontal_col_dir {
+    display: block;
 }
 
 .submenu_horizontal_h1 {
@@ -533,6 +499,12 @@ body.festival-forro-modal-open {
     gap: clamp(12px, 1vw, 16px);
 }
 
+.menu-sub-campo.hamburger .submenu_horizontal--simple .submenu_horizontal_links_card {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    gap: 0;
+}
+
 .submenu_horizontal-btn {
     font-size: clamp(0.9rem, 0.84vw, 1rem);
     color: var(--padrao04);
@@ -542,6 +514,16 @@ body.festival-forro-modal-open {
     border: 1px solid rgba(255, 255, 255, 0.34);
     transition: all 0.2s ease-in-out;
     box-shadow: 0 10px 22px rgba(4, 52, 42, 0.16);
+}
+
+.menu-sub-campo.hamburger .submenu_horizontal--simple .submenu_horizontal-btn {
+    min-height: auto;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: var(--white);
+    font-size: clamp(1rem, 0.98vw, 1.08rem);
 }
 
 .submenu_horizontal-btn a {
@@ -554,12 +536,31 @@ body.festival-forro-modal-open {
     padding: clamp(14px, 1vw, 18px) clamp(18px, 1.4vw, 24px);
 }
 
+.menu-sub-campo.hamburger .submenu_horizontal--simple .submenu_horizontal-btn a {
+    display: block;
+    height: auto;
+    padding: 12px 8px;
+    color: inherit;
+}
+
 .submenu_horizontal-btn:hover,
 .submenu_horizontal-btn:focus-within {
     background: linear-gradient(135deg, #ffffff, #eef8f5);
     border-color: rgba(255, 255, 255, 0.72);
     text-decoration: none;
     transform: translateY(-1px);
+}
+
+.menu-sub-campo.hamburger .submenu_horizontal--simple .submenu_horizontal-btn:hover,
+.menu-sub-campo.hamburger .submenu_horizontal--simple .submenu_horizontal-btn:focus-within {
+    background: transparent;
+    border-color: transparent;
+    transform: none;
+}
+
+.menu-sub-campo.hamburger .submenu_horizontal--simple .submenu_horizontal-btn a:hover,
+.menu-sub-campo.hamburger .submenu_horizontal--simple .submenu_horizontal-btn a:focus-visible {
+    text-decoration: underline;
 }
 
 .menu-sub-campo:hover .submenu,
@@ -3350,21 +3351,13 @@ body.modo_escuro .submenu_horizontal {
     background-color: rgba(0, 0, 0, 0.55);
 }
 
-body.modo_escuro .menu-sub-campo--dropdown .submenu-box {
-    background: linear-gradient(135deg, rgba(15, 111, 90, 0.96), rgba(22, 138, 114, 0.96));
-    border-color: rgba(255, 255, 255, 0.24);
+body.modo_escuro .menu-sub-campo.hamburger .submenu_horizontal--simple {
+    background: rgba(15, 111, 90, 0.96);
+    border-color: rgba(255, 255, 255, 0.16);
 }
 
-body.modo_escuro .menu-sub-campo--dropdown .submenu-btn a {
-    background: linear-gradient(135deg, rgba(245, 251, 248, 0.95), rgba(214, 236, 229, 0.97));
-    color: #0f6f5a;
-    border-color: rgba(255, 255, 255, 0.34);
-}
-
-body.modo_escuro .menu-sub-campo--dropdown .submenu-btn a:hover,
-body.modo_escuro .menu-sub-campo--dropdown .submenu-btn a:focus-visible {
-    background: linear-gradient(135deg, #ffffff, #eef8f5);
-    color: #0c5f4e;
+body.modo_escuro .menu-sub-campo.hamburger .submenu_horizontal--simple .submenu_horizontal-btn {
+    color: #ffffff;
 }
 
 body.modo_escuro .menu-mobile {
