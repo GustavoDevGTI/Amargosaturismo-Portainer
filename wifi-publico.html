@@ -45,6 +45,8 @@
 
     html {
       scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }
 
     body {
@@ -60,6 +62,15 @@
 
     a {
       color: inherit;
+    }
+
+    a,
+    button,
+    [role="button"],
+    input,
+    select,
+    textarea {
+      touch-action: manipulation;
     }
 
     img {
@@ -495,6 +506,8 @@
       background: linear-gradient(180deg, #f7fbf9 0%, var(--light-bg) 100%);
       padding-top: 28px;
       padding-bottom: 52px;
+      content-visibility: auto;
+      contain-intrinsic-size: 760px;
     }
 
     .attractions h2 {
@@ -566,6 +579,7 @@
 
     .points-carousel__viewport {
       overflow: hidden;
+      touch-action: pan-y;
     }
 
     .attractions-grid {
@@ -946,13 +960,26 @@
       }
 
       .filter-toolbar {
+        justify-content: flex-start;
+        flex-wrap: nowrap;
         gap: 0.6rem;
+        overflow-x: auto;
+        padding-bottom: 0.25rem;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x proximity;
+      }
+
+      .filter-toolbar::-webkit-scrollbar {
+        display: none;
       }
 
       .filter-button {
+        flex: 0 0 auto;
         min-height: 40px;
         padding: 0 15px;
         font-size: 0.9rem;
+        scroll-snap-align: start;
       }
 
       .panel,
@@ -977,6 +1004,11 @@
       .points-carousel {
         grid-template-columns: 44px minmax(0, 1fr) 44px;
         gap: 10px;
+      }
+
+      .panel {
+        content-visibility: auto;
+        contain-intrinsic-size: 620px;
       }
     }
 
@@ -1011,8 +1043,11 @@
         font-size: 0.96rem;
       }
 
+      .filter-feedback {
+        font-size: 0.9rem;
+      }
+
       .btn,
-      .filter-button,
       .card-link,
       .card-button {
         width: 100%;
@@ -2087,6 +2122,7 @@
     }
 
     const carouselRoot = document.querySelector("[data-carousel]");
+    const carouselViewport = carouselRoot?.querySelector(".points-carousel__viewport");
     const carouselTrack = carouselRoot?.querySelector(".attractions-grid");
     const allCarouselCards = carouselTrack ? Array.from(carouselTrack.children) : [];
     const carouselPrevButton = carouselRoot?.querySelector("[data-carousel-prev]");
@@ -2097,6 +2133,10 @@
     const mapFocusButtons = document.querySelectorAll("[data-map-focus]");
     const pointMarkers = new Map();
     const pointCategories = new Map();
+
+    document.querySelectorAll('img[loading="lazy"]').forEach((image) => {
+      image.decoding = "async";
+    });
 
     document.querySelectorAll(".subtitle-card").forEach((subtitle) => {
       const description = subtitle.nextElementSibling;
@@ -2184,6 +2224,7 @@
     let visibleCarouselCards = [...allCarouselCards];
     let selectedCategories = getInitialSelectedCategories();
     let carouselIndex = 0;
+    let carouselResizeFrame = 0;
     let pendingMapFocusId = initialGuideRouteTarget === "amargosa" ? "route-amargosa" : null;
     let pageMap = null;
     let pageInfoWindow = null;
@@ -2360,7 +2401,54 @@
       updateCarousel();
     });
 
-    window.addEventListener("resize", updateCarousel);
+    function queueCarouselLayoutSync() {
+      if (carouselResizeFrame) {
+        return;
+      }
+
+      carouselResizeFrame = window.requestAnimationFrame(() => {
+        carouselResizeFrame = 0;
+        updateCarousel();
+      });
+    }
+
+    window.addEventListener("resize", queueCarouselLayoutSync, { passive: true });
+    window.addEventListener("orientationchange", queueCarouselLayoutSync);
+
+    if (carouselViewport) {
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      carouselViewport.addEventListener("touchstart", (event) => {
+        const touch = event.touches && event.touches[0];
+
+        if (!touch) {
+          return;
+        }
+
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+      }, { passive: true });
+
+      carouselViewport.addEventListener("touchend", (event) => {
+        const touch = event.changedTouches && event.changedTouches[0];
+
+        if (!touch) {
+          return;
+        }
+
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+        const isHorizontalSwipe = Math.abs(deltaX) > 42 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2;
+
+        if (!isHorizontalSwipe) {
+          return;
+        }
+
+        carouselIndex += deltaX < 0 ? 1 : -1;
+        updateCarousel();
+      }, { passive: true });
+    }
 
     function applyMapFilter() {
       if (!pageMap) {
@@ -2460,6 +2548,7 @@
         zoom: defaultMapZoom,
         center: defaultMapCenter,
         scrollwheel: false,
+        gestureHandling: window.innerWidth <= 768 ? "cooperative" : "auto",
         mapTypeControl: false,
         streetViewControl: false,
         fullscreenControl: true,

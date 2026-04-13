@@ -59,10 +59,15 @@ const festivalForroModalCloseButton = festivalForroModal?.querySelector('.event-
 const festivalForroModalTriggers = Array.from(document.querySelectorAll('[data-festival-forro-modal-trigger]'));
 const guiaModal = document.querySelector('#guia-modal');
 const guiaModalCloseButton = guiaModal?.querySelector('.event-modal__close');
+const carnavalCulturalModalFrame = carnavalCulturalModal?.querySelector('.event-modal__frame');
+const saoJoaoModalFrame = saoJoaoModal?.querySelector('.event-modal__frame');
+const festivalForroModalFrame = festivalForroModal?.querySelector('.event-modal__frame');
 const guiaModalFrame = guiaModal?.querySelector('[data-guia-frame]');
 const guiaModalPrimaryAction = guiaModal?.querySelector('[data-guia-open-link]');
 const guiaModalMapAction = guiaModal?.querySelector('[data-guia-map-link]');
 const eventModalFrames = Array.from(document.querySelectorAll('.event-modal__frame'));
+const calendarEmbedShell = document.querySelector('.calendar-embed-shell');
+const calendarEmbedIframe = document.querySelector('.calendar-embed-iframe');
 const eventModalMobileMediaQuery = window.matchMedia('(max-width: 960px)');
 const heroCarousel = document.querySelector('.hero-carousel');
 const heroSlides = Array.from(document.querySelectorAll('[data-hero-slide]'));
@@ -255,6 +260,24 @@ function buildGuideMapActionHref(sourceUrl = GUIDE_MODAL_DEFAULT_SRC) {
     } catch (error) {
         return `${GUIDE_MODAL_DEFAULT_SRC}#mapa`;
     }
+}
+
+function ensureIframeLoaded(frame, nextSource = null) {
+    if (!(frame instanceof HTMLIFrameElement)) {
+        return false;
+    }
+
+    const resolvedSource = nextSource || frame.dataset.src || frame.getAttribute('src');
+
+    if (!resolvedSource) {
+        return false;
+    }
+
+    if (frame.getAttribute('src') !== resolvedSource) {
+        frame.setAttribute('src', resolvedSource);
+    }
+
+    return true;
 }
 
 function shouldOpenInNewTab(url) {
@@ -1348,6 +1371,7 @@ function openCarnavalCulturalModal(trigger = null) {
         lastCarnavalCulturalModalTrigger = trigger;
     }
 
+    ensureIframeLoaded(carnavalCulturalModalFrame);
     carnavalCulturalModal.hidden = false;
     body.classList.add('carnaval-cultural-modal-open');
     carnavalCulturalModalCloseButton?.focus();
@@ -1396,9 +1420,7 @@ function openGuiaModal(trigger = null, sourceUrl = GUIDE_MODAL_DEFAULT_SRC) {
         lastGuiaModalTrigger = trigger;
     }
 
-    if (guiaModalFrame && guiaModalFrame.getAttribute('src') !== nextSourceUrl) {
-        guiaModalFrame.setAttribute('src', nextSourceUrl);
-    }
+    ensureIframeLoaded(guiaModalFrame, nextSourceUrl);
 
     if (guiaModalPrimaryAction) {
         guiaModalPrimaryAction.setAttribute('href', nextSourceUrl);
@@ -1432,6 +1454,7 @@ function openSaoJoaoModal(trigger = null) {
         lastSaoJoaoModalTrigger = trigger;
     }
 
+    ensureIframeLoaded(saoJoaoModalFrame);
     saoJoaoModal.hidden = false;
     body.classList.add('sao-joao-modal-open');
     saoJoaoModalCloseButton?.focus();
@@ -1457,6 +1480,7 @@ function openFestivalForroModal(trigger = null) {
         lastFestivalForroModalTrigger = trigger;
     }
 
+    ensureIframeLoaded(festivalForroModalFrame);
     festivalForroModal.hidden = false;
     body.classList.add('festival-forro-modal-open');
     festivalForroModalCloseButton?.focus();
@@ -1958,7 +1982,6 @@ function initTooltips() {
 
 function initCalendarIframeScrollBridge() {
     const scrollMultiplier = 4.4;
-    const calendarIframe = document.querySelector('.calendar-embed-iframe');
     let pendingDeltaY = 0;
     let animationFrameId = 0;
 
@@ -2003,8 +2026,44 @@ function initCalendarIframeScrollBridge() {
     });
 }
 
+function initCalendarIframeLazyLoad() {
+    if (!calendarEmbedIframe) {
+        return;
+    }
+
+    const loadCalendarIframe = () => {
+        ensureIframeLoaded(calendarEmbedIframe);
+    };
+
+    if (window.location.hash === '#calendario') {
+        loadCalendarIframe();
+        return;
+    }
+
+    const observationTarget = calendarEmbedShell || calendarEmbedIframe;
+
+    if (!('IntersectionObserver' in window) || !(observationTarget instanceof Element)) {
+        loadCalendarIframe();
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) {
+            return;
+        }
+
+        loadCalendarIframe();
+        observer.disconnect();
+    }, {
+        rootMargin: '320px 0px'
+    });
+
+    observer.observe(observationTarget);
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     initTooltips();
+    initCalendarIframeLazyLoad();
     initCalendarIframeScrollBridge();
     initEventModalOpenButtons();
     initCarnavalCulturalModal();
