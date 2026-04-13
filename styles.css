@@ -2606,6 +2606,14 @@ section h2::after {
     margin-bottom: 1rem;
 }
 
+.info-card__image {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(26, 37, 46, 0.12);
+}
+
 .info-card p {
     color: var(--body-muted);
     line-height: 1.6;
