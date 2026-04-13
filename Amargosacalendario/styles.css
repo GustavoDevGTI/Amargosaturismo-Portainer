@@ -1067,6 +1067,10 @@
             align-self: center;
         }
 
+        .day-cell--compact .day-tag {
+            display: none;
+        }
+
         .day-cell--compact .day-tag.hidden {
             display: none;
         }
@@ -1365,6 +1369,10 @@
             font-weight: 700;
             line-height: 1;
             align-self: flex-start;
+        }
+
+        .event-more {
+            display: none;
         }
 
         .event-more--paid {

@@ -372,7 +372,6 @@
             const cellDate = new Date(gridStart.getFullYear(), gridStart.getMonth(), gridStart.getDate() + index);
             const cellKey = formatDateKey(cellDate);
             const cellEvents = getFilteredEventsForDate(cellKey);
-            const counterAccent = getDayCounterAccent(cellEvents);
             const isPast = startOfDay(cellDate) < today;
             const cell = document.createElement("div");
             cell.className = "day-cell";
@@ -405,17 +404,7 @@
             tag.className = "day-tag";
 
             if (compactView) {
-                tag.textContent = cellEvents.length
-                    ? formatCompactEventCount(cellEvents.length)
-                    : (state.isConfigured && isLoggedIn() && !isPast ? "+" : "");
-                tag.classList.toggle("day-tag--count", cellEvents.length > 0);
-                tag.classList.toggle("day-tag--new", !cellEvents.length && state.isConfigured && isLoggedIn() && !isPast);
-                tag.classList.toggle("day-tag--paid", cellEvents.length > 0 && hasOnlyPaidEvents(cellEvents));
-                tag.classList.toggle("day-tag--free", cellEvents.length > 0 && hasOnlyFreeEvents(cellEvents));
-                tag.classList.toggle("day-tag--mixed-access", hasMixedAccessEvents(cellEvents));
-                if (cellEvents.length) {
-                    applyDayTagAccent(tag, counterAccent.category);
-                }
+                tag.textContent = "";
             } else {
                 tag.textContent = cellEvents.length
                     ? (cellEvents.length === 1 ? "1 evento" : cellEvents.length + " eventos")
@@ -434,25 +423,6 @@
                 eventList.appendChild(buildCalendarEventChip(calendarEvent, cellKey));
             });
 
-            const remainingEventCount = Math.max(0, cellEvents.length - 3);
-            if (remainingEventCount > 0) {
-                const nextEvent = cellEvents[3];
-                const hiddenEvents = cellEvents.slice(3);
-                const nextCategory = nextEvent
-                    ? getPrimaryEventCategory(getEventCategoryDetails(nextEvent.categories))
-                    : null;
-                const more = document.createElement("span");
-                more.className = "event-more";
-                more.classList.toggle("event-more--paid", hasOnlyPaidEvents(hiddenEvents));
-                more.classList.toggle("event-more--free", hasOnlyFreeEvents(hiddenEvents));
-                more.classList.toggle("event-more--mixed-access", hasMixedAccessEvents(hiddenEvents));
-                applyEventAccent(more, nextCategory);
-                more.textContent = "+" + remainingEventCount;
-                more.title = remainingEventCount === 1
-                    ? "1 evento ainda vai acontecer hoje."
-                    : remainingEventCount + " eventos ainda vao acontecer hoje.";
-                eventList.appendChild(more);
-            }
             cell.appendChild(eventList);
             refs.calendarGrid.appendChild(cell);
         }
@@ -1632,70 +1602,12 @@
         return Array.isArray(categoryDetails) && categoryDetails.length ? categoryDetails[0] : null;
     }
 
-    function getDayCounterCategory(events) {
-        return getDayCounterAccent(events).category;
-    }
-
-    function getDayCounterAccent(events) {
-        const categoryCount = new Map();
-
-        events.forEach((eventItem) => {
-            const primaryCategory = getPrimaryEventCategory(getEventCategoryDetails(eventItem.categories));
-            if (!primaryCategory) {
-                return;
-            }
-            categoryCount.set(primaryCategory.id, (categoryCount.get(primaryCategory.id) || 0) + 1);
-        });
-
-        if (!categoryCount.size) {
-            return { category: null, event: Array.isArray(events) && events.length ? events[0] : null };
-        }
-
-        let highestCount = 0;
-        categoryCount.forEach((count) => {
-            if (count > highestCount) {
-                highestCount = count;
-            }
-        });
-
-        const tiedCategoryIds = Array.from(categoryCount.entries())
-            .filter((entry) => entry[1] === highestCount)
-            .map((entry) => entry[0]);
-
-        if (tiedCategoryIds.length === 1) {
-            const category = CATEGORY_LOOKUP[tiedCategoryIds[0]] || null;
-            const eventItem = events.find((event) => {
-                const primaryCategory = getPrimaryEventCategory(getEventCategoryDetails(event.categories));
-                return primaryCategory && primaryCategory.id === tiedCategoryIds[0];
-            }) || null;
-            return { category, event: eventItem };
-        }
-
-        const tiedCategoryIdSet = new Set(tiedCategoryIds);
-        for (const eventItem of events) {
-            const primaryCategory = getPrimaryEventCategory(getEventCategoryDetails(eventItem.categories));
-            if (primaryCategory && tiedCategoryIdSet.has(primaryCategory.id)) {
-                return { category: primaryCategory, event: eventItem };
-            }
-        }
-
-        return { category: CATEGORY_LOOKUP[tiedCategoryIds[0]] || null, event: null };
-    }
-
     function applyEventAccent(element, category) {
         if (!element || !category || !category.color) {
             return;
         }
         element.style.setProperty("--event-color", category.color);
         element.style.setProperty("--event-color-rgb", hexColorToRgbChannels(category.color));
-    }
-
-    function applyDayTagAccent(element, category) {
-        if (!element || !category || !category.color) {
-            return;
-        }
-        element.style.setProperty("--day-tag-color", category.color);
-        element.style.setProperty("--day-tag-color-rgb", hexColorToRgbChannels(category.color));
     }
 
     function buildEventCategoryList(categoryDetails, options = {}) {
@@ -1773,10 +1685,6 @@
     function formatEventCount(count, suffix = "") {
         const ending = suffix ? " " + (count === 1 ? suffix : suffix + "s") : "";
         return count + " " + (count === 1 ? "evento" : "eventos") + ending;
-    }
-
-    function formatCompactEventCount(count) {
-        return count > 9 ? "9+" : String(count);
     }
 
     function sortEvents(events) {
