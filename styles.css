@@ -2610,8 +2610,8 @@ section h2::after {
     width: 100%;
     aspect-ratio: 16 / 10;
     object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 8px 16px rgba(26, 37, 46, 0.12);
+    border-radius: 0;
+    box-shadow: none;
 }
 
 .info-card p {
@@ -2638,6 +2638,30 @@ section h2::after {
 .practical-info .info-grid .info-card .info-card__action:focus-visible {
     background: linear-gradient(135deg, #136f58, #1a8068);
     transform: translateY(-2px);
+}
+
+.practical-info .info-card {
+    padding: 0;
+    gap: 0;
+    align-items: stretch;
+    border-top: 0;
+    overflow: hidden;
+}
+
+.practical-info .info-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.practical-info .info-card .card-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 1.5rem;
+}
+
+.practical-info .info-card .card-content p {
+    margin-bottom: 1rem;
 }
 
 /* ========================================
