@@ -244,7 +244,6 @@ a {
 .sj-gallery-cta .sj-button {
     min-height: 44px;
     padding: 0.7rem 1rem;
-    pointer-events: none;
 }
 
 @media (max-width: 1080px) {

@@ -3558,7 +3558,7 @@ body.modo_escuro .event-modal--carnaval-cultural .event-modal__frame-shell {
 
     .event-modal__dialog {
         max-height: none;
-        overflow: visible;
+        overflow: hidden;
     }
 
     .event-modal__content {
@@ -3578,7 +3578,7 @@ body.modo_escuro .event-modal--carnaval-cultural .event-modal__frame-shell {
     .event-modal__frame {
         display: block;
         min-height: 0;
-        pointer-events: none;
+        pointer-events: auto;
     }
 }
 
