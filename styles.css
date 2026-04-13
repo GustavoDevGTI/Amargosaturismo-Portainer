@@ -376,7 +376,7 @@ body.festival-forro-modal-open {
 
 .submenu_horizontal {
     width: min(61vw, 920px);
-    background: linear-gradient(180deg, rgba(247, 251, 249, 0.98) 0%, rgba(232, 243, 239, 0.98) 100%);
+    background: linear-gradient(135deg, rgba(15, 111, 90, 0.96), rgba(22, 138, 114, 0.96));
     position: absolute;
     display: none;
     left: 50%;
@@ -386,7 +386,7 @@ body.festival-forro-modal-open {
     backdrop-filter: blur(17px);
     -webkit-backdrop-filter: blur(17px);
     transform: translateX(-50%);
-    border: 1px solid rgba(51, 154, 128, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-bottom-left-radius: 18px;
     border-bottom-right-radius: 18px;
     padding: clamp(14px, 1.2vw, 20px);
@@ -490,13 +490,13 @@ body.festival-forro-modal-open {
 
 .submenu_horizontal-btn {
     font-size: clamp(0.9rem, 0.84vw, 1rem);
-    color: var(--white);
+    color: var(--padrao04);
     min-height: clamp(70px, 4.8vw, 82px);
     border-radius: 14px;
-    background: linear-gradient(135deg, #0f6f5a, #168a72);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: linear-gradient(135deg, rgba(245, 251, 248, 0.94), rgba(214, 236, 229, 0.96));
+    border: 1px solid rgba(255, 255, 255, 0.34);
     transition: all 0.2s ease-in-out;
-    box-shadow: 0 10px 22px rgba(21, 124, 98, 0.12);
+    box-shadow: 0 10px 22px rgba(4, 52, 42, 0.16);
 }
 
 .submenu_horizontal-btn a {
@@ -511,8 +511,8 @@ body.festival-forro-modal-open {
 
 .submenu_horizontal-btn:hover,
 .submenu_horizontal-btn:focus-within {
-    background: linear-gradient(135deg, #0c5f4e, #157c67);
-    border-color: rgba(255, 255, 255, 0.26);
+    background: linear-gradient(135deg, #ffffff, #eef8f5);
+    border-color: rgba(255, 255, 255, 0.72);
     text-decoration: none;
     transform: translateY(-1px);
 }
