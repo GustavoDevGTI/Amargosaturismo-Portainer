@@ -199,8 +199,25 @@ function createMobileMenuDetails(titleText, sourceLinks = []) {
     return details;
 }
 
+function isIntegratedGuideUrl(url) {
+    if (!url) {
+        return false;
+    }
+
+    try {
+        const resolvedUrl = new URL(url, window.location.href);
+        return resolvedUrl.origin === window.location.origin && /\/wifi-publico\.html$/i.test(resolvedUrl.pathname);
+    } catch (error) {
+        return /wifi-publico\.html$/i.test(url);
+    }
+}
+
 function shouldOpenInNewTab(url) {
     if (!url || url.startsWith('#')) {
+        return false;
+    }
+
+    if (isIntegratedGuideUrl(url)) {
         return false;
     }
 
