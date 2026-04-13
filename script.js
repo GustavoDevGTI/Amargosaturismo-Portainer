@@ -1265,6 +1265,12 @@ function queueEventModalFrameSync() {
     });
 }
 
+function closeOpenEventModals() {
+    closeCarnavalCulturalModal();
+    closeSaoJoaoModal();
+    closeFestivalForroModal();
+}
+
 function openCarnavalCulturalModal(trigger = null) {
     if (!carnavalCulturalModal) {
         return;
@@ -1570,6 +1576,28 @@ if (typeof eventModalMobileMediaQuery.addEventListener === 'function') {
 }
 
 window.addEventListener('resize', syncEventModalFrameHeights);
+
+window.addEventListener('message', (event) => {
+    if (event.origin !== window.location.origin) {
+        return;
+    }
+
+    const data = event.data;
+
+    if (!data || data.type !== 'amargosa-open-gallery') {
+        return;
+    }
+
+    const galleryKey = data.galleryKey;
+
+    if (!galleryThemeCards.some((card) => card.key === galleryKey)) {
+        return;
+    }
+
+    closeOpenEventModals();
+    smoothScrollTo('#galeria');
+    openGallery(galleryKey, document.querySelector(`[data-gallery-key="${galleryKey}"]`));
+});
 
 async function handleGalleryDeepLink() {
     const url = new URL(window.location.href);

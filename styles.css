@@ -1743,6 +1743,8 @@ section h2::after {
     display: grid;
     grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
     min-height: min(84vh, 780px);
+    overflow: hidden;
+    border-radius: inherit;
 }
 
 .event-modal__intro {
@@ -1820,6 +1822,7 @@ section h2::after {
 
 .event-modal__frame-shell {
     padding: 1rem;
+    overflow: hidden;
     background: linear-gradient(180deg, rgba(255, 249, 242, 0.98), rgba(255, 241, 224, 0.98));
 }
 
@@ -3559,6 +3562,7 @@ body.modo_escuro .event-modal--carnaval-cultural .event-modal__frame-shell {
     .event-modal__dialog {
         max-height: none;
         overflow: hidden;
+        isolation: isolate;
     }
 
     .event-modal__content {
@@ -3577,6 +3581,8 @@ body.modo_escuro .event-modal--carnaval-cultural .event-modal__frame-shell {
 
     .event-modal__frame {
         display: block;
+        width: 100%;
+        max-width: 100%;
         min-height: 0;
         pointer-events: auto;
     }
@@ -3591,6 +3597,10 @@ body.modo_escuro .event-modal--carnaval-cultural .event-modal__frame-shell {
         border-radius: 24px;
     }
 
+    .event-modal__content {
+        border-radius: 24px;
+    }
+
     .event-modal__close {
         top: 0.75rem;
         right: 1.65rem;
@@ -3601,6 +3611,10 @@ body.modo_escuro .event-modal--carnaval-cultural .event-modal__frame-shell {
     .event-modal__intro,
     .event-modal__frame-shell {
         padding: 1rem;
+    }
+
+    .event-modal__frame-shell {
+        border-radius: 0 0 24px 24px;
     }
 
     .event-modal__actions {
