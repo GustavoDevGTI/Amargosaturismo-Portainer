@@ -148,6 +148,15 @@
       text-shadow: 0 6px 16px rgba(0, 0, 0, 0.38);
     }
 
+    .is-embedded-guide .hero {
+      min-height: 360px;
+    }
+
+    .is-embedded-guide .hero .container {
+      min-height: 240px;
+      padding: 26px 0 12px;
+    }
+
     .btn {
       display: inline-flex;
       align-items: center;
@@ -866,6 +875,15 @@
         min-height: 460px;
       }
 
+      .is-embedded-guide .hero,
+      .is-embedded-guide .hero .container {
+        min-height: 320px;
+      }
+
+      .is-embedded-guide .hero .container {
+        padding: 20px 0 10px;
+      }
+
       .about-content,
       .map-layout,
       .support-band__inner {
@@ -889,6 +907,15 @@
 
       .hero .container {
         padding: 56px 0 36px;
+      }
+
+      .is-embedded-guide .hero,
+      .is-embedded-guide .hero .container {
+        min-height: 280px;
+      }
+
+      .is-embedded-guide .hero .container {
+        padding: 18px 0 10px;
       }
 
       .hero h1 {
@@ -931,6 +958,15 @@
       .hero .container {
         min-height: 250px;
         padding: 24px 0 10px;
+      }
+
+      .is-embedded-guide .hero,
+      .is-embedded-guide .hero .container {
+        min-height: 250px;
+      }
+
+      .is-embedded-guide .hero .container {
+        padding: 14px 0 8px;
       }
 
       .hero h1 {
@@ -1995,6 +2031,11 @@
   </main>
 
   <script>
+    const isEmbeddedGuideView = window.self !== window.top;
+    if (isEmbeddedGuideView) {
+      document.documentElement.classList.add("is-embedded-guide");
+    }
+
     const carouselRoot = document.querySelector("[data-carousel]");
     const carouselTrack = carouselRoot?.querySelector(".attractions-grid");
     const allCarouselCards = carouselTrack ? Array.from(carouselTrack.children) : [];
