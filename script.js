@@ -59,6 +59,7 @@ const festivalForroModalCloseButton = festivalForroModal?.querySelector('.event-
 const festivalForroModalTriggers = Array.from(document.querySelectorAll('[data-festival-forro-modal-trigger]'));
 const guiaModal = document.querySelector('#guia-modal');
 const guiaModalCloseButton = guiaModal?.querySelector('.event-modal__close');
+const guiaModalDialog = guiaModal?.querySelector('.event-modal__dialog');
 const carnavalCulturalModalFrame = carnavalCulturalModal?.querySelector('.event-modal__frame');
 const saoJoaoModalFrame = saoJoaoModal?.querySelector('.event-modal__frame');
 const festivalForroModalFrame = festivalForroModal?.querySelector('.event-modal__frame');
@@ -1355,6 +1356,52 @@ function queueEventModalFrameSync() {
     });
 }
 
+function initGuiaModalFrameScrollBridge() {
+    if (!(guiaModalFrame instanceof HTMLIFrameElement) || !guiaModalDialog) {
+        return;
+    }
+
+    const frameDocument = guiaModalFrame.contentDocument || guiaModalFrame.contentWindow?.document;
+
+    if (!frameDocument || frameDocument.documentElement.dataset.guiaScrollBridge === 'true') {
+        return;
+    }
+
+    frameDocument.documentElement.dataset.guiaScrollBridge = 'true';
+
+    let lastTouchY = 0;
+
+    frameDocument.addEventListener('touchstart', (event) => {
+        lastTouchY = event.touches?.[0]?.clientY || 0;
+    }, { passive: true });
+
+    frameDocument.addEventListener('touchmove', (event) => {
+        if (guiaModal?.hidden) {
+            return;
+        }
+
+        const nextTouchY = event.touches?.[0]?.clientY || lastTouchY;
+        const deltaY = lastTouchY - nextTouchY;
+
+        if (Math.abs(deltaY) < 1) {
+            return;
+        }
+
+        guiaModalDialog.scrollTop += deltaY;
+        lastTouchY = nextTouchY;
+        event.preventDefault();
+    }, { passive: false });
+
+    frameDocument.addEventListener('wheel', (event) => {
+        if (guiaModal?.hidden) {
+            return;
+        }
+
+        guiaModalDialog.scrollTop += event.deltaY;
+        event.preventDefault();
+    }, { passive: false });
+}
+
 function closeOpenEventModals() {
     closeCarnavalCulturalModal();
     closeSaoJoaoModal();
@@ -1433,6 +1480,7 @@ function openGuiaModal(trigger = null, sourceUrl = GUIDE_MODAL_DEFAULT_SRC) {
     body.classList.add('guia-modal-open');
     guiaModalCloseButton?.focus();
     queueEventModalFrameSync();
+    window.setTimeout(initGuiaModalFrameScrollBridge, 250);
 }
 
 function closeGuiaModal() {
@@ -1728,7 +1776,13 @@ function initGuiaModal() {
 }
 
 eventModalFrames.forEach((frame) => {
-    frame.addEventListener('load', queueEventModalFrameSync);
+    frame.addEventListener('load', () => {
+        queueEventModalFrameSync();
+
+        if (frame === guiaModalFrame) {
+            initGuiaModalFrameScrollBridge();
+        }
+    });
 });
 
 if (typeof eventModalMobileMediaQuery.addEventListener === 'function') {
