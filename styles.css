@@ -3866,15 +3866,17 @@ body.modo_escuro .event-modal--guia .event-modal__frame-shell {
 @media (max-width: 960px) {
     .event-modal {
         align-items: flex-start;
-        overflow-y: auto;
+        overflow: hidden;
         padding: 16px;
-        -webkit-overflow-scrolling: touch;
     }
 
     .event-modal__dialog {
-        max-height: none;
-        overflow: hidden;
+        max-height: calc(100dvh - 32px);
+        overflow-x: hidden;
+        overflow-y: auto;
         isolation: isolate;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
     }
 
     .event-modal__content {
