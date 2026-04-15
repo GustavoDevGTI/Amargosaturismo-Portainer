@@ -2781,50 +2781,82 @@ section h2::after {
 .footer {
     background: linear-gradient(135deg, var(--padrao04), var(--padrao01));
     color: var(--white);
-    padding: 2rem;
+    padding: 1.25rem 2rem 1.6rem;
     text-align: center;
 }
 
 .footer__container {
-    position: relative;
-    min-height: 112px;
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(150px, 1fr) minmax(220px, auto) minmax(150px, 1fr);
+    align-items: center;
+    gap: clamp(1rem, 5vw, 4rem);
+    min-height: 132px;
+}
+
+.footer-brand-card {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    width: clamp(132px, 15vw, 188px);
+    min-height: clamp(62px, 7vw, 88px);
+    padding: 0.65rem 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 4px;
+    background:
+        linear-gradient(135deg, rgba(245, 242, 232, 0.92), rgba(236, 233, 224, 0.82)),
+        rgba(255, 255, 255, 0.72);
+    box-shadow: 0 16px 34px rgba(8, 35, 28, 0.18);
+    backdrop-filter: blur(2px);
+}
+
+.footer-brand-card--left {
+    justify-self: start;
+}
+
+.footer-brand-card--right {
+    justify-self: end;
 }
 
 .footer-brand-mark {
-    position: absolute;
-    left: -10px;
-    bottom: 18px;
-    width: clamp(88px, 9vw, 122px);
+    width: clamp(92px, 10vw, 148px);
+    max-height: 58px;
     height: auto;
-    opacity: 0.56;
-    filter: none;
+    object-fit: contain;
+    opacity: 0.96;
     pointer-events: none;
     user-select: none;
-}
-
-.footer-brand-mark--right {
-    left: auto;
-    right: -10px;
 }
 
 .footer__center {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.45rem;
+    justify-content: center;
+    gap: 0.35rem;
+}
+
+.footer-prefeitura-frame {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(78px, 8vw, 110px);
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 2px;
+    background: rgba(81, 184, 158, 0.86);
 }
 
 .footer-prefeitura-logo {
-    width: clamp(70px, 7vw, 96px);
+    width: 122%;
     height: auto;
     object-fit: contain;
 }
 
 .footer__center p {
     margin: 0;
+    font-size: clamp(0.92rem, 1.2vw, 1rem);
+    font-weight: 500;
+    letter-spacing: 0.01em;
 }
 
 /* ========================================
@@ -3365,20 +3397,67 @@ section h2::after {
         margin-top: 86px;
     }
 
+    .footer {
+        padding: 1.25rem 1rem 1.5rem;
+    }
+
+    .footer__container {
+        grid-template-columns: minmax(120px, 1fr) minmax(180px, auto) minmax(120px, 1fr);
+        gap: 1rem;
+        min-height: 112px;
+    }
+
+    .footer-brand-card,
+    .footer-brand-card--left,
+    .footer-brand-card--right {
+        width: clamp(118px, 17vw, 160px);
+        min-height: 64px;
+    }
+
     .footer-brand-mark {
-        width: 74px;
-        left: 0;
-        bottom: 12px;
-        opacity: 0.48;
+        width: clamp(92px, 13vw, 126px);
+        max-height: 48px;
     }
 
-    .footer-brand-mark--right {
-        left: auto;
-        right: 0;
+    .footer-prefeitura-frame {
+        width: 76px;
+    }
+}
+
+@media (max-width: 640px) {
+    .footer__container {
+        grid-template-columns: 1fr;
+        gap: 0.9rem;
+        min-height: auto;
     }
 
-    .footer-prefeitura-logo {
-        width: 62px;
+    .footer__center {
+        order: 1;
+    }
+
+    .footer-brand-card--left {
+        order: 2;
+    }
+
+    .footer-brand-card--right {
+        order: 3;
+    }
+
+    .footer-brand-card,
+    .footer-brand-card--left,
+    .footer-brand-card--right {
+        justify-self: center;
+        width: min(190px, 72vw);
+        min-height: 70px;
+    }
+
+    .footer-brand-mark {
+        width: 140px;
+        max-height: 52px;
+    }
+
+    .footer-prefeitura-frame {
+        width: 84px;
     }
 }
 
