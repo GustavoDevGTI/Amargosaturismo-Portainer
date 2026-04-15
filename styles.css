@@ -1221,38 +1221,38 @@ section h2::after {
 }
 
 .featured-events .attraction-card--carnaval-cultural {
-    background: linear-gradient(180deg, #fffaff 0%, #f6ebff 100%);
-    border: 1px solid rgba(109, 47, 145, 0.14);
+    background: var(--white);
+    border: none;
 }
 
 .featured-events .attraction-card--carnaval-cultural:hover {
-    box-shadow: 0 18px 34px rgba(109, 47, 145, 0.15);
+    box-shadow: 0 18px 34px rgba(21, 124, 98, 0.15);
 }
 
 .featured-events .attraction-card--carnaval-cultural:focus-visible {
-    outline-color: rgba(109, 47, 145, 0.28);
+    outline-color: rgba(21, 124, 98, 0.28);
 }
 
 .featured-events .attraction-card--sao-joao {
-    background: linear-gradient(180deg, #fffdf9 0%, #fff5ea 100%);
-    border: 1px solid rgba(217, 103, 39, 0.14);
+    background: var(--white);
+    border: none;
 }
 
 .featured-events .attraction-card--sao-joao:hover {
-    box-shadow: 0 18px 34px rgba(142, 47, 27, 0.14);
+    box-shadow: 0 18px 34px rgba(21, 124, 98, 0.15);
 }
 
 .featured-events .attraction-card--festival-forro {
-    background: linear-gradient(180deg, #f6fdff 0%, #e8f7ff 100%);
-    border: 1px solid rgba(18, 111, 159, 0.14);
+    background: var(--white);
+    border: none;
 }
 
 .featured-events .attraction-card--festival-forro:hover {
-    box-shadow: 0 18px 34px rgba(18, 111, 159, 0.16);
+    box-shadow: 0 18px 34px rgba(21, 124, 98, 0.15);
 }
 
 .featured-events .attraction-card--festival-forro:focus-visible {
-    outline-color: rgba(18, 111, 159, 0.28);
+    outline-color: rgba(21, 124, 98, 0.28);
 }
 
 .event-gallery-button {
@@ -1282,18 +1282,18 @@ section h2::after {
 }
 
 .featured-events .attraction-card--carnaval-cultural .event-gallery-button {
-    background: linear-gradient(135deg, #6d2f91, #b56bd6);
-    box-shadow: 0 10px 22px rgba(109, 47, 145, 0.2);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    box-shadow: 0 10px 22px rgba(21, 124, 98, 0.2);
 }
 
 .featured-events .attraction-card--sao-joao .event-gallery-button {
-    background: linear-gradient(135deg, #8e2f1b, #d96727);
-    box-shadow: 0 10px 22px rgba(142, 47, 27, 0.2);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    box-shadow: 0 10px 22px rgba(21, 124, 98, 0.2);
 }
 
 .featured-events .attraction-card--festival-forro .event-gallery-button {
-    background: linear-gradient(135deg, #126f9f, #54c6df);
-    box-shadow: 0 10px 22px rgba(18, 111, 159, 0.2);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    box-shadow: 0 10px 22px rgba(21, 124, 98, 0.2);
 }
 
 /* ========================================
