@@ -1852,7 +1852,8 @@ section h2::after {
 .event-modal__dialog {
     position: relative;
     width: min(1180px, 100%);
-    max-height: min(92vh, 960px);
+    max-height: min(960px, calc(100vh - 48px));
+    max-height: min(960px, calc(100dvh - 48px));
     overflow: hidden;
     overscroll-behavior: contain;
     border-radius: 32px;
@@ -2158,6 +2159,14 @@ section h2::after {
 .event-modal--festival-forro .event-modal__notice-title {
     color: #fff9f3;
     letter-spacing: 0.01em;
+}
+
+.event-modal--carnaval-cultural .event-modal__intro,
+.event-modal--sao-joao .event-modal__intro,
+.event-modal--festival-forro .event-modal__intro {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 .event-modal--guia .event-modal__backdrop {
@@ -4125,8 +4134,14 @@ body.modo_escuro .event-modal--guia .event-modal__frame-shell {
     .event-modal--festival-forro .event-modal__notice {
         margin-top: 0.55rem;
         padding: 0.64rem 0.72rem;
-        font-size: 0.72rem;
-        line-height: 1.38;
+        font-size: 0.69rem;
+        line-height: 1.32;
+    }
+
+    .event-modal--carnaval-cultural .event-modal__notice p + p,
+    .event-modal--sao-joao .event-modal__notice p + p,
+    .event-modal--festival-forro .event-modal__notice p + p {
+        margin-top: 0.3rem;
     }
 
     .event-modal--guia .event-modal__frame-shell {
