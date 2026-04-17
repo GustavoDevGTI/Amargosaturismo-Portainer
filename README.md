@@ -19,6 +19,29 @@ Como o projeto e estatico, basta abrir `index.html` no navegador. Se preferir, r
 
 Este repositorio foi estruturado para subir diretamente ao GitHub no repositorio `GustavoDevGTI/Amargosaturismo`.
 
+## Publicacao no servidor local via Portainer
+
+O projeto agora tambem esta pronto para deploy em container via Portainer usando o proprio repositorio GitHub.
+
+Arquivos adicionados para essa subida:
+
+- `Dockerfile`: empacota o site em `nginx:alpine`
+- `nginx.conf`: configura a entrega estatica e um endpoint de healthcheck
+- `docker-compose.yml`: sobe o container expondo a porta `80`
+- `.dockerignore`: reduz o contexto de build
+
+Passo a passo sugerido no Portainer:
+
+1. Criar um stack apontando para este repositorio
+2. Usar o arquivo `docker-compose.yml`
+3. Publicar a porta do host desejada para a porta `80` do container
+4. Fazer o deploy da stack
+
+Observacoes importantes:
+
+- o site e estatico, mas depende de acesso externo para Google Maps, Google Fonts e servicos do Supabase
+- a galeria continua dependendo da Edge Function descrita em `supabase/DEPLOY.md`
+
 ## Integracao da galeria
 
 A galeria usa:

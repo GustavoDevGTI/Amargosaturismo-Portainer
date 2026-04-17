@@ -1,0 +1,8 @@
+services:
+  amargosaturismo:
+    build:
+      context: .
+    container_name: amargosaturismo
+    restart: unless-stopped
+    ports:
+      - "${SITE_PORT:-8080}:80"
