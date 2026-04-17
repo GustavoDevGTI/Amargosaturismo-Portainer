@@ -1376,7 +1376,8 @@ function initGuiaModalFrameScrollBridge() {
     }, { passive: true });
 
     frameDocument.addEventListener('touchmove', (event) => {
-        if (guiaModal?.hidden) {
+        // No desktop, o iframe deve rolar normalmente sem mover o container do modal.
+        if (guiaModal?.hidden || !eventModalMobileMediaQuery.matches) {
             return;
         }
 
@@ -1393,7 +1394,8 @@ function initGuiaModalFrameScrollBridge() {
     }, { passive: false });
 
     frameDocument.addEventListener('wheel', (event) => {
-        if (guiaModal?.hidden) {
+        // Mantém o modal estático no desktop; no mobile o scroll fica unificado no modal.
+        if (guiaModal?.hidden || !eventModalMobileMediaQuery.matches) {
             return;
         }
 
