@@ -1027,13 +1027,26 @@ section h2::after {
 }
 
 .about-subtopic__title {
-    color: var(--secondary-color);
-    font-size: 1.35rem;
-    margin-bottom: 1rem;
+    color: var(--primary-color);
+    font-size: clamp(1.85rem, 3.2vw, 2.2rem);
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 0.01em;
+    margin: 0 0 1.5rem;
+}
+
+.about-subtopic__title::after {
+    content: none;
 }
 
 .about-content--cultural {
     margin-top: 0;
+}
+
+.about-content--cultural .about-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .about-subtopic--attractions .tourism-points__grid {
@@ -2966,6 +2979,11 @@ section h2::after {
         font-size: 2rem;
     }
 
+    .about-subtopic__title {
+        font-size: clamp(1.5rem, 6vw, 1.85rem);
+        margin-bottom: 1.1rem;
+    }
+
     .attractions-grid {
         grid-template-columns: 1fr;
     }
@@ -3085,6 +3103,11 @@ section h2::after {
 
     section h2 {
         font-size: 1.5rem;
+    }
+
+    .about-subtopic__title {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
     }
 
     .calendar-embed-shell {
