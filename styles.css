@@ -2174,6 +2174,30 @@ section h2::after {
     color: #f3fffb;
 }
 
+.event-modal--guia .event-modal__notice {
+    margin-top: 0.85rem;
+    padding: 0.78rem 0.85rem;
+    border-radius: 12px;
+    border: 1px solid rgba(243, 255, 251, 0.2);
+    background: rgba(7, 60, 48, 0.22);
+    color: rgba(243, 255, 251, 0.88);
+    font-size: 0.78rem;
+    line-height: 1.45;
+}
+
+.event-modal--guia .event-modal__notice p {
+    margin: 0;
+}
+
+.event-modal--guia .event-modal__notice p + p {
+    margin-top: 0.42rem;
+}
+
+.event-modal--guia .event-modal__notice-title {
+    color: #f3fffb;
+    letter-spacing: 0.01em;
+}
+
 .event-modal--guia .event-modal__frame-shell {
     background: linear-gradient(180deg, rgba(246, 255, 252, 0.98), rgba(230, 248, 243, 0.98));
 }
@@ -4044,6 +4068,13 @@ body.modo_escuro .event-modal--guia .event-modal__frame-shell {
 
     .event-modal--guia .event-modal__copy {
         display: none;
+    }
+
+    .event-modal--guia .event-modal__notice {
+        margin-top: 0.55rem;
+        padding: 0.64rem 0.72rem;
+        font-size: 0.72rem;
+        line-height: 1.38;
     }
 
     .event-modal--guia .event-modal__frame-shell {
