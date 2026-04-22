@@ -2624,18 +2624,24 @@ section h2::after {
 
 .gallery-modal__preview-footer {
     margin-top: 1rem;
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     gap: 1rem;
-    justify-content: space-between;
     align-items: center;
 }
 
 .gallery-modal__preview-caption {
     color: var(--body-muted);
     font-weight: 600;
+    justify-self: center;
+    text-align: center;
 }
 
+.gallery-modal__preview-download,
 .gallery-modal__preview-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     min-height: 46px;
     padding: 0.8rem 1.15rem;
     border: 0;
@@ -2643,10 +2649,13 @@ section h2::after {
     background: var(--gallery-theme-color);
     color: var(--white);
     font-weight: 700;
+    text-decoration: none;
     cursor: pointer;
     transition: transform 0.24s ease, box-shadow 0.24s ease, background-color 0.24s ease;
 }
 
+.gallery-modal__preview-download:hover,
+.gallery-modal__preview-download:focus-visible,
 .gallery-modal__preview-close:hover,
 .gallery-modal__preview-close:focus-visible,
 .gallery-modal__pagination-btn:hover,
@@ -3827,8 +3836,7 @@ body.modo_escuro .gallery-modal[data-gallery-theme] .gallery-modal__theme {
         right: 0.75rem;
     }
 
-    .gallery-modal__header,
-    .gallery-modal__preview-footer {
+    .gallery-modal__header {
         flex-direction: column;
         align-items: stretch;
     }

@@ -44,6 +44,7 @@ const galleryModalMobilePageNextButton = document.querySelector('#gallery-modal-
 const galleryModalPreview = document.querySelector('#gallery-modal-preview');
 const galleryModalPreviewImage = document.querySelector('#gallery-modal-preview-image');
 const galleryModalPreviewCaption = document.querySelector('#gallery-modal-preview-caption');
+const galleryModalPreviewDownloadButton = document.querySelector('#gallery-modal-preview-download');
 const galleryModalPreviewCloseButton = document.querySelector('#gallery-modal-preview-close');
 const galleryModalCloseButton = galleryModal?.querySelector('.gallery-modal__close');
 const eventGalleryButtons = Array.from(document.querySelectorAll('.event-gallery-button[data-gallery-key]'));
@@ -922,9 +923,32 @@ function resetGalleryPreview(shouldRenderGrid = true) {
         galleryModalPreviewCaption.hidden = true;
     }
 
+    if (galleryModalPreviewDownloadButton) {
+        galleryModalPreviewDownloadButton.removeAttribute('href');
+        galleryModalPreviewDownloadButton.removeAttribute('download');
+        galleryModalPreviewDownloadButton.hidden = true;
+    }
+
     if (shouldRenderGrid && galleryModal && !galleryModal.hidden && galleryState.activeCollection) {
         renderGalleryGrid();
     }
+}
+
+function getGalleryPhotoFilename(photo) {
+    const originalUrl = `${photo?.imageUrl || photo?.thumbUrl || ''}`;
+    const sanitizedName = `${photo?.title || `${getGalleryDisplayLabel()} foto`}`
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+
+    const cleanUrl = originalUrl.split('#')[0].split('?')[0];
+    const extensionMatch = cleanUrl.match(/\.([a-z0-9]{3,4})$/i);
+    const extension = extensionMatch ? `.${extensionMatch[1].toLowerCase()}` : '.jpg';
+    const fallbackName = sanitizedName || 'amargosa-foto';
+
+    return `${fallbackName}${extension}`;
 }
 
 function setGalleryStatus(message = '', type = 'info') {
@@ -1297,10 +1321,24 @@ function showGalleryPreview(index) {
 
     galleryState.selectedIndex = index;
     galleryModalPreview.hidden = false;
-    galleryModalPreviewImage.src = photo.imageUrl;
+    galleryModalPreviewImage.src = photo.imageUrl || photo.thumbUrl || '';
     galleryModalPreviewImage.alt = photo.title || `Foto ampliada de ${getGalleryDisplayLabel()}`;
     galleryModalPreviewCaption.textContent = '';
     galleryModalPreviewCaption.hidden = true;
+
+    if (galleryModalPreviewDownloadButton) {
+        const imageUrl = galleryModalPreviewImage.src;
+
+        if (imageUrl) {
+            galleryModalPreviewDownloadButton.href = imageUrl;
+            galleryModalPreviewDownloadButton.download = getGalleryPhotoFilename(photo);
+            galleryModalPreviewDownloadButton.hidden = false;
+        } else {
+            galleryModalPreviewDownloadButton.removeAttribute('href');
+            galleryModalPreviewDownloadButton.removeAttribute('download');
+            galleryModalPreviewDownloadButton.hidden = true;
+        }
+    }
 
     renderGalleryGrid();
     galleryModalPreview.scrollIntoView({
