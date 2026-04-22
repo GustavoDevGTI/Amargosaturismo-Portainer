@@ -31,6 +31,82 @@ function fallbackImage(category) {
     : "https://placehold.co/1200x800?text=Hotel+ou+Pousada";
 }
 
+function normalizeLine(value) {
+  return String(value || "").trim();
+}
+
+function findAddressLine(record) {
+  if (record.guide?.addressLine) {
+    return record.guide.addressLine;
+  }
+
+  return (record.metaLines || []).find((line) => /CEP\s|\s\|\s|Rua|Avenida|Travessa|Praça|Praca|Largo|Rodovia|BA-/i.test(line)) || "";
+}
+
+function getGuideDescription(record) {
+  return record.guide?.description || record.description || "Sem descricao informada.";
+}
+
+function getGuideSubtitle(record) {
+  return record.guide?.subtitle || "";
+}
+
+function mergeGuideDescription(subtitle, description) {
+  const subtitleText = normalizeLine(subtitle);
+  const descriptionText = normalizeLine(description);
+
+  if (!subtitleText) {
+    return descriptionText || "Sem descricao informada.";
+  }
+
+  if (!descriptionText) {
+    return subtitleText;
+  }
+
+  const normalizedSubtitle = subtitleText.toLocaleLowerCase("pt-BR");
+  const normalizedDescriptionText = descriptionText.toLocaleLowerCase("pt-BR");
+
+  if (
+    normalizedDescriptionText === normalizedSubtitle
+    || normalizedDescriptionText.startsWith(`${normalizedSubtitle}.`)
+    || normalizedDescriptionText.startsWith(`${normalizedSubtitle},`)
+  ) {
+    return descriptionText;
+  }
+
+  const normalizedDescription = `${descriptionText.charAt(0).toLocaleLowerCase("pt-BR")}${descriptionText.slice(1)}`;
+  return `${subtitleText}, ${normalizedDescription}`;
+}
+
+function getGastronomyMetaLines(record) {
+  const addressLine = findAddressLine(record);
+  const hoursLine = normalizeLine(record.guide?.hoursLine || record.metaLines?.[0]);
+
+  return [hoursLine, addressLine].filter(Boolean);
+}
+
+function getHotelMetaLines(record) {
+  const addressLine = findAddressLine(record);
+  const emailLine = normalizeLine(record.contacts?.email) || "E-mail nao informado";
+  const phoneLine = normalizeLine(record.contacts?.phone);
+
+  return [addressLine, emailLine, phoneLine].filter(Boolean);
+}
+
+function buildGuideUrl(record) {
+  const params = new URLSearchParams();
+
+  if (record.category) {
+    params.set("filter", record.category);
+  }
+
+  if (record.pointId || record.mapFocus) {
+    params.set("focus", record.pointId || record.mapFocus);
+  }
+
+  return `../wifi-publico.html?${params.toString()}#mapa`;
+}
+
 function iconLink(href, variantClass, label, iconMarkup) {
   if (!href) return null;
   const a = document.createElement("a");
@@ -46,6 +122,10 @@ function iconLink(href, variantClass, label, iconMarkup) {
 
 function createCard(record) {
   const contacts = record.contacts || {};
+  const isGastronomy = record.category === "gastronomia";
+  const metaLines = isGastronomy ? getGastronomyMetaLines(record) : getHotelMetaLines(record);
+  const subtitleText = getGuideSubtitle(record);
+  const descriptionText = mergeGuideDescription(subtitleText, getGuideDescription(record));
 
   const article = document.createElement("article");
   article.className = "attraction-card";
@@ -64,11 +144,11 @@ function createCard(record) {
   title.textContent = record.name || "Sem nome";
 
   const description = document.createElement("p");
-  description.textContent = record.description || "Sem descricao informada.";
+  description.textContent = descriptionText;
 
   const meta = document.createElement("div");
   meta.className = "card-meta";
-  (record.metaLines || []).forEach((line) => {
+  metaLines.forEach((line) => {
     const span = document.createElement("span");
     span.textContent = line;
     meta.appendChild(span);
@@ -83,8 +163,7 @@ function createCard(record) {
   mapButton.dataset.mapFocus = record.mapFocus || record.pointId || "";
   mapButton.textContent = "Ver no mapa";
   mapButton.addEventListener("click", () => {
-    const id = mapButton.dataset.mapFocus || "nao informado";
-    alert(`ID de mapa deste card: ${id}`);
+    window.open(buildGuideUrl(record), "_blank", "noopener,noreferrer");
   });
 
   const linksInline = document.createElement("div");
@@ -95,8 +174,11 @@ function createCard(record) {
   const emailHref = contacts.email ? `mailto:${contacts.email}` : "";
   const emailLink = iconLink(emailHref, "card-link--email", "E-mail", ICONS.email);
   const phoneLink = iconLink(contacts.phoneUrl, "card-link--phone", "Contato", ICONS.phone);
+  const actionLinks = isGastronomy
+    ? [instagramLink, whatsappLink]
+    : [instagramLink, emailLink, whatsappLink, phoneLink];
 
-  [instagramLink, whatsappLink, emailLink, phoneLink].forEach((link) => {
+  actionLinks.forEach((link) => {
     if (link) linksInline.appendChild(link);
   });
 
@@ -107,7 +189,7 @@ function createCard(record) {
 
   content.appendChild(title);
   content.appendChild(description);
-  if ((record.metaLines || []).length > 0) {
+  if (metaLines.length > 0) {
     content.appendChild(meta);
   }
   content.appendChild(actions);

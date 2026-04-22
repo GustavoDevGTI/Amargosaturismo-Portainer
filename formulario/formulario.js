@@ -174,6 +174,65 @@ function buildAddressLine(data) {
     .join(" | ");
 }
 
+function buildMapQuery(name, data) {
+  return [
+    name,
+    data.get("logradouro").trim(),
+    data.get("numero").trim(),
+    data.get("bairro").trim(),
+    data.get("cidade").trim(),
+    data.get("estado").trim().toUpperCase(),
+    "Brasil"
+  ]
+    .filter(Boolean)
+    .join(", ");
+}
+
+function buildDirectionsUrl(mapQuery) {
+  if (!mapQuery) {
+    return "";
+  }
+
+  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(mapQuery)}`;
+}
+
+function buildGuideData(data, category, name, description, addressLine, contacts) {
+  const gasExtra = data.get("gasExtra").trim();
+  const horario = data.get("horario").trim();
+  const statusHotel = data.get("statusHotel").trim();
+  const servicoHotel = data.get("servicoHotel").trim();
+  const mapQuery = buildMapQuery(name, data);
+
+  if (category === "gastronomia") {
+    return {
+      subtitle: gasExtra,
+      description,
+      hoursLine: horario,
+      addressLine,
+      mapQuery,
+      directionsUrl: buildDirectionsUrl(mapQuery),
+      metaLines: [horario, addressLine].filter(Boolean),
+      popupTitleColor: "#c9642b"
+    };
+  }
+
+  const hotelDescription = [servicoHotel, description]
+    .filter(Boolean)
+    .join(servicoHotel && description ? ". " : "");
+
+  return {
+    subtitle: statusHotel,
+    description: hotelDescription || description || servicoHotel,
+    statusLine: statusHotel,
+    serviceLine: servicoHotel,
+    addressLine,
+    mapQuery,
+    directionsUrl: buildDirectionsUrl(mapQuery),
+    metaLines: [addressLine, contacts.email, contacts.phone].filter(Boolean),
+    popupTitleColor: "#3568c9"
+  };
+}
+
 function buildMetaLines(data, category, addressLine, cnpjFormatted) {
   const complemento = data.get("complemento").trim();
   const referencia = data.get("referencia").trim();
@@ -316,6 +375,14 @@ form.addEventListener("submit", (event) => {
   const whatsapp = whatsappUrl(data.get("whatsapp").trim());
   const email = data.get("email").trim();
   const phone = data.get("telefone").trim();
+  const contacts = {
+    instagram,
+    whatsapp,
+    email,
+    phone,
+    phoneUrl: phoneUrl(phone)
+  };
+  const guide = buildGuideData(data, selectedType, nomeOriginal, description, addressLine, contacts);
 
   const record = {
     id: `cad-${Date.now()}`,
@@ -328,13 +395,8 @@ form.addEventListener("submit", (event) => {
     description,
     photoSrc: uploadedPhotoDataUrl || fallbackPhoto,
     metaLines: buildMetaLines(data, selectedType, addressLine, cnpjFormatted),
-    contacts: {
-      instagram,
-      whatsapp,
-      email,
-      phone,
-      phoneUrl: phoneUrl(phone)
-    }
+    contacts,
+    guide
   };
 
   try {
