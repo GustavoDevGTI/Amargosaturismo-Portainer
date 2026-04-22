@@ -358,6 +358,10 @@ textarea {
     min-width: 15vw;
 }
 
+#submenu-contato .submenu-box {
+    background-color: var(--padrao07);
+}
+
 .submenu-box--wide {
     min-width: 23vw;
 }
@@ -421,7 +425,7 @@ textarea {
     border-radius: 8px;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
-    background: rgba(15, 111, 90, 0.96);
+    background: var(--padrao07);
     border: 1px solid rgba(255, 255, 255, 0.16);
     gap: 0;
 }
@@ -3732,8 +3736,12 @@ body.modo_escuro .submenu_horizontal {
 }
 
 body.modo_escuro .menu-sub-campo.hamburger .submenu_horizontal--simple {
-    background: rgba(15, 111, 90, 0.96);
+    background: rgba(0, 0, 0, 0.55);
     border-color: rgba(255, 255, 255, 0.16);
+}
+
+body.modo_escuro #submenu-contato .submenu-box {
+    background-color: rgba(0, 0, 0, 0.55);
 }
 
 body.modo_escuro .menu-sub-campo.hamburger .submenu_horizontal--simple .submenu_horizontal-btn {
