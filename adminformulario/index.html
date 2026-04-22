@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Admin de Cadastros | Amargosa Turismo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+  <main class="admin-page">
+    <section class="panel">
+      <header class="admin-header">
+        <div>
+          <h1>Painel Admin - Estabelecimentos Cadastrados</h1>
+          <p class="admin-intro">Cadastros enviados pelo formulario publico do portal Amargosa Turismo.</p>
+        </div>
+        <div class="admin-header__actions">
+          <a class="admin-link admin-link--ghost" href="../">Voltar ao portal</a>
+          <a class="admin-link" href="../formulario/">Novo cadastro</a>
+        </div>
+      </header>
+
+      <div class="toolbar" role="toolbar" aria-label="Filtros e acoes">
+        <button class="filter-btn is-active" type="button" data-filter="todos">Todos</button>
+        <button class="filter-btn" type="button" data-filter="gastronomia">Bares/Restaurantes</button>
+        <button class="filter-btn" type="button" data-filter="hotel">Hoteis/Pousadas</button>
+        <button class="neutral-btn" type="button" id="refreshBtn">Atualizar</button>
+        <button class="danger-btn" type="button" id="clearBtn">Limpar todos</button>
+      </div>
+
+      <p class="status-text" id="statusText"></p>
+
+      <div class="cards-grid" id="cardsGrid"></div>
+
+      <div class="empty-state" id="emptyState" hidden>
+        Nenhum estabelecimento cadastrado ainda.
+      </div>
+    </section>
+  </main>
+
+  <script src="./admin.js" defer></script>
+</body>
+</html>
