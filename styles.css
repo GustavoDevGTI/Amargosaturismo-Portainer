@@ -293,7 +293,7 @@ textarea {
     min-height: 44px;
     background-color: transparent;
     border: 0;
-    font-size: 0.8vw;
+    font-size: 0.72vw;
     color: var(--white);
     text-transform: uppercase;
     cursor: pointer;
@@ -310,7 +310,7 @@ textarea {
     position: relative;
     z-index: 1;
     display: block;
-    padding: 0 1vw;
+    padding: 0 0.82vw;
     line-height: 3.2vw;
     white-space: nowrap;
 }
