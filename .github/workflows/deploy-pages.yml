@@ -55,6 +55,12 @@ jobs:
           if [ -d "Amargosacalendario" ]; then
             cp -R "Amargosacalendario" "_site/Amargosacalendario"
           fi
+          if [ -d "formulario" ]; then
+            cp -R "formulario" "_site/formulario"
+          fi
+          if [ -d "adminformulario" ]; then
+            cp -R "adminformulario" "_site/adminformulario"
+          fi
           cp -R public _site/public
           touch _site/.nojekyll
 
