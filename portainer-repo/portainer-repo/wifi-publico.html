@@ -1,0 +1,3611 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia do Turista</title>
+  <meta name="description"
+    content="Encontre pontos turisticos, wi-fi gratuito, opcoes de gastronomia e hospedagem no mapa da cidade">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-color: #157c62;
+      --secondary-color: #339a80;
+      --accent-color: #fcc22f;
+      --accent-hover: #e3ad19;
+      --text-color: #33443f;
+      --body-muted: #55635f;
+      --muted-text: #67766f;
+      --light-bg: #e4e7ec;
+      --surface-soft: #f5f5ff;
+      --white: #ffffff;
+      --padrao01: #339a80;
+      --padrao02: #51b89e;
+      --padrao04: #157c62;
+      --warning-bg: rgba(252, 194, 47, 0.16);
+      --warning-border: #fcc22f;
+      --border-soft: rgba(21, 124, 98, 0.14);
+      --shadow: 0 18px 40px rgba(26, 37, 46, 0.12);
+      --header-shadow: 0 12px 28px rgba(16, 51, 43, 0.18);
+      --container: 1200px;
+      --transition: all 0.28s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: "Cabin", sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background: linear-gradient(180deg, #f7fbf9 0%, var(--light-bg) 55%, #edf2f0 100%);
+    }
+
+    body.nav-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    a,
+    button,
+    [role="button"],
+    input,
+    select,
+    textarea {
+      touch-action: manipulation;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+    }
+
+    .container {
+      width: min(calc(100% - 40px), var(--container));
+      margin: 0 auto;
+    }
+
+    section,
+    header[id] {
+      scroll-margin-top: 124px;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 500px;
+      color: var(--white);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(115deg, rgba(7, 29, 24, 0.42) 0%, rgba(8, 58, 48, 0.16) 48%, rgba(8, 27, 22, 0.44) 100%),
+        url("public/images/hero-amargosa.jpeg") center 58% / cover no-repeat;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(5, 20, 17, 0.16) 0%, rgba(5, 20, 17, 0.2) 42%, rgba(5, 20, 17, 0.54) 100%);
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      min-height: 320px;
+      padding: 40px 0 16px;
+    }
+
+    .hero__content {
+      width: min(900px, 100%);
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero h1 {
+      margin-bottom: 12px;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      line-height: 1.02;
+      text-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    }
+
+    .hero__text {
+      max-width: min(640px, 100%);
+      margin: 0 auto;
+      font-size: clamp(1rem, 1.8vw, 1.08rem);
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.94);
+      text-shadow: 0 6px 16px rgba(0, 0, 0, 0.38);
+    }
+
+    .is-embedded-guide .hero {
+      min-height: 360px;
+    }
+
+    .is-embedded-guide .hero .container {
+      min-height: 240px;
+      padding: 26px 0 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 0 22px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 700;
+      transition: var(--transition);
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translateY(-2px);
+    }
+
+    .btn--primary {
+      color: #183d31;
+      background: var(--accent-color);
+      box-shadow: 0 8px 18px rgba(252, 194, 47, 0.3);
+    }
+
+    .btn--primary:hover,
+    .btn--primary:focus-visible {
+      background: var(--accent-hover);
+    }
+
+    .btn--ghost {
+      color: var(--white);
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(8px);
+    }
+
+    section {
+      padding: 64px 0;
+    }
+
+    .section-muted {
+      background: linear-gradient(180deg, #f7fbf9 0%, var(--light-bg) 100%);
+    }
+
+    section h2 {
+      position: relative;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      font-size: clamp(2.15rem, 4vw, 2.7rem);
+      line-height: 1.08;
+      text-align: center;
+      color: var(--primary-color);
+    }
+
+    section h2::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 100px;
+      height: 4px;
+      border-radius: 999px;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    }
+
+    .section-intro {
+      max-width: 720px;
+      margin: 0 auto 3rem;
+      text-align: center;
+      font-size: 1.08rem;
+      color: var(--muted-text);
+    }
+
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+
+    .featured-card,
+    .panel,
+    .attraction-card,
+    .info-card,
+    .about-text {
+      background: var(--white);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .featured-card {
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .featured-card:hover,
+    .attraction-card:hover,
+    .info-card:hover,
+    .stat-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .featured-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .featured-card__body {
+      padding: 1.7rem;
+    }
+
+    .featured-card__eyebrow {
+      display: inline-block;
+      margin-bottom: 0.75rem;
+      color: var(--secondary-color);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .featured-card h3 {
+      margin-bottom: 0.85rem;
+      color: var(--primary-color);
+      font-size: 1.4rem;
+      line-height: 1.15;
+    }
+
+    .featured-card p {
+      color: var(--body-muted);
+    }
+
+    .featured-card__highlight {
+      margin-top: 1rem;
+      padding: 0.95rem 1rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      color: var(--body-muted);
+      background: rgba(51, 154, 128, 0.08);
+      border-left: 4px solid var(--secondary-color);
+    }
+
+    .about-content {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+      gap: 2rem;
+      align-items: start;
+      margin-top: 2rem;
+    }
+
+    .about-text {
+      padding: 2rem;
+    }
+
+    .about-text h3 {
+      margin-bottom: 0.75rem;
+      color: var(--secondary-color);
+      font-size: 1.45rem;
+    }
+
+    .about-text h3 + p {
+      margin-bottom: 1.2rem;
+    }
+
+    .about-text p {
+      color: var(--body-muted);
+    }
+
+    .about-stats {
+      display: grid;
+      gap: 1.2rem;
+    }
+
+    .stat-card {
+      padding: 1.55rem;
+      border-left: 4px solid var(--primary-color);
+      transition: var(--transition);
+    }
+
+    .stat-card h4 {
+      margin-bottom: 0.4rem;
+      color: var(--primary-color);
+      font-size: 1.1rem;
+    }
+
+    .stat-card p {
+      color: var(--muted-text);
+      font-size: 0.96rem;
+    }
+
+    .map-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+      gap: 1.8rem;
+      align-items: start;
+      margin-top: 2rem;
+    }
+
+    .panel {
+      padding: 2rem;
+      border: 1px solid var(--border-soft);
+    }
+
+    .panel h3 {
+      color: var(--primary-color);
+      font-size: 1.3rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .panel p,
+    .panel li {
+      color: var(--body-muted);
+    }
+
+    .panel-head {
+      margin-bottom: 1.2rem;
+    }
+
+    .panel-head p {
+      margin-top: 0.65rem;
+    }
+
+    .map-shell {
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border-soft);
+      background: #d7ebe4;
+    }
+
+    #map {
+      width: 100%;
+      height: clamp(420px, 55vw, 680px);
+    }
+
+    .is-embedded-guide .panel {
+      padding: 0.65rem;
+      border-radius: 18px;
+    }
+
+    .is-embedded-guide .map-shell {
+      border-radius: 16px;
+    }
+
+    .is-embedded-guide #map {
+      height: clamp(500px, 62vw, 760px);
+    }
+
+    .is-embedded-guide #mapa .container {
+      width: 100%;
+      max-width: none;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin-top: 1rem;
+      color: var(--body-muted);
+      font-size: 0.95rem;
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .dot.confirmed {
+      background: var(--primary-color);
+    }
+
+    .dot.partial {
+      background: var(--accent-color);
+    }
+
+    .dot.wifi {
+      background: #145844;
+    }
+
+    .dot.tourism {
+      background: #339a80;
+    }
+
+    .dot.heritage {
+      background: #fcc22f;
+    }
+
+    .dot.gastronomy {
+      background: #c9642b;
+    }
+
+    .dot.lodging {
+      background: #3568c9;
+    }
+
+    .map-notes {
+      list-style: none;
+      display: grid;
+      gap: 1rem;
+      margin-top: 1.2rem;
+    }
+
+    .map-note {
+      padding: 1rem 1.1rem;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #f7fbf9, var(--surface-soft));
+      border-left: 4px solid var(--primary-color);
+    }
+
+    .map-note strong {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: var(--primary-color);
+    }
+
+    .map-callout {
+      margin-top: 1.2rem;
+      padding: 1rem 1.15rem;
+      border-radius: 14px;
+      background: var(--warning-bg);
+      border-left: 4px solid var(--warning-border);
+      color: var(--body-muted);
+    }
+
+    .attractions {
+      background: linear-gradient(180deg, #f7fbf9 0%, var(--light-bg) 100%);
+      padding-top: 28px;
+      padding-bottom: 52px;
+      content-visibility: auto;
+      contain-intrinsic-size: 760px;
+    }
+
+    .attractions h2 {
+      margin-bottom: 0.7rem;
+      padding-bottom: 0.8rem;
+    }
+
+    .filter-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin: 1.4rem auto 0.75rem;
+    }
+
+    .filter-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(21, 124, 98, 0.2);
+      background: rgba(255, 255, 255, 0.84);
+      color: var(--primary-color);
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 10px 22px rgba(26, 37, 46, 0.08);
+    }
+
+    .filter-button:hover,
+    .filter-button:focus-visible {
+      transform: translateY(-2px);
+      background: var(--white);
+    }
+
+    .filter-button.is-active {
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+      color: var(--white);
+      box-shadow: 0 12px 24px rgba(21, 124, 98, 0.24);
+    }
+
+    .filter-feedback {
+      min-height: 1.6rem;
+      text-align: center;
+      color: var(--muted-text);
+      font-size: 0.95rem;
+    }
+
+    .points-carousel {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+      margin-top: 1.35rem;
+    }
+
+    .points-carousel.is-empty {
+      grid-template-columns: 1fr;
+    }
+
+    .points-carousel.is-empty .carousel-arrow {
+      display: none;
+    }
+
+    .points-carousel__viewport {
+      overflow: hidden;
+      touch-action: pan-y;
+    }
+
+    .attractions-grid {
+      display: flex;
+      gap: 1.5rem;
+      transition: transform 0.35s ease;
+      will-change: transform;
+    }
+
+    .attraction-card {
+      flex: 0 0 calc((100% - 3rem) / 3);
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .attraction-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .attraction-card:hover img {
+      transform: scale(1.04);
+    }
+
+    .card-content {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 1.2rem;
+    }
+
+    .card-content h3 {
+      margin: 0 0 0.35rem;
+      color: var(--primary-color);
+      font-size: 1.18rem;
+      line-height: 1.18;
+    }
+
+    .subtitle-card {
+      margin-bottom: 0.75rem;
+      color: var(--secondary-color);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .card-content p {
+      color: var(--body-muted);
+    }
+
+    .card-meta {
+      display: grid;
+      gap: 0.35rem;
+      margin-top: 0.85rem;
+      color: var(--muted-text);
+      font-size: 0.9rem;
+    }
+
+    .card-meta span {
+      display: block;
+    }
+
+    .card-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin-top: auto;
+      padding-top: 0.9rem;
+    }
+
+    .card-actions-inline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+    }
+
+    .card-link,
+    .card-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.92rem;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .card-link {
+      background: var(--primary-color);
+      color: var(--white);
+      border: 1px solid var(--primary-color);
+    }
+
+    .card-link--soft {
+      background: rgba(51, 154, 128, 0.08);
+      color: var(--primary-color);
+      border: 1px solid rgba(51, 154, 128, 0.22);
+    }
+
+    .card-link--instagram {
+      background: rgba(201, 100, 43, 0.08);
+      color: #b25523;
+      border: 1px solid rgba(201, 100, 43, 0.22);
+    }
+
+    .card-link--whatsapp {
+      background: rgba(18, 140, 77, 0.08);
+      color: #128c4d;
+      border: 1px solid rgba(18, 140, 77, 0.22);
+    }
+
+    .card-link--email {
+      background: rgba(52, 88, 164, 0.08);
+      color: #3458a4;
+      border: 1px solid rgba(52, 88, 164, 0.22);
+    }
+
+    .card-link--phone {
+      background: rgba(120, 97, 198, 0.08);
+      color: #6e56cf;
+      border: 1px solid rgba(120, 97, 198, 0.22);
+    }
+
+    .card-button {
+      background: rgba(51, 154, 128, 0.08);
+      color: var(--primary-color);
+      border: 1px solid rgba(51, 154, 128, 0.22);
+      width: 100%;
+    }
+
+    .card-actions-inline .card-link {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+
+    .card-actions-inline .card-link--icon {
+      flex: 0 0 42px;
+      width: 42px;
+      min-width: 42px;
+      padding: 0;
+    }
+
+    .card-link__icon {
+      width: 20px;
+      height: 20px;
+      display: block;
+      fill: currentColor;
+    }
+
+    .card-link:hover,
+    .card-button:hover,
+    .card-link:focus-visible,
+    .card-button:focus-visible {
+      transform: translateY(-2px);
+    }
+
+    .carousel-arrow {
+      width: 54px;
+      height: 54px;
+      border: 1px solid rgba(21, 124, 98, 0.18);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--primary-color);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .carousel-arrow:hover,
+    .carousel-arrow:focus-visible {
+      transform: translateY(-2px);
+      background: var(--white);
+    }
+
+    .carousel-arrow:disabled {
+      opacity: 0.4;
+      cursor: default;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .carousel-arrow .material-symbols-outlined {
+      font-size: 2rem;
+    }
+
+    .filter-empty {
+      margin-top: 1rem;
+      padding: 1.35rem 1.5rem;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(21, 124, 98, 0.12);
+      box-shadow: var(--shadow);
+      text-align: center;
+      color: var(--body-muted);
+    }
+
+    .filter-empty[hidden] {
+      display: none;
+    }
+
+    .map-section {
+      padding-top: 0;
+      background: var(--white);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .info-card {
+      padding: 2rem;
+      background: linear-gradient(135deg, #f7fbf9, var(--surface-soft));
+      border-top: 4px solid var(--primary-color);
+      transition: var(--transition);
+    }
+
+    .info-card__icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      margin-bottom: 1rem;
+      border-radius: 50%;
+      background: rgba(51, 154, 128, 0.14);
+      color: var(--primary-color);
+    }
+
+    .info-card h3 {
+      margin-bottom: 0.8rem;
+      color: var(--primary-color);
+      font-size: 1.2rem;
+    }
+
+    .info-card p,
+    .info-card li {
+      color: var(--body-muted);
+    }
+
+    .info-card ul,
+    .info-card ol {
+      margin-top: 0.9rem;
+      padding-left: 1.2rem;
+    }
+
+    .info-card li + li {
+      margin-top: 0.45rem;
+    }
+
+    .support-band {
+      padding: 0 0 84px;
+      background: linear-gradient(180deg, var(--light-bg) 0%, #eff4f2 100%);
+    }
+
+    .support-band__inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(240px, 0.9fr);
+      gap: 1.5rem;
+      padding: 2rem;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(21, 124, 98, 0.96), rgba(51, 154, 128, 0.94));
+      color: var(--white);
+      box-shadow: var(--shadow);
+    }
+
+    .support-band h2 {
+      margin-bottom: 0.8rem;
+      padding-bottom: 0;
+      color: var(--white);
+      text-align: left;
+    }
+
+    .support-band h2::after {
+      display: none;
+    }
+
+    .support-band p {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .support-band__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: flex-start;
+      margin-top: 1.4rem;
+    }
+
+    .support-band__meta {
+      display: grid;
+      gap: 1rem;
+      align-content: center;
+    }
+
+    .support-chip {
+      padding: 1rem 1.1rem;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .support-chip strong {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .hero .container {
+        min-height: 460px;
+      }
+
+      .is-embedded-guide .hero,
+      .is-embedded-guide .hero .container {
+        min-height: 320px;
+      }
+
+      .is-embedded-guide .hero .container {
+        padding: 20px 0 10px;
+      }
+
+      .about-content,
+      .map-layout,
+      .support-band__inner {
+        grid-template-columns: 1fr;
+      }
+
+      .attraction-card {
+        flex-basis: calc((100% - 1.5rem) / 2);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        width: min(calc(100% - 24px), var(--container));
+      }
+
+      .hero,
+      .hero .container {
+        min-height: 430px;
+      }
+
+      .hero .container {
+        padding: 56px 0 36px;
+      }
+
+      .is-embedded-guide .hero,
+      .is-embedded-guide .hero .container {
+        min-height: 280px;
+      }
+
+      .is-embedded-guide .hero .container {
+        padding: 18px 0 10px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.5rem, 9vw, 3.8rem);
+      }
+
+      .featured-grid,
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-toolbar {
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        gap: 0.6rem;
+        overflow-x: auto;
+        padding-bottom: 0.25rem;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x proximity;
+      }
+
+      .filter-toolbar::-webkit-scrollbar {
+        display: none;
+      }
+
+      .filter-button {
+        flex: 0 0 auto;
+        min-height: 40px;
+        padding: 0 15px;
+        font-size: 0.9rem;
+        scroll-snap-align: start;
+      }
+
+      .panel,
+      .about-text,
+      .info-card,
+      .support-band__inner {
+        padding: 1.5rem;
+      }
+
+      #map {
+        height: 360px;
+      }
+
+      .is-embedded-guide .panel {
+        padding: 0.5rem;
+      }
+
+      .is-embedded-guide #map {
+        height: 440px;
+      }
+
+      .points-carousel {
+        grid-template-columns: 44px minmax(0, 1fr) 44px;
+        gap: 10px;
+      }
+
+      .panel {
+        content-visibility: auto;
+        contain-intrinsic-size: 620px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .hero .container {
+        min-height: 250px;
+        padding: 24px 0 10px;
+      }
+
+      .is-embedded-guide .hero,
+      .is-embedded-guide .hero .container {
+        min-height: 250px;
+      }
+
+      .is-embedded-guide .hero .container {
+        padding: 14px 0 8px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2rem, 9vw, 2.7rem);
+      }
+
+      .is-embedded-guide .panel {
+        padding: 0.35rem;
+      }
+
+      .is-embedded-guide #map {
+        height: 380px;
+      }
+
+      .hero__text {
+        font-size: 0.96rem;
+      }
+
+      .filter-feedback {
+        font-size: 0.9rem;
+      }
+
+      .btn,
+      .card-link,
+      .card-button {
+        width: 100%;
+      }
+
+      .card-actions-inline .card-link--icon {
+        flex: 0 0 40px;
+        width: 40px;
+        min-width: 40px;
+      }
+
+      .support-band__actions {
+        flex-direction: column;
+      }
+
+      .attraction-card {
+        flex-basis: 100%;
+      }
+
+      .carousel-arrow {
+        width: 42px;
+        height: 42px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="hero" id="inicio">
+    <div class="container">
+      <div class="hero__content">
+        <h1>Guia do Turista</h1>
+        <p class="hero__text">
+          Encontre pontos tur&iacute;sticos, wi-fi gratuito, op&ccedil;&otilde;es de gastronomia e hospedagem no mapa da cidade
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="attractions section-muted" id="pontos">
+      <div class="container">
+        <h2>Explore por Categoria</h2>
+        <div class="filter-toolbar" aria-label="Categorias de locais">
+          <button class="filter-button" type="button" data-filter="todos" aria-pressed="false">Todos</button>
+          <button class="filter-button" type="button" data-filter="wifi" aria-pressed="false">Wi-Fi Gratuito</button>
+          <button class="filter-button is-active" type="button" data-filter="turistico" aria-pressed="true">Pontos Tur&iacute;sticos</button>
+          <button class="filter-button" type="button" data-filter="gastronomia" aria-pressed="false">Restaurantes/Bares</button>
+          <button class="filter-button" type="button" data-filter="hotel" aria-pressed="false">Hoteis/Pousadas</button>
+        </div>
+        <p class="filter-feedback" data-filter-feedback>Exibindo locais em pontos turisticos</p>
+        <div class="points-carousel" data-carousel>
+          <button class="carousel-arrow" type="button" data-carousel-prev aria-label="Mostrar local anterior">
+            <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+          </button>
+
+          <div class="points-carousel__viewport">
+            <div class="attractions-grid">
+              <article class="attraction-card" data-category="wifi" data-point-id="wifi-jardim" hidden>
+                <img
+                  src="public/images/hero-amargosa.jpeg"
+                  alt="Wi-Fi na Pra&ccedil;a Lourival Monte" loading="lazy">
+                <div class="card-content">
+                  <h3>Pra&ccedil;a Lourival Monte (Jardim)</h3>
+                  <p class="subtitle-card">Ponto central e de maior circula&ccedil;&atilde;o</p>
+                  <p>
+                    Ideal para quem precisa de conectividade no cora&ccedil;&atilde;o da cidade, seja para uma pausa r&aacute;pida, consulta a servi&ccedil;os ou comunica&ccedil;&atilde;o durante o passeio pelo centro
+                  </p>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="wifi-jardim">Ver no mapa</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="wifi" data-point-id="wifi-bosque" hidden>
+                <img
+                  src="public/images/praca-do-bosque-antiga-estacao.jpg"
+                  alt="Wi-Fi na Pra&ccedil;a do Bosque" loading="lazy">
+                <div class="card-content">
+                  <h3>Quadra de areia da Pra&ccedil;a do Bosque</h3>
+                  <p class="subtitle-card">&Aacute;rea de esporte e conviv&ecirc;ncia</p>
+                  <p>
+                    Funciona como apoio para frequentadores da pra&ccedil;a e da &aacute;rea esportiva, facilitando o uso do celular durante treinos, descanso e encontros no espa&ccedil;o p&uacute;blico
+                  </p>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="wifi-bosque">Ver no mapa</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="wifi" data-point-id="wifi-barreiros" hidden>
+                <img
+                  src="public/images/hero-calendario-praca-lourival-monte.jpg"
+                  alt="Wi-Fi na Pracinha dos Barreiros" loading="lazy">
+                <div class="card-content">
+                  <h3>Pracinha dos Barreiros</h3>
+                  <p class="subtitle-card">Conectividade com presen&ccedil;a da &Aacute;rvore Digital</p>
+                  <p>
+                    Refor&ccedil;a a proposta de moderniza&ccedil;&atilde;o em espa&ccedil;o p&uacute;blico e serve como apoio para moradores que utilizam a pra&ccedil;a em atividades cotidianas e momentos de conviv&ecirc;ncia
+                  </p>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="wifi-barreiros">Ver no mapa</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="wifi" data-point-id="wifi-minguara" hidden>
+                <img
+                  src="public/images/praca-iraci-silva-praca-do-cristo.jpg"
+                  alt="Wi-Fi na Pra&ccedil;a da Minguara" loading="lazy">
+                <div class="card-content">
+                  <h3>Pra&ccedil;a da Minguara</h3>
+                  <p class="subtitle-card">Acesso p&uacute;blico em &aacute;rea de perman&ecirc;ncia</p>
+                  <p>
+                    Oferece suporte &agrave; navega&ccedil;&atilde;o em uma pra&ccedil;a importante para o dia a dia local, ajudando em pesquisas, mensagens e uso r&aacute;pido de servi&ccedil;os digitais
+                  </p>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="wifi-minguara">Ver no mapa</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="wifi" data-point-id="wifi-santa-rita" hidden>
+                <img
+                  src="public/images/catedral-de-amargosa.webp"
+                  alt="Wi-Fi na Pra&ccedil;a da Santa Rita" loading="lazy">
+                <div class="card-content">
+                  <h3>Pra&ccedil;a da Santa Rita</h3>
+                  <p class="subtitle-card">Cobertura p&uacute;blica em bairro tradicional</p>
+                  <p>
+                    Fortalece a inclus&atilde;o digital fora da &aacute;rea mais central, ampliando a presen&ccedil;a do servi&ccedil;o para moradores e visitantes que circulam pela regi&atilde;o de Santa Rita
+                  </p>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="wifi-santa-rita">Ver no mapa</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="wifi" data-point-id="wifi-joao-angelo" hidden>
+                <img
+                  src="public/images/hero-calendario-praca-lourival-monte.jpg"
+                  alt="Wi-Fi na Pra&ccedil;a Jo&atilde;o &Acirc;ngelo Pereira" loading="lazy">
+                <div class="card-content">
+                  <h3>Pra&ccedil;a Jo&atilde;o &Acirc;ngelo Pereira</h3>
+                  <p class="subtitle-card">Ponto r&aacute;pido para circula&ccedil;&atilde;o di&aacute;ria</p>
+                  <p>
+                    Serve como apoio para deslocamentos, consultas r&aacute;pidas e comunica&ccedil;&atilde;o em uma &aacute;rea de passagem frequente na malha urbana do munic&iacute;pio
+                  </p>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="wifi-joao-angelo">Ver no mapa</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="wifi" data-point-id="wifi-duque-caxias" hidden>
+                <img
+                  src="public/images/hero-amargosa.jpeg"
+                  alt="Wi-Fi na Pra&ccedil;a Duque de Caxias" loading="lazy">
+                <div class="card-content">
+                  <h3>Pra&ccedil;a Duque de Caxias</h3>
+                  <p class="subtitle-card">Cobertura no entorno comercial</p>
+                  <p>
+                    Ajuda a manter a conex&atilde;o em uma &aacute;rea de servi&ccedil;os e com&eacute;rcio, apoiando quem precisa resolver demandas r&aacute;pidas durante a perman&ecirc;ncia no centro
+                  </p>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="wifi-duque-caxias">Ver no mapa</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="wifi" data-point-id="wifi-cristo" hidden>
+                <img
+                  src="public/images/praca-iraci-silva-praca-do-cristo.jpg"
+                  alt="Wi-Fi na Pra&ccedil;a do Cristo" loading="lazy">
+                <div class="card-content">
+                  <h3>Pra&ccedil;a do Cristo</h3>
+                  <p class="subtitle-card">Ponto emblem&aacute;tico com vista urbana</p>
+                  <p>
+                    Une paisagem, circula&ccedil;&atilde;o e conectividade em um dos pontos mais conhecidos da cidade, facilitando o uso da internet durante o passeio e o registro da visita
+                  </p>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="wifi-cristo">Ver no mapa</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="turistico" data-point-id="tur-jardim">
+                <img
+                  src="public/images/hero-amargosa.jpeg"
+                  alt="Pra&ccedil;a Lourival Monte" loading="lazy">
+                <div class="card-content">
+                  <h3>Pra&ccedil;a Lourival Monte</h3>
+                  <p class="subtitle-card">O Cart&atilde;o-Postal de Amargosa</p>
+                  <p>
+                    A Pra&ccedil;a Lourival Monte, conhecida como "Jardim", &eacute; um dos espa&ccedil;os mais simb&oacute;licos de Amargosa O local re&uacute;ne paisagismo marcante, vida urbana e a presen&ccedil;a da Catedral de Nossa Senhora do Bom Conselho
+                  </p>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="tur-jardim">Ver no mapa</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="turistico" data-point-id="tur-bosque">
+                <img
+                  src="public/images/praca-do-bosque-antiga-estacao.jpg"
+                  alt="Pra&ccedil;a do Bosque" loading="lazy">
+                <div class="card-content">
+                  <h3>Pra&ccedil;a do Bosque</h3>
+                  <p class="subtitle-card">Espa&ccedil;o de conviv&ecirc;ncia e eventos</p>
+                  <p>
+                    A Pra&ccedil;a do Bosque &eacute; um espa&ccedil;o amplo e acolhedor para encontros, passeios em fam&iacute;lia e atividades culturais Sua estrutura recebe eventos e oferece uma &aacute;rea agrad&aacute;vel para lazer e conviv&ecirc;ncia
+                  </p>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="tur-bosque">Ver no mapa</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="turistico" data-point-id="tur-catedral">
+                <img
+                  src="public/images/catedral-de-amargosa.webp"
+                  alt="Catedral de Nossa Senhora do Bom Conselho" loading="lazy">
+                <div class="card-content">
+                  <h3>Catedral de Nossa Senhora do Bom Conselho</h3>
+                  <p class="subtitle-card">Patrim&ocirc;nio Hist&oacute;rico e Arquitet&ocirc;nico</p>
+                  <p>
+                    Localizada na Pra&ccedil;a Lourival Monte, a Catedral &eacute; um importante patrim&ocirc;nio hist&oacute;rico de Amargosa Sua arquitetura barroca preserva mem&oacute;rias religiosas, art&iacute;sticas e culturais da cidade
+                  </p>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="tur-catedral">Ver no mapa</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="turistico" data-point-id="tur-minguara">
+                <img
+                  src="public/images/praca-iraci-silva-praca-do-cristo.jpg"
+                  alt="Pra&ccedil;a da Minguara" loading="lazy">
+                <div class="card-content">
+                  <h3>Pra&ccedil;a da Minguara</h3>
+                  <p class="subtitle-card">Perman&ecirc;ncia e encontro no centro urbano</p>
+                  <p>
+                    A Pra&ccedil;a da Minguara revela o cotidiano de Amargosa com movimento tranquilo, encontros ao ar livre e perman&ecirc;ncia de moradores em diferentes hor&aacute;rios do dia
+                  </p>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="tur-minguara">Ver no mapa</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="turistico" data-point-id="tur-santa-rita">
+                <img
+                  src="public/images/catedral-de-amargosa.webp"
+                  alt="Pra&ccedil;a da Santa Rita" loading="lazy">
+                <div class="card-content">
+                  <h3>Pra&ccedil;a da Santa Rita</h3>
+                  <p class="subtitle-card">Mem&oacute;ria religiosa e identidade de bairro</p>
+                  <p>
+                    Na regi&atilde;o de Santa Rita, a pra&ccedil;a comp&otilde;e um cen&aacute;rio de forte identidade comunit&aacute;ria, com presen&ccedil;a marcante na vida do bairro e liga&ccedil;&atilde;o com encontros locais
+                  </p>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="tur-santa-rita">Ver no mapa</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="turistico" data-point-id="tur-joao-angelo">
+                <img
+                  src="public/images/hero-calendario-praca-lourival-monte.jpg"
+                  alt="Pra&ccedil;a Jo&atilde;o &Acirc;ngelo Pereira" loading="lazy">
+                <div class="card-content">
+                  <h3>Pra&ccedil;a Jo&atilde;o &Acirc;ngelo Pereira</h3>
+                  <p class="subtitle-card">Circula&ccedil;&atilde;o e vida cotidiana no centro</p>
+                  <p>
+                    A Pra&ccedil;a Jo&atilde;o &Acirc;ngelo Pereira integra a paisagem urbana do centro e funciona como ponto de passagem e perman&ecirc;ncia, conectando com&eacute;rcio, servi&ccedil;os e o ritmo di&aacute;rio da cidade
+                  </p>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="tur-joao-angelo">Ver no mapa</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="turistico" data-point-id="tur-duque-caxias">
+                <img
+                  src="public/images/hero-amargosa.jpeg"
+                  alt="Pra&ccedil;a Duque de Caxias" loading="lazy">
+                <div class="card-content">
+                  <h3>Pra&ccedil;a Duque de Caxias</h3>
+                  <p class="subtitle-card">Entorno comercial e experi&ecirc;ncia do centro</p>
+                  <p>
+                    A Pra&ccedil;a Duque de Caxias se destaca pela localiza&ccedil;&atilde;o estrat&eacute;gica em uma &aacute;rea de servi&ccedil;os e com&eacute;rcio, compondo a experi&ecirc;ncia de quem percorre o centro de Amargosa
+                  </p>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="tur-duque-caxias">Ver no mapa</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="turistico" data-point-id="tur-cristo">
+                <img
+                  src="public/images/praca-iraci-silva-praca-do-cristo.jpg"
+                  alt="Pra&ccedil;a do Cristo em Amargosa" loading="lazy">
+                <div class="card-content">
+                  <h3>Pra&ccedil;a do Cristo</h3>
+                  <p class="subtitle-card">Vista urbana e passeio ao ar livre</p>
+                  <p>
+                    A Pra&ccedil;a do Cristo oferece um ponto conhecido da cidade para contempla&ccedil;&atilde;o, caminhada e registro de visita, reunindo paisagem urbana e atmosfera tranquila em um dos espa&ccedil;os mais lembrados de Amargosa
+                  </p>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="tur-cristo">Ver no mapa</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="turistico" data-point-id="tur-barreiros">
+                <img
+                  src="public/images/hero-calendario-praca-lourival-monte.jpg"
+                  alt="Pracinha dos Barreiros" loading="lazy">
+                <div class="card-content">
+                  <h3>Pracinha dos Barreiros</h3>
+                  <p class="subtitle-card">Encontro comunit&aacute;rio e lazer de bairro</p>
+                  <p>
+                    A Pracinha dos Barreiros &eacute; um espa&ccedil;o de lazer cotidiano que re&uacute;ne moradores em encontros, descanso e atividades ao ar livre, refor&ccedil;ando a identidade afetiva das pra&ccedil;as de Amargosa
+                  </p>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="tur-barreiros">Ver no mapa</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="gastronomia" data-point-id="gas-casa-da-feijoada" hidden>
+                <img
+                  src="public/images/gastronomia/casa-da-feijoada.png"
+                  alt="Casa da Feijoada" loading="lazy">
+                <div class="card-content">
+                  <h3>Casa da Feijoada</h3>
+                  <p class="subtitle-card">Aqui voc&ecirc; encontra a melhor feijoada de Amargosa</p>
+                  <p>
+                    Refer&ecirc;ncia para almo&ccedil;o no centro da cidade, com servi&ccedil;o di&aacute;rio e identidade gastron&ocirc;mica bem conhecida entre moradores e visitantes
+                  </p>
+                  <div class="card-meta">
+                    <span>Todos os dias, das 11h &agrave;s 15h</span>
+                    <span>Rua Conselheiro Dantas, 15, Centro</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="gas-casa-da-feijoada">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--instagram card-link--icon" href="https://www.instagram.com/casadafeijoada_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                        <span class="sr-only">Instagram</span>
+                      </a>
+                      <a class="card-link card-link--whatsapp card-link--icon" href="https://wa.me/5575988251394" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.57 0 .29 5.28.29 11.79c0 2.08.54 4.11 1.56 5.91L0 24l6.48-1.7a11.78 11.78 0 0 0 5.6 1.43h.01c6.5 0 11.79-5.29 11.79-11.8a11.7 11.7 0 0 0-3.36-8.45ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1.01 1.03-3.75-.24-.39a9.77 9.77 0 0 1-1.5-5.2c0-5.43 4.42-9.84 9.86-9.84 2.63 0 5.1 1.02 6.95 2.88a9.77 9.77 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.85 9.86Zm5.4-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.08-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.24.48 1.66.62.7.22 1.34.19 1.85.12.56-.08 1.77-.72 2.02-1.42.25-.69.25-1.28.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+                        <span class="sr-only">WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="gastronomia" data-point-id="gas-chef-restaurante" hidden>
+                <img
+                  src="public/images/gastronomia/chef-restaurante-e-pizzaria.png"
+                  alt="Chef Restaurante e Pizzaria" loading="lazy">
+                <div class="card-content">
+                  <h3>Chef Restaurante e Pizzaria</h3>
+                  <p class="subtitle-card">A sua pizzaria no Valle Shopping</p>
+                  <p>
+                    Op&ccedil;&atilde;o para refei&ccedil;&otilde;es e pizzas no Valle Shopping, com atendimento di&aacute;rio e foco em consumo local e delivery
+                  </p>
+                  <div class="card-meta">
+                    <span>Todos os dias, das 16h &agrave;s 22h</span>
+                    <span>Valle Shopping, Avenida Doutor Luis Sande de Oliveira, 196</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="gas-chef-restaurante">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--instagram card-link--icon" href="https://www.instagram.com/chefpizzaria_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                        <span class="sr-only">Instagram</span>
+                      </a>
+                      <a class="card-link card-link--whatsapp card-link--icon" href="https://wa.me/5575999130774" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.57 0 .29 5.28.29 11.79c0 2.08.54 4.11 1.56 5.91L0 24l6.48-1.7a11.78 11.78 0 0 0 5.6 1.43h.01c6.5 0 11.79-5.29 11.79-11.8a11.7 11.7 0 0 0-3.36-8.45ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1.01 1.03-3.75-.24-.39a9.77 9.77 0 0 1-1.5-5.2c0-5.43 4.42-9.84 9.86-9.84 2.63 0 5.1 1.02 6.95 2.88a9.77 9.77 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.85 9.86Zm5.4-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.08-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.24.48 1.66.62.7.22 1.34.19 1.85.12.56-.08 1.77-.72 2.02-1.42.25-.69.25-1.28.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+                        <span class="sr-only">WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="gastronomia" data-point-id="gas-cantinho-da-evely" hidden>
+                <img
+                  src="public/images/gastronomia/cantinho-da-evely.jpg"
+                  alt="Cantinho da Evely" loading="lazy">
+                <div class="card-content">
+                  <h3>Cantinho da Evely</h3>
+                  <p class="subtitle-card">Refei&ccedil;&otilde;es no Valle Shopping</p>
+                  <p>
+                    Espa&ccedil;o gastron&ocirc;mico com atendimento ao longo da semana e presen&ccedil;a ativa nas redes para pedidos e novidades
+                  </p>
+                  <div class="card-meta">
+                    <span>Segunda a partir das 15h; ter&ccedil;a a s&aacute;bado a partir das 11h30; domingo a partir das 12h30</span>
+                    <span>Valle Shopping, Avenida Doutor Luis Sande de Oliveira, 196</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="gas-cantinho-da-evely">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--instagram card-link--icon" href="https://www.instagram.com/cantinho_evely/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                        <span class="sr-only">Instagram</span>
+                      </a>
+                      <a class="card-link card-link--whatsapp card-link--icon" href="https://wa.me/5575988182644" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.57 0 .29 5.28.29 11.79c0 2.08.54 4.11 1.56 5.91L0 24l6.48-1.7a11.78 11.78 0 0 0 5.6 1.43h.01c6.5 0 11.79-5.29 11.79-11.8a11.7 11.7 0 0 0-3.36-8.45ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1.01 1.03-3.75-.24-.39a9.77 9.77 0 0 1-1.5-5.2c0-5.43 4.42-9.84 9.86-9.84 2.63 0 5.1 1.02 6.95 2.88a9.77 9.77 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.85 9.86Zm5.4-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.08-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.24.48 1.66.62.7.22 1.34.19 1.85.12.56-.08 1.77-.72 2.02-1.42.25-.69.25-1.28.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+                        <span class="sr-only">WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="gastronomia" data-point-id="gas-3-marias" hidden>
+                <img
+                  src="public/images/gastronomia/3-marias.jpg"
+                  alt="3 Marias" loading="lazy">
+                <div class="card-content">
+                  <h3>3 Marias</h3>
+                  <p class="subtitle-card">Caf&eacute; da manh&atilde; na Pra&ccedil;a dos Correios</p>
+                  <p>
+                    Ponto indicado para caf&eacute; da manh&atilde; e refei&ccedil;&otilde;es leves, em local central e de f&aacute;cil acesso para quem circula pela cidade
+                  </p>
+                  <div class="card-meta">
+                    <span>Todos os dias, das 9h &agrave;s 19h</span>
+                    <span>Pra&ccedil;a dos Correios</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="gas-3-marias">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--instagram card-link--icon" href="https://www.instagram.com/3mariasamargosa/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                        <span class="sr-only">Instagram</span>
+                      </a>
+                      <a class="card-link card-link--whatsapp card-link--icon" href="https://wa.me/5575992287847" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.57 0 .29 5.28.29 11.79c0 2.08.54 4.11 1.56 5.91L0 24l6.48-1.7a11.78 11.78 0 0 0 5.6 1.43h.01c6.5 0 11.79-5.29 11.79-11.8a11.7 11.7 0 0 0-3.36-8.45ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1.01 1.03-3.75-.24-.39a9.77 9.77 0 0 1-1.5-5.2c0-5.43 4.42-9.84 9.86-9.84 2.63 0 5.1 1.02 6.95 2.88a9.77 9.77 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.85 9.86Zm5.4-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.08-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.24.48 1.66.62.7.22 1.34.19 1.85.12.56-.08 1.77-.72 2.02-1.42.25-.69.25-1.28.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+                        <span class="sr-only">WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="gastronomia" data-point-id="gas-boteco-boliche" hidden>
+                <img
+                  src="public/images/gastronomia/boteco-boliche.webp"
+                  alt="Boteco Boliche" loading="lazy">
+                <div class="card-content">
+                  <h3>Boteco Boliche</h3>
+                  <p class="subtitle-card">Parada descontra&iacute;da no Valle Shopping</p>
+                  <p>
+                    Espa&ccedil;o para encontro informal e consumo r&aacute;pido, integrado ao fluxo comercial do Valle Shopping
+                  </p>
+                  <div class="card-meta">
+                    <span>Todos os dias, a partir das 9h</span>
+                    <span>Valle Shopping, Avenida Doutor Luis Sande de Oliveira, 196</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="gas-boteco-boliche">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--instagram card-link--icon" href="https://www.instagram.com/botecodoboliche/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                        <span class="sr-only">Instagram</span>
+                      </a>
+                      <a class="card-link card-link--whatsapp card-link--icon" href="https://wa.me/5575998723955" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.57 0 .29 5.28.29 11.79c0 2.08.54 4.11 1.56 5.91L0 24l6.48-1.7a11.78 11.78 0 0 0 5.6 1.43h.01c6.5 0 11.79-5.29 11.79-11.8a11.7 11.7 0 0 0-3.36-8.45ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1.01 1.03-3.75-.24-.39a9.77 9.77 0 0 1-1.5-5.2c0-5.43 4.42-9.84 9.86-9.84 2.63 0 5.1 1.02 6.95 2.88a9.77 9.77 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.85 9.86Zm5.4-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.08-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.24.48 1.66.62.7.22 1.34.19 1.85.12.56-.08 1.77-.72 2.02-1.42.25-.69.25-1.28.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+                        <span class="sr-only">WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="gastronomia" data-point-id="gas-villa-galicia" hidden>
+                <img
+                  src="public/images/gastronomia/villa-galicia-horto.webp"
+                  alt="Villa Galicia Horto Restaurante" loading="lazy">
+                <div class="card-content">
+                  <h3>Villa Gal&iacute;cia Horto Restaurante</h3>
+                  <p class="subtitle-card">Almo&ccedil;o e experi&ecirc;ncia gastron&ocirc;mica</p>
+                  <p>
+                    Restaurante indicado para refei&ccedil;&otilde;es com atmosfera mais reservada, com funcionamento regular durante o dia e atendimento noturno por reserva
+                  </p>
+                  <div class="card-meta">
+                    <span>Quarta a domingo, das 11h &agrave;s 17h; &agrave; noite apenas com reserva</span>
+                    <span>Av Lomanto J&uacute;nior, n&ordm; 35</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="gas-villa-galicia">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--instagram card-link--icon" href="https://www.instagram.com/hortovillagalicia/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                        <span class="sr-only">Instagram</span>
+                      </a>
+                      <a class="card-link card-link--whatsapp card-link--icon" href="https://wa.me/5575988363209" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.57 0 .29 5.28.29 11.79c0 2.08.54 4.11 1.56 5.91L0 24l6.48-1.7a11.78 11.78 0 0 0 5.6 1.43h.01c6.5 0 11.79-5.29 11.79-11.8a11.7 11.7 0 0 0-3.36-8.45ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1.01 1.03-3.75-.24-.39a9.77 9.77 0 0 1-1.5-5.2c0-5.43 4.42-9.84 9.86-9.84 2.63 0 5.1 1.02 6.95 2.88a9.77 9.77 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.85 9.86Zm5.4-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.08-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.24.48 1.66.62.7.22 1.34.19 1.85.12.56-.08 1.77-.72 2.02-1.42.25-.69.25-1.28.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+                        <span class="sr-only">WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="gastronomia" data-point-id="gas-bella-roma" hidden>
+                <img
+                  src="public/images/gastronomia/bella-roma.webp"
+                  alt="Restaurante Bella Roma" loading="lazy">
+                <div class="card-content">
+                  <h3>Restaurante Bella Roma</h3>
+                  <p class="subtitle-card">Pr&oacute;ximo ao Largo Maracan&atilde;</p>
+                  <p>
+                    Restaurante em uma &aacute;rea movimentada da cidade, com abertura regular para almo&ccedil;o e reuni&otilde;es em fam&iacute;lia
+                  </p>
+                  <div class="card-meta">
+                    <span>Ter&ccedil;a a domingo, a partir das 11h</span>
+                    <span>Rio Branco, ao lado do Largo Maracan&atilde;</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="gas-bella-roma">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--instagram card-link--icon" href="https://www.instagram.com/restaurantebellaroma/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                        <span class="sr-only">Instagram</span>
+                      </a>
+                      <a class="card-link card-link--whatsapp card-link--icon" href="https://wa.me/5575999022406" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.57 0 .29 5.28.29 11.79c0 2.08.54 4.11 1.56 5.91L0 24l6.48-1.7a11.78 11.78 0 0 0 5.6 1.43h.01c6.5 0 11.79-5.29 11.79-11.8a11.7 11.7 0 0 0-3.36-8.45ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1.01 1.03-3.75-.24-.39a9.77 9.77 0 0 1-1.5-5.2c0-5.43 4.42-9.84 9.86-9.84 2.63 0 5.1 1.02 6.95 2.88a9.77 9.77 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.85 9.86Zm5.4-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.08-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.24.48 1.66.62.7.22 1.34.19 1.85.12.56-.08 1.77-.72 2.02-1.42.25-.69.25-1.28.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+                        <span class="sr-only">WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="gastronomia" data-point-id="gas-volupe" hidden>
+                <img
+                  src="public/images/gastronomia/volupe-gastro-bar.webp"
+                  alt="Volupe Gastro Bar" loading="lazy">
+                <div class="card-content">
+                  <h3>Volupe Gastro Bar</h3>
+                  <p class="subtitle-card">Noite e encontros no centro</p>
+                  <p>
+                    Espa&ccedil;o gastron&ocirc;mico voltado para a vida noturna, com funcionamento estendido e ambiente de encontros no centro de Amargosa
+                  </p>
+                  <div class="card-meta">
+                    <span>Todos os dias, das 18h &agrave; 0h; s&aacute;bados at&eacute; 2h</span>
+                    <span>R da Lapinha, 209, Centro</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="gas-volupe">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--instagram card-link--icon" href="https://www.instagram.com/volupegastrobar/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                        <span class="sr-only">Instagram</span>
+                      </a>
+                      <a class="card-link card-link--whatsapp card-link--icon" href="https://wa.me/5575991982702" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.57 0 .29 5.28.29 11.79c0 2.08.54 4.11 1.56 5.91L0 24l6.48-1.7a11.78 11.78 0 0 0 5.6 1.43h.01c6.5 0 11.79-5.29 11.79-11.8a11.7 11.7 0 0 0-3.36-8.45ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1.01 1.03-3.75-.24-.39a9.77 9.77 0 0 1-1.5-5.2c0-5.43 4.42-9.84 9.86-9.84 2.63 0 5.1 1.02 6.95 2.88a9.77 9.77 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.85 9.86Zm5.4-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.08-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.24.48 1.66.62.7.22 1.34.19 1.85.12.56-.08 1.77-.72 2.02-1.42.25-.69.25-1.28.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+                        <span class="sr-only">WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="gastronomia" data-point-id="gas-saori" hidden>
+                <img
+                  src="public/images/gastronomia/saori-sushi.webp"
+                  alt="Saori Sushi" loading="lazy">
+                <div class="card-content">
+                  <h3>Saori Sushi</h3>
+                  <p class="subtitle-card">Culin&aacute;ria japonesa no Amarcenter</p>
+                  <p>
+                    Op&ccedil;&atilde;o para quem busca sushi e pratos orientais, com atendimento noturno em uma &aacute;rea de f&aacute;cil acesso
+                  </p>
+                  <div class="card-meta">
+                    <span>Quinta a domingo, das 18h &agrave;s 22h</span>
+                    <span>Travessa Benito Almeida, Amarcenter</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="gas-saori">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--instagram card-link--icon" href="https://www.instagram.com/saori_sushihouse/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                        <span class="sr-only">Instagram</span>
+                      </a>
+                      <a class="card-link card-link--whatsapp card-link--icon" href="https://wa.me/5575988275216" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.57 0 .29 5.28.29 11.79c0 2.08.54 4.11 1.56 5.91L0 24l6.48-1.7a11.78 11.78 0 0 0 5.6 1.43h.01c6.5 0 11.79-5.29 11.79-11.8a11.7 11.7 0 0 0-3.36-8.45ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1.01 1.03-3.75-.24-.39a9.77 9.77 0 0 1-1.5-5.2c0-5.43 4.42-9.84 9.86-9.84 2.63 0 5.1 1.02 6.95 2.88a9.77 9.77 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.85 9.86Zm5.4-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.08-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.24.48 1.66.62.7.22 1.34.19 1.85.12.56-.08 1.77-.72 2.02-1.42.25-.69.25-1.28.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+                        <span class="sr-only">WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="gastronomia" data-point-id="gas-americano" hidden>
+                <img
+                  src="public/images/gastronomia/americano-bar-e-lanchonete.jpg"
+                  alt="Americano Bar e Lanchonete" loading="lazy">
+                <div class="card-content">
+                  <h3>Americano Bar e Lanchonete</h3>
+                  <p class="subtitle-card">Parada cl&aacute;ssica na Av Lomanto J&uacute;nior</p>
+                  <p>
+                    Espa&ccedil;o para lanches e encontros informais em um dos corredores urbanos mais conhecidos da cidade
+                  </p>
+                  <div class="card-meta">
+                    <span>Todos os dias, a partir das 8h</span>
+                    <span>Avenida Lomanto J&uacute;nior, 117, Centro</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="gas-americano">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--whatsapp card-link--icon" href="https://wa.me/5575988035650" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.57 0 .29 5.28.29 11.79c0 2.08.54 4.11 1.56 5.91L0 24l6.48-1.7a11.78 11.78 0 0 0 5.6 1.43h.01c6.5 0 11.79-5.29 11.79-11.8a11.7 11.7 0 0 0-3.36-8.45ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1.01 1.03-3.75-.24-.39a9.77 9.77 0 0 1-1.5-5.2c0-5.43 4.42-9.84 9.86-9.84 2.63 0 5.1 1.02 6.95 2.88a9.77 9.77 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.85 9.86Zm5.4-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.08-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.24.48 1.66.62.7.22 1.34.19 1.85.12.56-.08 1.77-.72 2.02-1.42.25-.69.25-1.28.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+                        <span class="sr-only">WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="gastronomia" data-point-id="gas-pug-efemero" hidden>
+                <img
+                  src="public/images/gastronomia/pub-e-bar-efemero.png"
+                  alt="Pub e Bar Ef&ecirc;mero" loading="lazy">
+                <div class="card-content">
+                  <h3>Pub e Bar Ef&ecirc;mero</h3>
+                  <p class="subtitle-card">Bar pr&oacute;ximo ao Bosque</p>
+                  <p>
+                    Op&ccedil;&atilde;o para encontros noturnos em uma regi&atilde;o j&aacute; conhecida pelo fluxo de bares e restaurantes na cidade
+                  </p>
+                  <div class="card-meta">
+                    <span>Quinta a domingo, das 19h &agrave;s 23h</span>
+                    <span>R Carlos Gomes, pr&oacute;ximo ao Bosque</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="gas-pug-efemero">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--instagram card-link--icon" href="https://instagram.com/efemero_craft_beer/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                        <span class="sr-only">Instagram</span>
+                      </a>
+                      <a class="card-link card-link--whatsapp card-link--icon" href="https://wa.me/5575988665360" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.57 0 .29 5.28.29 11.79c0 2.08.54 4.11 1.56 5.91L0 24l6.48-1.7a11.78 11.78 0 0 0 5.6 1.43h.01c6.5 0 11.79-5.29 11.79-11.8a11.7 11.7 0 0 0-3.36-8.45ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1.01 1.03-3.75-.24-.39a9.77 9.77 0 0 1-1.5-5.2c0-5.43 4.42-9.84 9.86-9.84 2.63 0 5.1 1.02 6.95 2.88a9.77 9.77 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.85 9.86Zm5.4-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.08-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.24.48 1.66.62.7.22 1.34.19 1.85.12.56-.08 1.77-.72 2.02-1.42.25-.69.25-1.28.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+                        <span class="sr-only">WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="gastronomia" data-point-id="gas-restaurante-sias" hidden>
+                <img
+                  src="public/images/gastronomia/restaurante-do-sias.webp"
+                  alt="Restaurante e Pizzaria do Sias" loading="lazy">
+                <div class="card-content">
+                  <h3>Restaurante e Pizzaria do Sias</h3>
+                  <p class="subtitle-card">Em frente &agrave; Pra&ccedil;a Iraci Silva</p>
+                  <p>
+                    Restaurante de funcionamento di&aacute;rio em um ponto urbano de f&aacute;cil localiza&ccedil;&atilde;o, pr&oacute;ximo a uma das pra&ccedil;as mais conhecidas da cidade
+                  </p>
+                  <div class="card-meta">
+                    <span>Todos os dias, das 11h &agrave;s 22h</span>
+                    <span>Travessa Almeida Sampaio, 250</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="gas-restaurante-sias">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--instagram card-link--icon" href="https://www.instagram.com/restauranteepizzariadosias_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                        <span class="sr-only">Instagram</span>
+                      </a>
+                      <a class="card-link card-link--whatsapp card-link--icon" href="https://wa.me/5575988610863" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.57 0 .29 5.28.29 11.79c0 2.08.54 4.11 1.56 5.91L0 24l6.48-1.7a11.78 11.78 0 0 0 5.6 1.43h.01c6.5 0 11.79-5.29 11.79-11.8a11.7 11.7 0 0 0-3.36-8.45ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1.01 1.03-3.75-.24-.39a9.77 9.77 0 0 1-1.5-5.2c0-5.43 4.42-9.84 9.86-9.84 2.63 0 5.1 1.02 6.95 2.88a9.77 9.77 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.85 9.86Zm5.4-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.08-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.24.48 1.66.62.7.22 1.34.19 1.85.12.56-.08 1.77-.72 2.02-1.42.25-.69.25-1.28.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+                        <span class="sr-only">WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="hotel" data-point-id="hotel-calisto" hidden>
+                <img
+                  src="public/images/pousadas/calisto.webp"
+                  alt="Pousada Calisto" loading="lazy">
+                <div class="card-content">
+                  <h3>Hotel e Pousada Calisto</h3>
+                  <p class="subtitle-card">Hospedagem com caf&eacute; da manh&atilde;</p>
+                  <p>
+                    Op&ccedil;&atilde;o de hospedagem em &aacute;rea urbana de Amargosa, com servi&ccedil;o de caf&eacute; da manh&atilde; e localiza&ccedil;&atilde;o de f&aacute;cil acesso
+                  </p>
+                  <div class="card-meta">
+                    <span>Aberto</span>
+                    <span>Caf&eacute; da manh&atilde; incluso</span>
+                    <span>Av Abelardo Veloso, 258</span>
+                    <span>nkcarlisto@gmailcom</span>
+                    <span>(75) 3634-1317 / 99915-2095 / 98804-1865</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="hotel-calisto">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--instagram card-link--icon" href="https://www.instagram.com/hotelcalisto/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                        <span class="sr-only">Instagram</span>
+                      </a>
+                      <a class="card-link card-link--email card-link--icon" href="mailto:nkcarlisto@gmail.com" aria-label="E-mail" title="E-mail">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.25A2.25 2.25 0 0 1 5.25 3h13.5A2.25 2.25 0 0 1 21 5.25v13.5A2.25 2.25 0 0 1 18.75 21H5.25A2.25 2.25 0 0 1 3 18.75V5.25Zm1.8.37v.28l7.2 5.4 7.2-5.4v-.28a.45.45 0 0 0-.45-.45H5.25a.45.45 0 0 0-.45.45Zm14.4 2.53-6.66 4.99a.9.9 0 0 1-1.08 0L4.8 8.15v10.6c0 .25.2.45.45.45h13.5c.25 0 .45-.2.45-.45V8.15Z"/></svg>
+                        <span class="sr-only">E-mail</span>
+                      </a>
+                      <a class="card-link card-link--whatsapp card-link--icon" href="https://wa.me/5575999152095" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.57 0 .29 5.28.29 11.79c0 2.08.54 4.11 1.56 5.91L0 24l6.48-1.7a11.78 11.78 0 0 0 5.6 1.43h.01c6.5 0 11.79-5.29 11.79-11.8a11.7 11.7 0 0 0-3.36-8.45ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1.01 1.03-3.75-.24-.39a9.77 9.77 0 0 1-1.5-5.2c0-5.43 4.42-9.84 9.86-9.84 2.63 0 5.1 1.02 6.95 2.88a9.77 9.77 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.85 9.86Zm5.4-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.08-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.24.48 1.66.62.7.22 1.34.19 1.85.12.56-.08 1.77-.72 2.02-1.42.25-.69.25-1.28.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+                        <span class="sr-only">WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="hotel" data-point-id="hotel-colibri" hidden>
+                <img
+                  src="public/images/pousadas/colibri.webp"
+                  alt="Hotel Fazenda Colibri" loading="lazy">
+                <div class="card-content">
+                  <h3>Hotel Fazenda Colibri</h3>
+                  <p class="subtitle-card">Estadia na rota Amargosa-Mutu&iacute;pe</p>
+                  <p>
+                    Op&ccedil;&atilde;o de hospedagem com perfil de hotel fazenda para quem busca estadia em ambiente mais tranquilo e com acesso pela rodovia
+                  </p>
+                  <div class="card-meta">
+                    <span>Aberto todos os dias</span>
+                    <span>Rodovia Amargosa-Mutuipe, km 2</span>
+                    <span>hotelfazendacolibri@hotmailcom</span>
+                    <span>(75) 3634-1009</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="hotel-colibri">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--instagram card-link--icon" href="https://www.instagram.com/hotelfazendacolibri/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                        <span class="sr-only">Instagram</span>
+                      </a>
+                      <a class="card-link card-link--email card-link--icon" href="mailto:hotelfazendacolibri@hotmail.com" aria-label="E-mail" title="E-mail">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.25A2.25 2.25 0 0 1 5.25 3h13.5A2.25 2.25 0 0 1 21 5.25v13.5A2.25 2.25 0 0 1 18.75 21H5.25A2.25 2.25 0 0 1 3 18.75V5.25Zm1.8.37v.28l7.2 5.4 7.2-5.4v-.28a.45.45 0 0 0-.45-.45H5.25a.45.45 0 0 0-.45.45Zm14.4 2.53-6.66 4.99a.9.9 0 0 1-1.08 0L4.8 8.15v10.6c0 .25.2.45.45.45h13.5c.25 0 .45-.2.45-.45V8.15Z"/></svg>
+                        <span class="sr-only">E-mail</span>
+                      </a>
+                      <a class="card-link card-link--phone card-link--icon" href="tel:+557536341009" aria-label="Contato" title="Contato">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 2.93c.3-.3.75-.4 1.14-.25l2.3.86c.52.19.83.73.74 1.28l-.39 2.36a1.35 1.35 0 0 1-.78 1.02l-1.42.68a14.57 14.57 0 0 0 6.91 6.91l.68-1.42c.18-.38.56-.66 1.02-.78l2.36-.39c.55-.09 1.09.22 1.28.74l.86 2.3c.15.39.05.84-.25 1.14l-1.26 1.26c-.77.77-1.9 1.1-2.97.87-2.66-.59-5.2-1.98-7.58-4.35-2.37-2.38-3.76-4.92-4.35-7.58-.23-1.07.1-2.2.87-2.97l1.26-1.26Z"/></svg>
+                        <span class="sr-only">Contato</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="hotel" data-point-id="hotel-vale-aguas" hidden>
+                <img
+                  src="public/images/pousadas/vale-das-aguas.webp"
+                  alt="Hotel Fazenda Vale das &Aacute;guas" loading="lazy">
+                <div class="card-content">
+                  <h3>Hotel Fazenda Vale das &Aacute;guas</h3>
+                  <p class="subtitle-card">Hospedagem rural na rodovia</p>
+                  <p>
+                    Estadia com perfil de hotel fazenda na rodovia Amargosa-Mutuipe, indicada para visitantes que buscam uma experi&ecirc;ncia de hospedagem mais reservada
+                  </p>
+                  <div class="card-meta">
+                    <span>Aberto todos os dias</span>
+                    <span>BA-540, km 5, Fazenda Reunidas Ribeir&atilde;o do Cupido</span>
+                    <span>nubiamoares123@gmailcom</span>
+                    <span>(75) 98897-1241</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="hotel-vale-aguas">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--instagram card-link--icon" href="https://www.instagram.com/hfvaledasaguas/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                        <span class="sr-only">Instagram</span>
+                      </a>
+                      <a class="card-link card-link--email card-link--icon" href="mailto:nubiamoares123@gmail.com" aria-label="E-mail" title="E-mail">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.25A2.25 2.25 0 0 1 5.25 3h13.5A2.25 2.25 0 0 1 21 5.25v13.5A2.25 2.25 0 0 1 18.75 21H5.25A2.25 2.25 0 0 1 3 18.75V5.25Zm1.8.37v.28l7.2 5.4 7.2-5.4v-.28a.45.45 0 0 0-.45-.45H5.25a.45.45 0 0 0-.45.45Zm14.4 2.53-6.66 4.99a.9.9 0 0 1-1.08 0L4.8 8.15v10.6c0 .25.2.45.45.45h13.5c.25 0 .45-.2.45-.45V8.15Z"/></svg>
+                        <span class="sr-only">E-mail</span>
+                      </a>
+                      <a class="card-link card-link--whatsapp card-link--icon" href="https://wa.me/5575988971241" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.57 0 .29 5.28.29 11.79c0 2.08.54 4.11 1.56 5.91L0 24l6.48-1.7a11.78 11.78 0 0 0 5.6 1.43h.01c6.5 0 11.79-5.29 11.79-11.8a11.7 11.7 0 0 0-3.36-8.45ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1.01 1.03-3.75-.24-.39a9.77 9.77 0 0 1-1.5-5.2c0-5.43 4.42-9.84 9.86-9.84 2.63 0 5.1 1.02 6.95 2.88a9.77 9.77 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.85 9.86Zm5.4-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.08-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.24.48 1.66.62.7.22 1.34.19 1.85.12.56-.08 1.77-.72 2.02-1.42.25-.69.25-1.28.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+                        <span class="sr-only">WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="hotel" data-point-id="hotel-katiara" hidden>
+                <img
+                  src="public/images/pousadas/katiara.webp"
+                  alt="Pousada Katiara" loading="lazy">
+                <div class="card-content">
+                  <h3>Pousada Katiara</h3>
+                  <p class="subtitle-card">Hospedagem urbana em Amargosa</p>
+                  <p>
+                    Op&ccedil;&atilde;o de pousada cadastrada no guia local, com contato direto por e-mail e telefone
+                  </p>
+                  <div class="card-meta">
+                    <span>Avenida Abelardo Veloso, 470, Centro</span>
+                    <span>pousadakatiara@yahoocombr</span>
+                    <span>(75) 3634-1075</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="hotel-katiara">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--instagram card-link--icon" href="https://www.instagram.com/pousadakatyara/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                        <span class="sr-only">Instagram</span>
+                      </a>
+                      <a class="card-link card-link--email card-link--icon" href="mailto:pousadakatiara@yahoo.com.br" aria-label="E-mail" title="E-mail">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.25A2.25 2.25 0 0 1 5.25 3h13.5A2.25 2.25 0 0 1 21 5.25v13.5A2.25 2.25 0 0 1 18.75 21H5.25A2.25 2.25 0 0 1 3 18.75V5.25Zm1.8.37v.28l7.2 5.4 7.2-5.4v-.28a.45.45 0 0 0-.45-.45H5.25a.45.45 0 0 0-.45.45Zm14.4 2.53-6.66 4.99a.9.9 0 0 1-1.08 0L4.8 8.15v10.6c0 .25.2.45.45.45h13.5c.25 0 .45-.2.45-.45V8.15Z"/></svg>
+                        <span class="sr-only">E-mail</span>
+                      </a>
+                      <a class="card-link card-link--phone card-link--icon" href="tel:+557536341075" aria-label="Contato" title="Contato">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 2.93c.3-.3.75-.4 1.14-.25l2.3.86c.52.19.83.73.74 1.28l-.39 2.36a1.35 1.35 0 0 1-.78 1.02l-1.42.68a14.57 14.57 0 0 0 6.91 6.91l.68-1.42c.18-.38.56-.66 1.02-.78l2.36-.39c.55-.09 1.09.22 1.28.74l.86 2.3c.15.39.05.84-.25 1.14l-1.26 1.26c-.77.77-1.9 1.1-2.97.87-2.66-.59-5.2-1.98-7.58-4.35-2.37-2.38-3.76-4.92-4.35-7.58-.23-1.07.1-2.2.87-2.97l1.26-1.26Z"/></svg>
+                        <span class="sr-only">Contato</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="hotel" data-point-id="hotel-girassol" hidden>
+                <img
+                  src="public/images/pousadas/girassol.webp"
+                  alt="Pousada Girassol" loading="lazy">
+                <div class="card-content">
+                  <h3>Pousada Girassol</h3>
+                  <p class="subtitle-card">Contato direto para hospedagem</p>
+                  <p>
+                    Meio de hospedagem com atendimento por e-mail e telefone m&oacute;vel para reservas e informa&ccedil;&otilde;es
+                  </p>
+                  <div class="card-meta">
+                    <span>Avenida Doutor Abelardo Velloso, 522, Centro</span>
+                    <span>gilsonantonio@gmailcom</span>
+                    <span>(75) 98859-8303</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="hotel-girassol">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--email card-link--icon" href="mailto:gilsonantonio@gmail.com" aria-label="E-mail" title="E-mail">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.25A2.25 2.25 0 0 1 5.25 3h13.5A2.25 2.25 0 0 1 21 5.25v13.5A2.25 2.25 0 0 1 18.75 21H5.25A2.25 2.25 0 0 1 3 18.75V5.25Zm1.8.37v.28l7.2 5.4 7.2-5.4v-.28a.45.45 0 0 0-.45-.45H5.25a.45.45 0 0 0-.45.45Zm14.4 2.53-6.66 4.99a.9.9 0 0 1-1.08 0L4.8 8.15v10.6c0 .25.2.45.45.45h13.5c.25 0 .45-.2.45-.45V8.15Z"/></svg>
+                        <span class="sr-only">E-mail</span>
+                      </a>
+                      <a class="card-link card-link--whatsapp card-link--icon" href="https://wa.me/5575988598303" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.57 0 .29 5.28.29 11.79c0 2.08.54 4.11 1.56 5.91L0 24l6.48-1.7a11.78 11.78 0 0 0 5.6 1.43h.01c6.5 0 11.79-5.29 11.79-11.8a11.7 11.7 0 0 0-3.36-8.45ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1.01 1.03-3.75-.24-.39a9.77 9.77 0 0 1-1.5-5.2c0-5.43 4.42-9.84 9.86-9.84 2.63 0 5.1 1.02 6.95 2.88a9.77 9.77 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.85 9.86Zm5.4-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.08-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.24.48 1.66.62.7.22 1.34.19 1.85.12.56-.08 1.77-.72 2.02-1.42.25-.69.25-1.28.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+                        <span class="sr-only">WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="hotel" data-point-id="hotel-bosque" hidden>
+                <img
+                  src="public/images/pousadas/bosque.webp"
+                  alt="Pousada do Bosque" loading="lazy">
+                <div class="card-content">
+                  <h3>Pousada do Bosque</h3>
+                  <p class="subtitle-card">Reserva por e-mail e telefone</p>
+                  <p>
+                    Pousada com canal de reservas por e-mail, presente na rela&ccedil;&atilde;o local de hospedagens
+                  </p>
+                  <div class="card-meta">
+                    <span>Pra&ccedil;a da Bandeira, 269, Centro</span>
+                    <span>reservas@pousadadobosqueamargosacombr</span>
+                    <span>(75) 3634-2663</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="hotel-bosque">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--instagram card-link--icon" href="https://www.instagram.com/pousadadobosqueamargosa/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                        <span class="sr-only">Instagram</span>
+                      </a>
+                      <a class="card-link card-link--email card-link--icon" href="mailto:reservas@pousadadobosqueamargosa.com.br" aria-label="E-mail" title="E-mail">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.25A2.25 2.25 0 0 1 5.25 3h13.5A2.25 2.25 0 0 1 21 5.25v13.5A2.25 2.25 0 0 1 18.75 21H5.25A2.25 2.25 0 0 1 3 18.75V5.25Zm1.8.37v.28l7.2 5.4 7.2-5.4v-.28a.45.45 0 0 0-.45-.45H5.25a.45.45 0 0 0-.45.45Zm14.4 2.53-6.66 4.99a.9.9 0 0 1-1.08 0L4.8 8.15v10.6c0 .25.2.45.45.45h13.5c.25 0 .45-.2.45-.45V8.15Z"/></svg>
+                        <span class="sr-only">E-mail</span>
+                      </a>
+                      <a class="card-link card-link--phone card-link--icon" href="tel:+557536342663" aria-label="Contato" title="Contato">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 2.93c.3-.3.75-.4 1.14-.25l2.3.86c.52.19.83.73.74 1.28l-.39 2.36a1.35 1.35 0 0 1-.78 1.02l-1.42.68a14.57 14.57 0 0 0 6.91 6.91l.68-1.42c.18-.38.56-.66 1.02-.78l2.36-.39c.55-.09 1.09.22 1.28.74l.86 2.3c.15.39.05.84-.25 1.14l-1.26 1.26c-.77.77-1.9 1.1-2.97.87-2.66-.59-5.2-1.98-7.58-4.35-2.37-2.38-3.76-4.92-4.35-7.58-.23-1.07.1-2.2.87-2.97l1.26-1.26Z"/></svg>
+                        <span class="sr-only">Contato</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="hotel" data-point-id="hotel-dona-marieta" hidden>
+                <img
+                  src="public/images/hero-amargosa.jpeg"
+                  alt="Pousada Dona Marieta" loading="lazy">
+                <div class="card-content">
+                  <h3>Pousada Dona Marieta</h3>
+                  <p class="subtitle-card">M&uacute;ltiplos contatos para reserva</p>
+                  <p>
+                    Hospedagem com mais de um telefone de contato para informa&ccedil;&otilde;es e reserva
+                  </p>
+                  <div class="card-meta">
+                    <span>E-mail n&atilde;o informado</span>
+                    <span>(75) 98371-0724 / (75) 98352-6794 / (75) 98896-4894</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="hotel-dona-marieta">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--whatsapp card-link--icon" href="https://wa.me/5575983710724" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.57 0 .29 5.28.29 11.79c0 2.08.54 4.11 1.56 5.91L0 24l6.48-1.7a11.78 11.78 0 0 0 5.6 1.43h.01c6.5 0 11.79-5.29 11.79-11.8a11.7 11.7 0 0 0-3.36-8.45ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1.01 1.03-3.75-.24-.39a9.77 9.77 0 0 1-1.5-5.2c0-5.43 4.42-9.84 9.86-9.84 2.63 0 5.1 1.02 6.95 2.88a9.77 9.77 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.85 9.86Zm5.4-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.08-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.24.48 1.66.62.7.22 1.34.19 1.85.12.56-.08 1.77-.72 2.02-1.42.25-.69.25-1.28.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+                        <span class="sr-only">WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="hotel" data-point-id="hotel-imperial" hidden>
+                <img
+                  src="public/images/pousadas/imperial.webp"
+                  alt="Hotel Imperial" loading="lazy">
+                <div class="card-content">
+                  <h3>Hotel Imperial</h3>
+                  <p class="subtitle-card">Hospedagem com contato por e-mail</p>
+                  <p>
+                    Op&ccedil;&atilde;o de hospedagem com atendimento por e-mail e telefone fixo em Amargosa
+                  </p>
+                  <div class="card-meta">
+                    <span>Rua Aldemiro Vaz Sampaio, 100, Centro</span>
+                    <span>Imperialhotel2023@gmailcom</span>
+                    <span>(75) 3634-1925</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="hotel-imperial">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--instagram card-link--icon" href="https://www.instagram.com/imperialhotelamargosa/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                        <span class="sr-only">Instagram</span>
+                      </a>
+                      <a class="card-link card-link--email card-link--icon" href="mailto:Imperialhotel.2023@gmail.com" aria-label="E-mail" title="E-mail">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.25A2.25 2.25 0 0 1 5.25 3h13.5A2.25 2.25 0 0 1 21 5.25v13.5A2.25 2.25 0 0 1 18.75 21H5.25A2.25 2.25 0 0 1 3 18.75V5.25Zm1.8.37v.28l7.2 5.4 7.2-5.4v-.28a.45.45 0 0 0-.45-.45H5.25a.45.45 0 0 0-.45.45Zm14.4 2.53-6.66 4.99a.9.9 0 0 1-1.08 0L4.8 8.15v10.6c0 .25.2.45.45.45h13.5c.25 0 .45-.2.45-.45V8.15Z"/></svg>
+                        <span class="sr-only">E-mail</span>
+                      </a>
+                      <a class="card-link card-link--phone card-link--icon" href="tel:+557536341925" aria-label="Contato" title="Contato">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 2.93c.3-.3.75-.4 1.14-.25l2.3.86c.52.19.83.73.74 1.28l-.39 2.36a1.35 1.35 0 0 1-.78 1.02l-1.42.68a14.57 14.57 0 0 0 6.91 6.91l.68-1.42c.18-.38.56-.66 1.02-.78l2.36-.39c.55-.09 1.09.22 1.28.74l.86 2.3c.15.39.05.84-.25 1.14l-1.26 1.26c-.77.77-1.9 1.1-2.97.87-2.66-.59-5.2-1.98-7.58-4.35-2.37-2.38-3.76-4.92-4.35-7.58-.23-1.07.1-2.2.87-2.97l1.26-1.26Z"/></svg>
+                        <span class="sr-only">Contato</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="hotel" data-point-id="hotel-sampaio" hidden>
+                <img
+                  src="public/images/pousadas/sampaio.webp"
+                  alt="Pousada Sampaio" loading="lazy">
+                <div class="card-content">
+                  <h3>Pousada Sampaio</h3>
+                  <p class="subtitle-card">Contato com Denise</p>
+                  <p>
+                    Hospedagem com contato direto pelo telefone informado no cadastro local
+                  </p>
+                  <div class="card-meta">
+                    <span>Rua Moreira Coelho, 28, Centro</span>
+                    <span>Contato Denise</span>
+                    <span>(71) 98855-5456</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="hotel-sampaio">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--whatsapp card-link--icon" href="https://wa.me/5571988555456" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.57 0 .29 5.28.29 11.79c0 2.08.54 4.11 1.56 5.91L0 24l6.48-1.7a11.78 11.78 0 0 0 5.6 1.43h.01c6.5 0 11.79-5.29 11.79-11.8a11.7 11.7 0 0 0-3.36-8.45ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1.01 1.03-3.75-.24-.39a9.77 9.77 0 0 1-1.5-5.2c0-5.43 4.42-9.84 9.86-9.84 2.63 0 5.1 1.02 6.95 2.88a9.77 9.77 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.85 9.86Zm5.4-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.08-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.24.48 1.66.62.7.22 1.34.19 1.85.12.56-.08 1.77-.72 2.02-1.42.25-.69.25-1.28.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+                        <span class="sr-only">WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="hotel" data-point-id="hotel-baitinga" hidden>
+                <img
+                  src="public/images/pousadas/baitinga.webp"
+                  alt="Resort Baitinga" loading="lazy">
+                <div class="card-content">
+                  <h3>Resort Baitinga</h3>
+                  <p class="subtitle-card">Hospedagem sob consulta</p>
+                  <p>
+                    Op&ccedil;&atilde;o de hospedagem listada no material local, com atendimento por WhatsApp e perfil voltado a estadias na zona rural
+                  </p>
+                  <div class="card-meta">
+                    <span>Povoado Baitinga, 15 - Rural, Amargosa - BA, 45300-000</span>
+                    <span>E-mail n&atilde;o informado</span>
+                    <span>(75) 99223-4496</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="hotel-baitinga">Ver no mapa</button>
+                    <div class="card-actions-inline">
+                      <a class="card-link card-link--instagram card-link--icon" href="https://www.instagram.com/baitingaclubeepousada/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>
+                        <span class="sr-only">Instagram</span>
+                      </a>
+                      <a class="card-link card-link--whatsapp card-link--icon" href="https://wa.me/5575992234496" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                        <svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.57 0 .29 5.28.29 11.79c0 2.08.54 4.11 1.56 5.91L0 24l6.48-1.7a11.78 11.78 0 0 0 5.6 1.43h.01c6.5 0 11.79-5.29 11.79-11.8a11.7 11.7 0 0 0-3.36-8.45ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1.01 1.03-3.75-.24-.39a9.77 9.77 0 0 1-1.5-5.2c0-5.43 4.42-9.84 9.86-9.84 2.63 0 5.1 1.02 6.95 2.88a9.77 9.77 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.85 9.86Zm5.4-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.08-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.24.48 1.66.62.7.22 1.34.19 1.85.12.56-.08 1.77-.72 2.02-1.42.25-.69.25-1.28.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
+                        <span class="sr-only">WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="attraction-card" data-category="hotel" data-point-id="hotel-asa-branca" hidden>
+                <img
+                  src="public/images/praca-iraci-silva-praca-do-cristo.jpg"
+                  alt="Motel Asa Branca" loading="lazy">
+                <div class="card-content">
+                  <h3>Motel Asa Branca</h3>
+                  <p class="subtitle-card">Contato por telefone</p>
+                  <p>
+                    Estabelecimento de hospedagem listado entre as op&ccedil;&otilde;es existentes no munic&iacute;pio
+                  </p>
+                  <div class="card-meta">
+                    <span>BA-540, 400, Rodovia Amargosa-Mutuipe</span>
+                    <span>E-mail n&atilde;o informado</span>
+                    <span>(75) 6334-1325</span>
+                  </div>
+                  <div class="card-actions">
+                    <button class="card-button" type="button" data-map-focus="hotel-asa-branca">Ver no mapa</button>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <button class="carousel-arrow" type="button" data-carousel-next aria-label="Mostrar proximo local">
+            <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+          </button>
+        </div>
+        <div class="filter-empty" data-filter-empty hidden>
+          Os cards detalhados desta categoria serao adicionados em seguida Os pontos ja estao marcados no mapa
+        </div>
+      </div>
+    </section>
+
+    <section id="mapa" class="map-section">
+      <div class="container">
+        <article class="panel">
+          <div class="map-shell">
+            <div id="map" aria-label="Mapa dos locais de Amargosa"></div>
+          </div>
+
+          <div class="legend" aria-label="Legenda do mapa">
+            <span><i class="dot wifi" aria-hidden="true"></i> Wi-Fi gratuito</span>
+            <span><i class="dot tourism" aria-hidden="true"></i> Ponto Turistico</span>
+            <span><i class="dot heritage" aria-hidden="true"></i> Patrim&ocirc;nio hist&oacute;rico</span>
+            <span><i class="dot gastronomy" aria-hidden="true"></i> Restaurantes/Bares</span>
+            <span><i class="dot lodging" aria-hidden="true"></i> Hoteis/Pousadas</span>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const isEmbeddedGuideView = window.self !== window.top;
+    if (isEmbeddedGuideView) {
+      document.documentElement.classList.add("is-embedded-guide");
+    }
+
+    const carouselRoot = document.querySelector("[data-carousel]");
+    const carouselViewport = carouselRoot?.querySelector(".points-carousel__viewport");
+    const carouselTrack = carouselRoot?.querySelector(".attractions-grid");
+    const GUIDE_STORAGE_KEY = "guia_turista_cadastros_v1";
+
+    const GUIDE_ICONS = {
+      instagram: `<svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>`,
+      whatsapp: `<svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.57 0 .29 5.28.29 11.79c0 2.08.54 4.11 1.56 5.91L0 24l6.48-1.7a11.78 11.78 0 0 0 5.6 1.43h.01c6.5 0 11.79-5.29 11.79-11.8a11.7 11.7 0 0 0-3.36-8.45ZM12.09 21.7h-.01a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.85 1.01 1.03-3.75-.24-.39a9.77 9.77 0 0 1-1.5-5.2c0-5.43 4.42-9.84 9.86-9.84 2.63 0 5.1 1.02 6.95 2.88a9.77 9.77 0 0 1 2.89 6.96c0 5.43-4.42 9.86-9.85 9.86Zm5.4-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.08-.78.37s-1.02 1-1.02 2.44 1.05 2.83 1.2 3.03c.15.2 2.07 3.16 5.02 4.43.7.3 1.24.48 1.66.62.7.22 1.34.19 1.85.12.56-.08 1.77-.72 2.02-1.42.25-.69.25-1.28.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>`,
+      email: `<svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.25A2.25 2.25 0 0 1 5.25 3h13.5A2.25 2.25 0 0 1 21 5.25v13.5A2.25 2.25 0 0 1 18.75 21H5.25A2.25 2.25 0 0 1 3 18.75V5.25Zm1.8.37v.28l7.2 5.4 7.2-5.4v-.28a.45.45 0 0 0-.45-.45H5.25a.45.45 0 0 0-.45.45Zm14.4 2.53-6.66 4.99a.9.9 0 0 1-1.08 0L4.8 8.15v10.6c0 .25.2.45.45.45h13.5c.25 0 .45-.2.45-.45V8.15Z"/></svg>`,
+      phone: `<svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 2.93c.3-.3.75-.4 1.14-.25l2.3.86c.52.19.83.73.74 1.28l-.39 2.36a1.35 1.35 0 0 1-.78 1.02l-1.42.68a14.57 14.57 0 0 0 6.91 6.91l.68-1.42c.18-.38.56-.66 1.02-.78l2.36-.39c.55-.09 1.09.22 1.28.74l.86 2.3c.15.39.05.84-.25 1.14l-1.26 1.26c-.77.77-1.9 1.1-2.97.87-2.66-.59-5.2-1.98-7.58-4.35-2.37-2.38-3.76-4.92-4.35-7.58-.23-1.07.1-2.2.87-2.97l1.26-1.26Z"/></svg>`
+    };
+
+    function normalizeText(value) {
+      return String(value || "").trim();
+    }
+
+    function digitsOnly(value) {
+      return String(value || "").replace(/\D/g, "");
+    }
+
+    function toSlug(value) {
+      return String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
+    function normalizeCategory(value) {
+      return value === "gastronomia" || value === "hotel" ? value : "";
+    }
+
+    function normalizeApprovalStatus(value) {
+      return value === "pending" || value === "approved" || value === "rejected" ? value : "approved";
+    }
+
+    function buildPhoneUrl(value) {
+      const digits = digitsOnly(value);
+      return digits ? `tel:+${digits}` : "";
+    }
+
+    function buildDirectionsUrl(query) {
+      return query ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(query)}` : "";
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function buildSubmittedPointSummary(record) {
+      const summary = normalizeText(record.subtitle || record.description);
+
+      if (summary) {
+        return summary;
+      }
+
+      return record.category === "hotel"
+        ? "Hospedagem cadastrada pelo formulario no Guia do Turista."
+        : "Estabelecimento cadastrado pelo formulario no Guia do Turista.";
+    }
+
+    function buildSubmittedGuidePoint(record, gastronomyIcon, lodgingIcon) {
+      const mapQuery = normalizeText(
+        record.mapQuery
+        || [record.name, record.addressLine, "Amargosa, Bahia, Brasil"].filter(Boolean).join(", ")
+      );
+
+      return {
+        id: record.pointId,
+        name: record.name,
+        category: record.category,
+        query: mapQuery,
+        icon: record.category === "hotel" ? lodgingIcon : gastronomyIcon,
+        directionsUrl: normalizeText(record.directionsUrl || buildDirectionsUrl(mapQuery)),
+        content: `
+          <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+            <strong style="display: block; margin-bottom: 8px; color: ${record.popupTitleColor}; font-size: 1.05rem;">${escapeHtml(record.name)}</strong>
+            <span style="font-size: 0.92rem;">${escapeHtml(buildSubmittedPointSummary(record))}</span>
+          </div>
+        `
+      };
+    }
+
+    function findAddressLine(metaLines) {
+      return (metaLines || []).find((line) => /CEP\s|\s\|\s|Rua|Avenida|Travessa|Praça|Praca|Largo|Rodovia|BA-/i.test(line)) || "";
+    }
+
+    function findEmailLine(metaLines) {
+      return (metaLines || []).find((line) => /@/.test(line)) || "";
+    }
+
+    function findPhoneLine(metaLines) {
+      return (metaLines || []).find((line) => /\d{4,}/.test(digitsOnly(line))) || "";
+    }
+
+    function normalizeSubmittedGuideRecord(rawRecord) {
+      const category = normalizeCategory(rawRecord?.category);
+      const name = normalizeText(rawRecord?.name);
+
+      if (!category || !name) {
+        return null;
+      }
+
+      const contacts = rawRecord.contacts || {};
+      const metaLines = Array.isArray(rawRecord.metaLines) ? rawRecord.metaLines : [];
+      const guide = rawRecord.guide || {};
+      const approvalStatus = normalizeApprovalStatus(rawRecord.approvalStatus);
+      const pointId = normalizeText(rawRecord.pointId || rawRecord.mapFocus)
+        || `${category === "gastronomia" ? "gas" : "hotel"}-${toSlug(name) || Date.now()}`;
+      const addressLine = normalizeText(guide.addressLine || rawRecord.addressLine || findAddressLine(metaLines));
+      const email = normalizeText(contacts.email || findEmailLine(metaLines));
+      const phone = normalizeText(contacts.phone || findPhoneLine(metaLines));
+      const phoneUrl = normalizeText(contacts.phoneUrl || buildPhoneUrl(phone));
+      const whatsapp = normalizeText(contacts.whatsapp || "");
+      const hoursLine = normalizeText(guide.hoursLine || (category === "gastronomia" ? metaLines[0] : ""));
+      const statusLine = normalizeText(guide.statusLine || (category === "hotel" ? metaLines[0] : ""));
+      const serviceLine = normalizeText(guide.serviceLine || (category === "hotel" ? metaLines[1] : ""));
+      let subtitle = normalizeText(guide.subtitle || (category === "hotel" ? statusLine : ""));
+      const mapQuery = normalizeText(
+        guide.mapQuery
+        || rawRecord.mapQuery
+        || [name, addressLine, "Amargosa, Bahia, Brasil"].filter(Boolean).join(", ")
+      );
+
+      let description = normalizeText(guide.description || rawRecord.description);
+
+      if (category === "hotel" && serviceLine && description && !description.toLowerCase().includes(serviceLine.toLowerCase())) {
+        description = `${serviceLine}. ${description}`;
+      }
+
+      if (!description) {
+        description = category === "hotel"
+          ? "Hospedagem cadastrada pelo formulario no Guia do Turista."
+          : "Estabelecimento cadastrado pelo formulario no Guia do Turista.";
+      }
+
+      if (subtitle) {
+        const normalizedSubtitle = subtitle.toLocaleLowerCase("pt-BR");
+        const normalizedDescription = description.toLocaleLowerCase("pt-BR");
+
+        if (
+          normalizedDescription === normalizedSubtitle
+          || normalizedDescription.startsWith(`${normalizedSubtitle}.`)
+          || normalizedDescription.startsWith(`${normalizedSubtitle},`)
+        ) {
+          subtitle = "";
+        }
+      }
+
+      return {
+        pointId,
+        mapFocus: pointId,
+        approvalStatus,
+        category,
+        name,
+        subtitle,
+        description,
+        photoSrc: normalizeText(rawRecord.photoSrc) || "",
+        addressLine,
+        hoursLine,
+        statusLine,
+        serviceLine,
+        mapQuery,
+        directionsUrl: normalizeText(guide.directionsUrl || rawRecord.directionsUrl || buildDirectionsUrl(mapQuery)),
+        popupTitleColor: normalizeText(guide.popupTitleColor) || (category === "hotel" ? "#3568c9" : "#c9642b"),
+        metaLines: category === "gastronomia"
+          ? [hoursLine, addressLine].filter(Boolean)
+          : [addressLine, email || "E-mail nao informado", phone].filter(Boolean),
+        contacts: {
+          instagram: normalizeText(contacts.instagram),
+          whatsapp,
+          email,
+          phone,
+          phoneUrl
+        }
+      };
+    }
+
+    function readSubmittedGuideRecords() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(GUIDE_STORAGE_KEY) || "[]");
+        return Array.isArray(parsed)
+          ? parsed
+            .map(normalizeSubmittedGuideRecord)
+            .filter((record) => record && record.approvalStatus === "approved")
+          : [];
+      } catch (_) {
+        return [];
+      }
+    }
+
+    function createGuideIconLink(href, variantClass, label, iconMarkup) {
+      if (!href) {
+        return null;
+      }
+
+      const anchor = document.createElement("a");
+      anchor.className = `card-link ${variantClass} card-link--icon`;
+      anchor.href = href;
+      anchor.target = "_blank";
+      anchor.rel = "noopener noreferrer";
+      anchor.setAttribute("aria-label", label);
+      anchor.title = label;
+      anchor.innerHTML = `${iconMarkup}<span class="sr-only">${label}</span>`;
+      return anchor;
+    }
+
+    function buildSubmittedGuideCard(record) {
+      const article = document.createElement("article");
+      article.className = "attraction-card";
+      article.dataset.category = record.category;
+      article.dataset.pointId = record.pointId;
+      article.hidden = true;
+
+      const image = document.createElement("img");
+      image.src = record.photoSrc || (record.category === "gastronomia"
+        ? "https://placehold.co/1200x800?text=Bar+ou+Restaurante"
+        : "https://placehold.co/1200x800?text=Hotel+ou+Pousada");
+      image.alt = record.name;
+      image.loading = "lazy";
+      image.decoding = "async";
+
+      const content = document.createElement("div");
+      content.className = "card-content";
+
+      const title = document.createElement("h3");
+      title.textContent = record.name;
+      content.appendChild(title);
+
+      if (record.subtitle) {
+        const subtitle = document.createElement("p");
+        subtitle.className = "subtitle-card";
+        subtitle.textContent = record.subtitle;
+        content.appendChild(subtitle);
+      }
+
+      const description = document.createElement("p");
+      description.textContent = record.description;
+      content.appendChild(description);
+
+      if (record.metaLines.length) {
+        const meta = document.createElement("div");
+        meta.className = "card-meta";
+        record.metaLines.forEach((line) => {
+          const span = document.createElement("span");
+          span.textContent = line;
+          meta.appendChild(span);
+        });
+        content.appendChild(meta);
+      }
+
+      const actions = document.createElement("div");
+      actions.className = "card-actions";
+
+      const mapButton = document.createElement("button");
+      mapButton.className = "card-button";
+      mapButton.type = "button";
+      mapButton.dataset.mapFocus = record.pointId;
+      mapButton.textContent = "Ver no mapa";
+      actions.appendChild(mapButton);
+
+      const linksInline = document.createElement("div");
+      linksInline.className = "card-actions-inline";
+      const contacts = record.contacts || {};
+      const contactLinks = record.category === "gastronomia"
+        ? [
+            createGuideIconLink(contacts.instagram, "card-link--instagram", "Instagram", GUIDE_ICONS.instagram),
+            createGuideIconLink(contacts.whatsapp, "card-link--whatsapp", "WhatsApp", GUIDE_ICONS.whatsapp)
+          ]
+        : [
+            createGuideIconLink(contacts.instagram, "card-link--instagram", "Instagram", GUIDE_ICONS.instagram),
+            createGuideIconLink(contacts.email ? `mailto:${contacts.email}` : "", "card-link--email", "E-mail", GUIDE_ICONS.email),
+            createGuideIconLink(contacts.whatsapp, "card-link--whatsapp", "WhatsApp", GUIDE_ICONS.whatsapp),
+            createGuideIconLink(contacts.phoneUrl, "card-link--phone", "Contato", GUIDE_ICONS.phone)
+          ];
+
+      contactLinks.forEach((link) => {
+        if (link) {
+          linksInline.appendChild(link);
+        }
+      });
+
+      if (linksInline.children.length) {
+        actions.appendChild(linksInline);
+      }
+
+      content.appendChild(actions);
+      article.appendChild(image);
+      article.appendChild(content);
+
+      return article;
+    }
+
+    const submittedGuideRecords = readSubmittedGuideRecords();
+
+    if (carouselTrack && submittedGuideRecords.length) {
+      const fragment = document.createDocumentFragment();
+      submittedGuideRecords.forEach((record) => {
+        fragment.appendChild(buildSubmittedGuideCard(record));
+      });
+      carouselTrack.appendChild(fragment);
+    }
+
+    const allCarouselCards = carouselTrack ? Array.from(carouselTrack.children) : [];
+    const carouselPrevButton = carouselRoot?.querySelector("[data-carousel-prev]");
+    const carouselNextButton = carouselRoot?.querySelector("[data-carousel-next]");
+    const filterButtons = Array.from(document.querySelectorAll("[data-filter]"));
+    const filterFeedback = document.querySelector("[data-filter-feedback]");
+    const filterEmpty = document.querySelector("[data-filter-empty]");
+    const mapFocusButtons = document.querySelectorAll("[data-map-focus]");
+    const pointMarkers = new Map();
+    const pointCategories = new Map();
+
+    document.querySelectorAll('img[loading="lazy"]').forEach((image) => {
+      image.decoding = "async";
+    });
+
+    document.querySelectorAll(".subtitle-card").forEach((subtitle) => {
+      const description = subtitle.nextElementSibling;
+      const subtitleText = subtitle.textContent.trim().replace(/\s+/g, " ");
+
+      if (description && description.tagName === "P" && subtitleText) {
+        const descriptionText = description.textContent.trim().replace(/\s+/g, " ");
+        const normalizedDescription = descriptionText
+          ? `${descriptionText.charAt(0).toLocaleLowerCase("pt-BR")}${descriptionText.slice(1)}`
+          : "";
+
+        description.textContent = normalizedDescription
+          ? `${subtitleText}, ${normalizedDescription}`
+          : subtitleText;
+      }
+
+      subtitle.remove();
+    });
+
+    const filterLabels = {
+      todos: "todos os locais",
+      wifi: "wi-fi gratuito",
+      turistico: "pontos turisticos",
+      gastronomia: "restaurantes/bares",
+      hotel: "hoteis/pousadas"
+    };
+    const categoryFilters = ["wifi", "turistico", "gastronomia", "hotel"];
+    function getInitialGuideRouteTarget() {
+      const params = new URLSearchParams(window.location.search);
+      const routeTarget = (
+        params.get("route")
+        || params.get("rota")
+        || params.get("destino")
+        || ""
+      ).trim().toLowerCase();
+
+      if (["amargosa", "como-chegar", "chegar-amargosa"].includes(routeTarget)) {
+        return "amargosa";
+      }
+
+      return "";
+    }
+
+    function getInitialMapFocusTarget() {
+      const params = new URLSearchParams(window.location.search);
+      return normalizeText(
+        params.get("focus")
+        || params.get("point")
+        || params.get("ponto")
+        || params.get("id")
+      );
+    }
+
+    function getInitialSelectedCategories() {
+      const params = new URLSearchParams(window.location.search);
+      const rawFilters = [
+        ...params.getAll("filters").flatMap((value) => value.split(",")),
+        ...params.getAll("filter").flatMap((value) => value.split(",")),
+        ...params.getAll("filtro").flatMap((value) => value.split(","))
+      ]
+        .map((value) => value.trim().toLowerCase())
+        .filter(Boolean);
+
+      if (!rawFilters.length) {
+        return new Set(["turistico"]);
+      }
+
+      if (rawFilters.includes("todos")) {
+        return new Set(categoryFilters);
+      }
+
+      const validFilters = rawFilters.filter((value) => categoryFilters.includes(value));
+
+      if (!validFilters.length) {
+        return new Set(["turistico"]);
+      }
+
+      if (validFilters.length === categoryFilters.length) {
+        return new Set(categoryFilters);
+      }
+
+      return new Set(validFilters);
+    }
+    const initialGuideRouteTarget = getInitialGuideRouteTarget();
+    const initialMapFocusTarget = getInitialMapFocusTarget();
+    const extraTourismPoints = initialGuideRouteTarget === "amargosa" ? 1 : 0;
+    const submittedGuideCounts = submittedGuideRecords.reduce((accumulator, record) => {
+      accumulator.todos += 1;
+      accumulator[record.category] = (accumulator[record.category] || 0) + 1;
+      return accumulator;
+    }, { todos: 0, gastronomia: 0, hotel: 0 });
+    const mapPointCounts = {
+      todos: 40 + extraTourismPoints + submittedGuideCounts.todos,
+      wifi: 8,
+      turistico: 9 + extraTourismPoints,
+      gastronomia: 12 + submittedGuideCounts.gastronomia,
+      hotel: 11 + submittedGuideCounts.hotel
+    };
+    const defaultMapCenter = { lat: -13.0265, lng: -39.6085 };
+    const defaultMapZoom = 14;
+    let visibleCarouselCards = [...allCarouselCards];
+    let selectedCategories = getInitialSelectedCategories();
+    let carouselIndex = 0;
+    let carouselResizeFrame = 0;
+    let pendingMapFocusId = initialMapFocusTarget || (initialGuideRouteTarget === "amargosa" ? "route-amargosa" : null);
+    let pageMap = null;
+    let pageInfoWindow = null;
+
+    function areAllCategoriesSelected() {
+      return categoryFilters.every((category) => selectedCategories.has(category));
+    }
+
+    function getSelectedCategories() {
+      if (areAllCategoriesSelected()) {
+        return [...categoryFilters];
+      }
+
+      return categoryFilters.filter((category) => selectedCategories.has(category));
+    }
+
+    function getSelectedLabelText() {
+      const labels = getSelectedCategories().map((category) => filterLabels[category]);
+
+      if (!labels.length || areAllCategoriesSelected()) {
+        return filterLabels.todos;
+      }
+
+      if (labels.length === 1) {
+        return labels[0];
+      }
+
+      if (labels.length === 2) {
+        return `${labels[0]} e ${labels[1]}`;
+      }
+
+      return `${labels.slice(0, -1).join(", ")} e ${labels[labels.length - 1]}`;
+    }
+
+    function getSelectedMapCount() {
+      if (areAllCategoriesSelected()) {
+        return mapPointCounts.todos;
+      }
+
+      return getSelectedCategories().reduce((total, category) => total + (mapPointCounts[category] || 0), 0);
+    }
+
+    function matchesActiveCategory(category) {
+      return areAllCategoriesSelected() || selectedCategories.has(category);
+    }
+
+    function updateFilterButtons() {
+      filterButtons.forEach((button) => {
+        const filter = button.dataset.filter;
+        const isActive = filter === "todos"
+          ? areAllCategoriesSelected()
+          : selectedCategories.has(filter);
+        button.classList.toggle("is-active", isActive);
+        button.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
+    }
+
+    function updateFilterFeedback() {
+      if (!filterFeedback) {
+        return;
+      }
+
+      const count = visibleCarouselCards.length;
+      const label = getSelectedLabelText();
+      const mapCount = getSelectedMapCount() || count;
+
+      if (count === 0) {
+        if (mapCount > 0) {
+          const noun = mapCount === 1 ? "local" : "locais";
+          filterFeedback.textContent = `Exibindo ${mapCount} ${noun} em ${label} no mapa Os cards detalhados entram em seguida`;
+          return;
+        }
+
+        filterFeedback.textContent = `Ainda nao ha ${label} cadastrados no momento`;
+        return;
+      }
+
+      if (areAllCategoriesSelected()) {
+        const cardNoun = count === 1 ? "card" : "cards";
+        const mapNoun = mapCount === 1 ? "local" : "locais";
+        filterFeedback.textContent = `Exibindo ${count} ${cardNoun} e ${mapCount} ${mapNoun} no mapa`;
+        return;
+      }
+
+      if (mapCount > count) {
+        const cardNoun = count === 1 ? "card" : "cards";
+        const mapNoun = mapCount === 1 ? "local" : "locais";
+        filterFeedback.textContent = `Exibindo ${count} ${cardNoun} e ${mapCount} ${mapNoun} em ${label}`;
+        return;
+      }
+
+      const noun = count === 1 ? "local" : "locais";
+      filterFeedback.textContent = `Exibindo ${count} ${noun} em ${label}`;
+    }
+
+    function getCardsPerView() {
+      if (window.innerWidth <= 560) {
+        return 1;
+      }
+
+      if (window.innerWidth <= 980) {
+        return 2;
+      }
+
+      return 3;
+    }
+
+    function getMaxCarouselIndex() {
+      return Math.max(0, visibleCarouselCards.length - getCardsPerView());
+    }
+
+    function updateCarousel() {
+      if (!carouselTrack) {
+        return;
+      }
+
+      if (!visibleCarouselCards.length) {
+        carouselTrack.style.transform = "translateX(0)";
+
+        if (carouselPrevButton) {
+          carouselPrevButton.disabled = true;
+        }
+
+        if (carouselNextButton) {
+          carouselNextButton.disabled = true;
+        }
+
+        return;
+      }
+
+      const maxIndex = getMaxCarouselIndex();
+      carouselIndex = Math.max(0, Math.min(carouselIndex, maxIndex));
+      const activeCard = visibleCarouselCards[carouselIndex];
+
+      carouselTrack.style.transform = activeCard ? `translateX(-${activeCard.offsetLeft}px)` : "translateX(0)";
+
+      if (carouselPrevButton) {
+        carouselPrevButton.disabled = carouselIndex === 0;
+      }
+
+      if (carouselNextButton) {
+        carouselNextButton.disabled = carouselIndex === maxIndex;
+      }
+    }
+
+    function refreshVisibleCards() {
+      visibleCarouselCards = allCarouselCards.filter((card) => matchesActiveCategory(card.dataset.category));
+
+      allCarouselCards.forEach((card) => {
+        card.hidden = !matchesActiveCategory(card.dataset.category);
+      });
+
+      if (carouselRoot) {
+        carouselRoot.classList.toggle("is-empty", visibleCarouselCards.length === 0);
+      }
+
+      if (filterEmpty) {
+        filterEmpty.hidden = visibleCarouselCards.length !== 0;
+      }
+
+      carouselIndex = 0;
+      updateFilterButtons();
+      updateFilterFeedback();
+      updateCarousel();
+    }
+
+    carouselPrevButton?.addEventListener("click", () => {
+      carouselIndex -= 1;
+      updateCarousel();
+    });
+
+    carouselNextButton?.addEventListener("click", () => {
+      carouselIndex += 1;
+      updateCarousel();
+    });
+
+    function queueCarouselLayoutSync() {
+      if (carouselResizeFrame) {
+        return;
+      }
+
+      carouselResizeFrame = window.requestAnimationFrame(() => {
+        carouselResizeFrame = 0;
+        updateCarousel();
+      });
+    }
+
+    window.addEventListener("resize", queueCarouselLayoutSync, { passive: true });
+    window.addEventListener("orientationchange", queueCarouselLayoutSync);
+
+    if (carouselViewport) {
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      carouselViewport.addEventListener("touchstart", (event) => {
+        const touch = event.touches && event.touches[0];
+
+        if (!touch) {
+          return;
+        }
+
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+      }, { passive: true });
+
+      carouselViewport.addEventListener("touchend", (event) => {
+        const touch = event.changedTouches && event.changedTouches[0];
+
+        if (!touch) {
+          return;
+        }
+
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+        const isHorizontalSwipe = Math.abs(deltaX) > 42 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2;
+
+        if (!isHorizontalSwipe) {
+          return;
+        }
+
+        carouselIndex += deltaX < 0 ? 1 : -1;
+        updateCarousel();
+      }, { passive: true });
+    }
+
+    function applyMapFilter() {
+      if (!pageMap) {
+        return;
+      }
+
+      if (pageInfoWindow) {
+        pageInfoWindow.close();
+      }
+
+      const visibleMarkers = [];
+
+      pointMarkers.forEach((marker) => {
+        const shouldShow = matchesActiveCategory(marker.category);
+        marker.setVisible(shouldShow);
+
+        if (shouldShow) {
+          visibleMarkers.push(marker);
+        }
+      });
+
+      if (!visibleMarkers.length) {
+        pageMap.setCenter(defaultMapCenter);
+        pageMap.setZoom(defaultMapZoom);
+        return;
+      }
+
+      const bounds = new google.maps.LatLngBounds();
+      visibleMarkers.forEach((marker) => bounds.extend(marker.getPosition()));
+      pageMap.fitBounds(bounds);
+
+      google.maps.event.addListenerOnce(pageMap, "bounds_changed", () => {
+        if (pageMap.getZoom() > 16) {
+          pageMap.setZoom(16);
+        }
+      });
+    }
+
+    function focusPointOnMap(pointId) {
+      const pointCategory = pointCategories.get(pointId);
+
+      if (pointCategory && !matchesActiveCategory(pointCategory)) {
+        selectedCategories.add(pointCategory);
+        refreshVisibleCards();
+        applyMapFilter();
+      }
+
+      const marker = pointMarkers.get(pointId);
+
+      if (!marker || !pageMap || !pageInfoWindow) {
+        pendingMapFocusId = pointId;
+        return;
+      }
+
+      document.querySelector("#mapa")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+      pageMap.panTo(marker.getPosition());
+      pageMap.setZoom(16);
+      pageInfoWindow.setContent(marker.customContent);
+      pageInfoWindow.open(pageMap, marker);
+    }
+
+    mapFocusButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        focusPointOnMap(button.dataset.mapFocus);
+      });
+    });
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.dataset.filter;
+
+        if (filter === "todos") {
+          selectedCategories = new Set(categoryFilters);
+        } else if (areAllCategoriesSelected()) {
+          selectedCategories = new Set([filter]);
+        } else if (selectedCategories.has(filter)) {
+          selectedCategories.delete(filter);
+
+          if (!selectedCategories.size) {
+            selectedCategories = new Set(categoryFilters);
+          }
+        } else {
+          selectedCategories.add(filter);
+        }
+
+        refreshVisibleCards();
+        applyMapFilter();
+      });
+    });
+
+    function initMap() {
+      const mapOptions = {
+        zoom: defaultMapZoom,
+        center: defaultMapCenter,
+        scrollwheel: false,
+        gestureHandling: window.innerWidth <= 768 ? "cooperative" : "auto",
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: true,
+        styles: [
+          {
+            featureType: "poi",
+            elementType: "labels.icon",
+            stylers: [{ visibility: "off" }]
+          },
+          {
+            featureType: "transit",
+            elementType: "labels.icon",
+            stylers: [{ visibility: "off" }]
+          }
+        ]
+      };
+
+      pageMap = new google.maps.Map(document.getElementById("map"), mapOptions);
+      pageInfoWindow = new google.maps.InfoWindow();
+      const geocoder = new google.maps.Geocoder();
+
+      const wifiPath = "M12 20c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm-4.6-5.6 1.4 1.4c1.8-1.8 4.6-1.8 6.4 0l1.4-1.4c-2.6-2.6-6.6-2.6-9.2 0zm-3.5-3.6 1.4 1.5c3.7-3.7 9.7-3.7 13.4 0l1.4-1.5c-4.5-4.5-11.8-4.5-16.2 0zm-3.6-3.5 1.4 1.4c5.7-5.7 14.8-5.7 20.4 0l1.4-1.4c-6.4-6.4-16.8-6.4-23.2 0z";
+      const attractionPath = "M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z";
+      const heritagePath = "M4 10v2h2v6H4v2h16v-2h-2v-6h2v-2L12 4 4 10zm2 0 6-3.18L18 10H6zm2 2h2v6H8v-6zm6 0h2v6h-2v-6zm-3 0h2v6h-2v-6z";
+      const gastronomyPath = "M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97L6 22h2l-.75-9.03C9.34 12.84 11 11.12 11 9zm5-3c-1.66 0-3 1.34-3 3v13h2v-5h2v5h2V9c0-1.66-1.34-3-3-3z";
+      const lodgingPath = "M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm10-6H11v8H3v-4H1v10h2v-2h18v2h2v-6c0-2.21-1.79-4-4-4z";
+
+      const getPinSvg = (bgColor, symbolPath) => "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 40" width="38" height="48">
+          <path fill="${bgColor}" stroke="#ffffff" stroke-width="1.5" d="M16 0C7.163 0 0 7.163 0 16c0 11 16 24 16 24s16-13 16-24C32 7.163 24.837 0 16 0z"/>
+          <path fill="#ffffff" transform="translate(4, 3)" d="${symbolPath}"/>
+        </svg>`);
+
+      const wifiIcon = {
+        url: getPinSvg("#145844", wifiPath),
+        scaledSize: new google.maps.Size(38, 48),
+        anchor: new google.maps.Point(19, 48)
+      };
+
+      const wifiReferenceIcon = {
+        url: getPinSvg("#fcc22f", wifiPath),
+        scaledSize: new google.maps.Size(38, 48),
+        anchor: new google.maps.Point(19, 48)
+      };
+
+      const attractionIcon = {
+        url: getPinSvg("#339a80", attractionPath),
+        scaledSize: new google.maps.Size(38, 48),
+        anchor: new google.maps.Point(19, 48)
+      };
+
+      const heritageIcon = {
+        url: getPinSvg("#fcc22f", heritagePath),
+        scaledSize: new google.maps.Size(38, 48),
+        anchor: new google.maps.Point(19, 48)
+      };
+
+      const gastronomyIcon = {
+        url: getPinSvg("#c9642b", gastronomyPath),
+        scaledSize: new google.maps.Size(38, 48),
+        anchor: new google.maps.Point(19, 48)
+      };
+
+      const lodgingIcon = {
+        url: getPinSvg("#3568c9", lodgingPath),
+        scaledSize: new google.maps.Size(38, 48),
+        anchor: new google.maps.Point(19, 48)
+      };
+
+      const submittedGuidePoints = submittedGuideRecords.map((record) =>
+        buildSubmittedGuidePoint(record, gastronomyIcon, lodgingIcon)
+      );
+
+      const points = [
+        ...(initialGuideRouteTarget === "amargosa" ? [{
+          id: "route-amargosa",
+          name: "Amargosa",
+          category: "turistico",
+          coords: defaultMapCenter,
+          icon: attractionIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Amargosa%2C%20Bahia%2C%20Brasil&travelmode=driving",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #157c62; font-size: 1.05rem;">Amargosa</strong>
+              <span style="font-size: 0.92rem;">Abra a rota para chegar &agrave; cidade pelo bot&atilde;o abaixo</span>
+            </div>
+          `
+        }] : []),
+        {
+          id: "wifi-jardim",
+          name: "Praça Lourival Monte (Jardim)",
+          category: "wifi",
+          coords: { lat: -13.0316825, lng: -39.6035944 },
+          icon: wifiIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=-13.0316825,-39.6035944",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #157c62; font-size: 1.05rem;">Praça Lourival Monte</strong>
+              <span style="font-size: 0.92rem;">Ponto central de conectividade pública para moradores, visitantes e circulação no centro de Amargosa</span>
+            </div>
+          `
+        },
+        {
+          id: "wifi-bosque",
+          name: "Quadra de areia da Praça do Bosque",
+          category: "wifi",
+          coords: { lat: -13.0320631, lng: -39.6001171 },
+          icon: wifiIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=-13.0320631,-39.6001171",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #157c62; font-size: 1.05rem;">Praça do Bosque</strong>
+              <span style="font-size: 0.92rem;">Conectividade em área esportiva e de convivência pública</span>
+            </div>
+          `
+        },
+        {
+          id: "wifi-barreiros",
+          name: "Pracinha dos Barreiros",
+          category: "wifi",
+          coords: { lat: -13.0116885, lng: -39.6211379 },
+          icon: wifiIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=-13.0116885,-39.6211379",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #157c62; font-size: 1.05rem;">Pracinha dos Barreiros</strong>
+              <span style="font-size: 0.92rem;">Espaço com conectividade pública e referência da Árvore Digital</span>
+            </div>
+          `
+        },
+        {
+          id: "wifi-minguara",
+          name: "Praça da Minguara",
+          category: "wifi",
+          coords: { lat: -13.018943, lng: -39.602437 },
+          icon: wifiIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=-13.018943,-39.602437",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #157c62; font-size: 1.05rem;">Praça da Minguara</strong>
+              <span style="font-size: 0.92rem;">Ponto público de conexão em área de permanência da cidade</span>
+            </div>
+          `
+        },
+        {
+          id: "wifi-santa-rita",
+          name: "Praça da Santa Rita",
+          category: "wifi",
+          query: "Praça Constantino Sampaio, Santa Rita, Amargosa, Bahia, Brasil",
+          icon: wifiReferenceIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Pra%C3%A7a%20Constantino%20Sampaio,%20Santa%20Rita,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #157c62; font-size: 1.05rem;">Praça da Santa Rita</strong>
+              <span style="font-size: 0.92rem;">Cobertura pública em um bairro tradicional de Amargosa</span>
+            </div>
+          `
+        },
+        {
+          id: "wifi-joao-angelo",
+          name: "Praça João Ângelo Pereira",
+          category: "wifi",
+          coords: { lat: -13.02608, lng: -39.605009 },
+          icon: wifiIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=-13.026080,-39.605009",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #157c62; font-size: 1.05rem;">Praça João Ângelo Pereira</strong>
+              <span style="font-size: 0.92rem;">Apoio à conexão em área urbana de circulação frequente</span>
+            </div>
+          `
+        },
+        {
+          id: "wifi-duque-caxias",
+          name: "Praça Duque de Caxias",
+          category: "wifi",
+          coords: { lat: -13.029283, lng: -39.6048 },
+          icon: wifiIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=-13.029283,-39.604800",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #157c62; font-size: 1.05rem;">Praça Duque de Caxias</strong>
+              <span style="font-size: 0.92rem;">Conectividade pública no entorno comercial do centro</span>
+            </div>
+          `
+        },
+        {
+          id: "wifi-cristo",
+          name: "Praça do Cristo",
+          category: "wifi",
+          coords: { lat: -13.02974, lng: -39.602443 },
+          icon: wifiIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=-13.029740,-39.602443",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #157c62; font-size: 1.05rem;">Praça do Cristo</strong>
+              <span style="font-size: 0.92rem;">Ponto urbano conhecido que combina paisagem e conectividade pública</span>
+            </div>
+          `
+        },
+        {
+          id: "tur-jardim",
+          name: "PraÃ§a Lourival Monte",
+          category: "turistico",
+          coords: { lat: -13.0316825, lng: -39.6035944 },
+          icon: attractionIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=-13.0316825,-39.6035944",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #157c62; font-size: 1.05rem;">Pra&ccedil;a Lourival Monte</strong>
+              <span style="font-size: 0.92rem;">Cart&atilde;o-postal de Amargosa, com paisagismo marcante, vida urbana e a presen&ccedil;a da Catedral do Bom Conselho</span>
+            </div>
+          `
+        },
+        {
+          id: "tur-catedral",
+          name: "Catedral de Nossa Senhora do Bom Conselho",
+          category: "turistico",
+          coords: { lat: -13.03142, lng: -39.60336 },
+          icon: heritageIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=-13.03142,-39.60336",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #157c62; font-size: 1.05rem;">Catedral de Nossa Senhora do Bom Conselho</strong>
+              <span style="font-size: 0.92rem;">Patrim&ocirc;nio hist&oacute;rico de Amargosa, com arquitetura barroca e mem&oacute;rias religiosas, art&iacute;sticas e culturais</span>
+            </div>
+          `
+        },
+        {
+          id: "tur-bosque",
+          name: "PraÃ§a do Bosque",
+          category: "turistico",
+          coords: { lat: -13.0320631, lng: -39.6001171 },
+          icon: attractionIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=-13.0320631,-39.6001171",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #157c62; font-size: 1.05rem;">Pra&ccedil;a do Bosque</strong>
+              <span style="font-size: 0.92rem;">Espa&ccedil;o de conviv&ecirc;ncia, passeios em fam&iacute;lia, eventos e atividades culturais em Amargosa</span>
+            </div>
+          `
+        },
+        {
+          id: "tur-barreiros",
+          name: "Pracinha dos Barreiros",
+          category: "turistico",
+          coords: { lat: -13.0116885, lng: -39.6211379 },
+          icon: attractionIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=-13.0116885,-39.6211379",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #157c62; font-size: 1.05rem;">Pracinha dos Barreiros</strong>
+              <span style="font-size: 0.92rem;">Espa&ccedil;o de encontro comunit&aacute;rio, lazer cotidiano e conviv&ecirc;ncia de bairro</span>
+            </div>
+          `
+        },
+        {
+          id: "tur-minguara",
+          name: "PraÃ§a da Minguara",
+          category: "turistico",
+          coords: { lat: -13.018943, lng: -39.602437 },
+          icon: attractionIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=-13.018943,-39.602437",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #157c62; font-size: 1.05rem;">Pra&ccedil;a da Minguara</strong>
+              <span style="font-size: 0.92rem;">Pra&ccedil;a de perman&ecirc;ncia e encontros ao ar livre que traduz o cotidiano de Amargosa</span>
+            </div>
+          `
+        },
+        {
+          id: "tur-santa-rita",
+          name: "PraÃ§a da Santa Rita",
+          category: "turistico",
+          query: "PraÃ§a Constantino Sampaio, Santa Rita, Amargosa, Bahia, Brasil",
+          icon: attractionIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Pra%C3%A7a%20Constantino%20Sampaio,%20Santa%20Rita,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #157c62; font-size: 1.05rem;">Pra&ccedil;a da Santa Rita</strong>
+              <span style="font-size: 0.92rem;">Espa&ccedil;o de tradi&ccedil;&atilde;o local, identidade comunit&aacute;ria e mem&oacute;ria afetiva do bairro</span>
+            </div>
+          `
+        },
+        {
+          id: "tur-joao-angelo",
+          name: "PraÃ§a JoÃ£o Ã‚ngelo Pereira",
+          category: "turistico",
+          coords: { lat: -13.026080, lng: -39.605009 },
+          icon: attractionIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=-13.026080,-39.605009",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #157c62; font-size: 1.05rem;">Pra&ccedil;a Jo&atilde;o &Acirc;ngelo Pereira</strong>
+              <span style="font-size: 0.92rem;">Pra&ccedil;a central que conecta servi&ccedil;os, com&eacute;rcio e a circula&ccedil;&atilde;o cotidiana de Amargosa</span>
+            </div>
+          `
+        },
+        {
+          id: "tur-duque-caxias",
+          name: "PraÃ§a Duque de Caxias",
+          category: "turistico",
+          coords: { lat: -13.029283, lng: -39.604800 },
+          icon: attractionIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=-13.029283,-39.604800",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #157c62; font-size: 1.05rem;">Pra&ccedil;a Duque de Caxias</strong>
+              <span style="font-size: 0.92rem;">Pra&ccedil;a integrada ao centro comercial, com forte presen&ccedil;a na experi&ecirc;ncia urbana da cidade</span>
+            </div>
+          `
+        },
+        {
+          id: "tur-cristo",
+          name: "PraÃ§a do Cristo",
+          category: "turistico",
+          coords: { lat: -13.029740, lng: -39.602443 },
+          icon: attractionIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=-13.029740,-39.602443",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #157c62; font-size: 1.05rem;">Pra&ccedil;a do Cristo</strong>
+              <span style="font-size: 0.92rem;">Ponto de passeio ao ar livre com vista urbana e ambiente tranquilo para contemplar Amargosa</span>
+            </div>
+          `
+        },
+        {
+          id: "gas-casa-da-feijoada",
+          name: "Casa da Feijoada",
+          category: "gastronomia",
+          query: "Casa da Feijoada, Rua Conselheiro Dantas, 15, Centro, Amargosa, Bahia, Brasil",
+          icon: gastronomyIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Casa%20da%20Feijoada,%20Rua%20Conselheiro%20Dantas,%2015,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #c9642b; font-size: 1.05rem;">Casa da Feijoada</strong>
+              <span style="font-size: 0.92rem;">Restaurante tradicional no centro da cidade, presente no material de apoio ao turismo local</span>
+            </div>
+          `
+        },
+        {
+          id: "gas-chef-restaurante",
+          name: "Chef Restaurante e Pizzaria",
+          category: "gastronomia",
+          query: "Chef Restaurante e Pizzaria, Valle Shopping, Avenida Doutor Luis Sande de Oliveira, 196, Centro, Amargosa, Bahia, Brasil",
+          icon: gastronomyIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Chef%20Restaurante%20e%20Pizzaria,%20Valle%20Shopping,%20Avenida%20Doutor%20Luis%20Sande%20de%20Oliveira,%20196,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #c9642b; font-size: 1.05rem;">Chef Restaurante e Pizzaria</strong>
+              <span style="font-size: 0.92rem;">Op&ccedil;&atilde;o de refei&ccedil;&otilde;es e pizzas na regi&atilde;o do Valle Shopping</span>
+            </div>
+          `
+        },
+        {
+          id: "gas-cantinho-da-evely",
+          name: "Cantinho da Evely",
+          category: "gastronomia",
+          query: "Cantinho da Evely, Valle Shopping, Avenida Doutor Luis Sande de Oliveira, 196, Centro, Amargosa, Bahia, Brasil",
+          icon: gastronomyIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Cantinho%20da%20Evely,%20Valle%20Shopping,%20Avenida%20Doutor%20Luis%20Sande%20de%20Oliveira,%20196,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #c9642b; font-size: 1.05rem;">Cantinho da Evely</strong>
+              <span style="font-size: 0.92rem;">Local de alimenta&ccedil;&atilde;o listado entre os destaques gastron&ocirc;micos do munic&iacute;pio</span>
+            </div>
+          `
+        },
+        {
+          id: "gas-3-marias",
+          name: "3 Marias",
+          category: "gastronomia",
+          query: "3 Marias, Praca dos Correios, Centro, Amargosa, Bahia, Brasil",
+          icon: gastronomyIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=3%20Marias,%20Praca%20dos%20Correios,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #c9642b; font-size: 1.05rem;">3 Marias</strong>
+              <span style="font-size: 0.92rem;">Ponto de caf&eacute; da manh&atilde; e refei&ccedil;&otilde;es na regi&atilde;o central de Amargosa</span>
+            </div>
+          `
+        },
+        {
+          id: "gas-boteco-boliche",
+          name: "Boteco Boliche",
+          category: "gastronomia",
+          query: "Boteco Boliche, Valle Shopping, Avenida Doutor Luis Sande de Oliveira, 196, Centro, Amargosa, Bahia, Brasil",
+          icon: gastronomyIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Boteco%20Boliche,%20Valle%20Shopping,%20Avenida%20Doutor%20Luis%20Sande%20de%20Oliveira,%20196,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #c9642b; font-size: 1.05rem;">Boteco Boliche</strong>
+              <span style="font-size: 0.92rem;">Bar e lanchonete situado no eixo comercial do Valle Shopping</span>
+            </div>
+          `
+        },
+        {
+          id: "gas-villa-galicia",
+          name: "Villa Galicia Horto Restaurante",
+          category: "gastronomia",
+          query: "Villa Galicia Horto Restaurante, Avenida Lomanto Junior, 35, Amargosa, Bahia, Brasil",
+          icon: gastronomyIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Villa%20Galicia%20Horto%20Restaurante,%20Avenida%20Lomanto%20Junior,%2035,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #c9642b; font-size: 1.05rem;">Villa Galicia Horto Restaurante</strong>
+              <span style="font-size: 0.92rem;">Restaurante indicado no guia local para almo&ccedil;os e experi&ecirc;ncias gastron&ocirc;micas com reserva</span>
+            </div>
+          `
+        },
+        {
+          id: "gas-bella-roma",
+          name: "Restaurante Bella Roma",
+          category: "gastronomia",
+          query: "Restaurante Bella Roma, Largo Maracana, Amargosa, Bahia, Brasil",
+          icon: gastronomyIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Restaurante%20Bella%20Roma,%20Largo%20Maracana,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #c9642b; font-size: 1.05rem;">Restaurante Bella Roma</strong>
+              <span style="font-size: 0.92rem;">Restaurante pr&oacute;ximo ao Largo Maracan&atilde;, listado entre as op&ccedil;&otilde;es gastron&ocirc;micas da cidade</span>
+            </div>
+          `
+        },
+        {
+          id: "gas-volupe",
+          name: "Volupe Gastro Bar",
+          category: "gastronomia",
+          query: "Volupe Gastro Bar, Rua da Lapinha, 209, Centro, Amargosa, Bahia, Brasil",
+          icon: gastronomyIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Volupe%20Gastro%20Bar,%20Rua%20da%20Lapinha,%20209,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #c9642b; font-size: 1.05rem;">Volupe Gastro Bar</strong>
+              <span style="font-size: 0.92rem;">Gastro bar no centro de Amargosa, voltado para experi&ecirc;ncias noturnas e encontros</span>
+            </div>
+          `
+        },
+        {
+          id: "gas-saori",
+          name: "Saori Sushi",
+          category: "gastronomia",
+          query: "Saori Sushi, Travessa Benedito Almeida, Amarcenter, Amargosa, Bahia, Brasil",
+          icon: gastronomyIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Saori%20Sushi,%20Travessa%20Benedito%20Almeida,%20Amarcenter,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #c9642b; font-size: 1.05rem;">Saori Sushi</strong>
+              <span style="font-size: 0.92rem;">Op&ccedil;&atilde;o de culin&aacute;ria japonesa no entorno do Amarcenter</span>
+            </div>
+          `
+        },
+        {
+          id: "gas-americano",
+          name: "Americano Bar e Lanchonete",
+          category: "gastronomia",
+          query: "Americano Bar e Lanchonete, Avenida Lomanto Junior, 117, Centro, Amargosa, Bahia, Brasil",
+          icon: gastronomyIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Americano%20Bar%20e%20Lanchonete,%20Avenida%20Lomanto%20Junior,%20117,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #c9642b; font-size: 1.05rem;">Americano Bar e Lanchonete</strong>
+              <span style="font-size: 0.92rem;">Bar e lanchonete em um dos corredores urbanos mais conhecidos de Amargosa</span>
+            </div>
+          `
+        },
+        {
+          id: "gas-pug-efemero",
+          name: "Pub e Bar Efemero",
+          category: "gastronomia",
+          query: "Pub e Bar Efemero, Rua Carlos Gomes, Amargosa, Bahia, Brasil",
+          icon: gastronomyIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Pub%20e%20Bar%20Efemero,%20Rua%20Carlos%20Gomes,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #c9642b; font-size: 1.05rem;">Pub e Bar Efemero</strong>
+              <span style="font-size: 0.92rem;">Bar pr&oacute;ximo ao Bosque, indicado no roteiro gastron&ocirc;mico local</span>
+            </div>
+          `
+        },
+        {
+          id: "gas-restaurante-sias",
+          name: "Restaurante e Pizzaria do Sias",
+          category: "gastronomia",
+          query: "Restaurante e Pizzaria do Sias, Travessa Almeida Sampaio, 250, Amargosa, Bahia, Brasil",
+          icon: gastronomyIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Restaurante%20e%20Pizzaria%20do%20Sias,%20Travessa%20Almeida%20Sampaio,%20250,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #c9642b; font-size: 1.05rem;">Restaurante e Pizzaria do Sias</strong>
+              <span style="font-size: 0.92rem;">Restaurante localizado em frente &agrave; Pra&ccedil;a Iraci Silva, no circuito urbano da cidade</span>
+            </div>
+          `
+        },
+        {
+          id: "hotel-katiara",
+          name: "Pousada Katiara",
+          category: "hotel",
+          query: "Pousada Katiara, Avenida Abelardo Veloso, 470, Centro, Amargosa, Bahia, Brasil",
+          icon: lodgingIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Pousada%20Katiara,%20Avenida%20Abelardo%20Veloso,%20470,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #3568c9; font-size: 1.05rem;">Pousada Katiara</strong>
+              <span style="font-size: 0.92rem;">Op&ccedil;&atilde;o de hospedagem listada no cadastro local de pousadas e hot&eacute;is de Amargosa</span>
+            </div>
+          `
+        },
+        {
+          id: "hotel-girassol",
+          name: "Pousada Girassol",
+          category: "hotel",
+          query: "Pousada Girassol, Avenida Doutor Abelardo Velloso, 522, Centro, Amargosa, Bahia, Brasil",
+          icon: lodgingIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Pousada%20Girassol,%20Avenida%20Doutor%20Abelardo%20Velloso,%20522,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #3568c9; font-size: 1.05rem;">Pousada Girassol</strong>
+              <span style="font-size: 0.92rem;">Hospedagem presente no material de apoio ao visitante da cidade</span>
+            </div>
+          `
+        },
+        {
+          id: "hotel-vale-aguas",
+          name: "Hotel Fazenda Vale das Aguas",
+          category: "hotel",
+          query: "Hotel Fazenda Vale das Aguas, BA-540, km 5, Fazenda Reunidas Ribeirao do Cupido, Amargosa, Bahia, Brasil",
+          icon: lodgingIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Hotel%20Fazenda%20Vale%20das%20Aguas,%20BA-540,%20km%205,%20Fazenda%20Reunidas%20Ribeirao%20do%20Cupido,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #3568c9; font-size: 1.05rem;">Hotel Fazenda Vale das &Aacute;guas</strong>
+              <span style="font-size: 0.92rem;">Hospedagem com perfil rural na rota de acesso a Amargosa</span>
+            </div>
+          `
+        },
+        {
+          id: "hotel-calisto",
+          name: "Pousada Calisto",
+          category: "hotel",
+          query: "Pousada Calisto, Avenida Abelardo Veloso, 258, Amargosa, Bahia, Brasil",
+          icon: lodgingIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Pousada%20Calisto,%20Avenida%20Abelardo%20Veloso,%20258,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #3568c9; font-size: 1.05rem;">Pousada Calisto</strong>
+              <span style="font-size: 0.92rem;">Hospedagem urbana com refer&ecirc;ncia no eixo central de Amargosa</span>
+            </div>
+          `
+        },
+        {
+          id: "hotel-bosque",
+          name: "Pousada do Bosque",
+          category: "hotel",
+          query: "Pousada do Bosque, Praca da Bandeira, 269, Centro, Amargosa, Bahia, Brasil",
+          icon: lodgingIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Pousada%20do%20Bosque,%20Praca%20da%20Bandeira,%20269,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #3568c9; font-size: 1.05rem;">Pousada do Bosque</strong>
+              <span style="font-size: 0.92rem;">Meio de hospedagem listado entre as pousadas dispon&iacute;veis no munic&iacute;pio</span>
+            </div>
+          `
+        },
+        {
+          id: "hotel-dona-marieta",
+          name: "Pousada Dona Marieta",
+          category: "hotel",
+          query: "Pousada Dona Marieta, Amargosa, Bahia, Brasil",
+          icon: lodgingIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Pousada%20Dona%20Marieta,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #3568c9; font-size: 1.05rem;">Pousada Dona Marieta</strong>
+              <span style="font-size: 0.92rem;">Hospedagem identificada no roteiro local de pousadas e hot&eacute;is</span>
+            </div>
+          `
+        },
+        {
+          id: "hotel-imperial",
+          name: "Hotel Imperial",
+          category: "hotel",
+          query: "Pousada Imperial, Rua Aldemiro Vaz Sampaio, 100, Centro, Amargosa, Bahia, Brasil",
+          icon: lodgingIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Pousada%20Imperial,%20Rua%20Aldemiro%20Vaz%20Sampaio,%20100,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #3568c9; font-size: 1.05rem;">Hotel Imperial</strong>
+              <span style="font-size: 0.92rem;">Op&ccedil;&atilde;o de hospedagem presente no cadastro compartilhado com visitantes</span>
+            </div>
+          `
+        },
+        {
+          id: "hotel-colibri",
+          name: "Hotel Fazenda Colibri",
+          category: "hotel",
+          query: "Hotel Fazenda Colibri, Rodovia Amargosa-Mutuipe, km 2, Amargosa, Bahia, Brasil",
+          icon: lodgingIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Hotel%20Fazenda%20Colibri,%20Rodovia%20Amargosa-Mutuipe,%20km%202,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #3568c9; font-size: 1.05rem;">Hotel Fazenda Colibri</strong>
+              <span style="font-size: 0.92rem;">Hospedagem com perfil de hotel fazenda, indicada para estadias ligadas ao turismo regional</span>
+            </div>
+          `
+        },
+        {
+          id: "hotel-sampaio",
+          name: "Pousada Sampaio",
+          category: "hotel",
+          query: "Pousada Sampaio, Rua Moreira Coelho, 28, Centro, Amargosa, Bahia, Brasil",
+          icon: lodgingIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Pousada%20Sampaio,%20Rua%20Moreira%20Coelho,%2028,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #3568c9; font-size: 1.05rem;">Pousada Sampaio</strong>
+              <span style="font-size: 0.92rem;">Meio de hospedagem inclu&iacute;do na rela&ccedil;&atilde;o local de pousadas</span>
+            </div>
+          `
+        },
+        {
+          id: "hotel-baitinga",
+          name: "Resort Baitinga",
+          category: "hotel",
+          query: "Resort Baitinga, Povoado Baitinga, 15 - Rural, Amargosa - BA, 45300-000, Brasil",
+          icon: lodgingIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Resort%20Baitinga,%20Povoado%20Baitinga,%2015%20-%20Rural,%20Amargosa%20-%20BA,%2045300-000,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #3568c9; font-size: 1.05rem;">Resort Baitinga</strong>
+              <span style="font-size: 0.92rem;">Hospedagem citada no material de refer&ecirc;ncia de pousadas e hot&eacute;is da regi&atilde;o</span>
+            </div>
+          `
+        },
+        {
+          id: "hotel-asa-branca",
+          name: "Motel Asa Branca",
+          category: "hotel",
+          query: "Motel Asa Branca, BA-540, 400, Rodovia Amargosa-Mutuipe, Amargosa, Bahia, Brasil",
+          icon: lodgingIcon,
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Motel%20Asa%20Branca,%20BA-540,%20400,%20Rodovia%20Amargosa-Mutuipe,%20Amargosa,%20Bahia,%20Brasil",
+          content: `
+            <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+              <strong style="display: block; margin-bottom: 8px; color: #3568c9; font-size: 1.05rem;">Motel Asa Branca</strong>
+              <span style="font-size: 0.92rem;">Estabelecimento de hospedagem listado entre as op&ccedil;&otilde;es existentes em Amargosa</span>
+            </div>
+          `
+        },
+        ...submittedGuidePoints
+      ];
+
+      function getPopupContent(point) {
+        const template = document.createElement("template");
+        template.innerHTML = point.content.trim();
+        const titleNode = template.content.querySelector("strong");
+        const titleText = titleNode?.textContent?.trim() || point.name;
+        const titleColor = titleNode?.style?.color || "#157c62";
+        const title = `<strong style="display: block; margin-bottom: 10px; color: ${titleColor}; font-size: 1.05rem; line-height: 1.35;">${titleText}</strong>`;
+
+        if (!point.directionsUrl) {
+          return `<div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">${title}</div>`;
+        }
+
+        const directionsButton = `<a href="${point.directionsUrl}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 0 14px; border-radius: 999px; background: rgba(51, 154, 128, 0.12); border: 1px solid rgba(51, 154, 128, 0.24); color: #157c62; font-size: 0.9rem; font-weight: 700; text-decoration: none;">Como chegar</a>`;
+
+        return `<div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">${title}${directionsButton}</div>`;
+      }
+
+      points.forEach((point) => {
+        pointCategories.set(point.id, point.category);
+      });
+
+      let mappedPoints = 0;
+      let pendingLookups = points.length;
+
+      function finalizeMap() {
+        pendingLookups -= 1;
+
+        if (pendingLookups === 0 && mappedPoints > 0) {
+          applyMapFilter();
+
+          if (pendingMapFocusId) {
+            const pointId = pendingMapFocusId;
+            pendingMapFocusId = null;
+            focusPointOnMap(pointId);
+          }
+        }
+      }
+
+      function addMarker(point, position) {
+        const popupContent = getPopupContent(point);
+
+        const marker = new google.maps.Marker({
+          position,
+          map: pageMap,
+          icon: point.icon,
+          title: point.name
+        });
+
+        marker.customContent = popupContent;
+        marker.category = point.category;
+        marker.addListener("click", () => {
+          pageInfoWindow.setContent(popupContent);
+          pageInfoWindow.open(pageMap, marker);
+        });
+
+        pointMarkers.set(point.id, marker);
+        mappedPoints += 1;
+      }
+
+      points.forEach((point) => {
+        if (point.coords) {
+          addMarker(point, point.coords);
+          finalizeMap();
+          return;
+        }
+
+        geocoder.geocode({ address: point.query }, (results, status) => {
+          if (status === "OK" && results[0]) {
+            addMarker(point, results[0].geometry.location);
+          } else {
+            console.warn("NÃ£o foi possÃ­vel localizar no mapa:", point.name, status);
+          }
+
+          finalizeMap();
+        });
+      });
+    }
+
+    refreshVisibleCards();
+  </script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdddKSwLzMfQdvDOYIO2Qx5ZX7RiF6syc&callback=initMap"></script>
+</body>
+
+</html>
+

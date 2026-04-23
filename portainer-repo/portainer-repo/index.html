@@ -1,0 +1,851 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turismo em Amargosa - Portal da Prefeitura</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=20260414-1030">
+</head>
+<body>
+    <nav class="cabecalho" aria-label="Cabeçalho principal">
+        <div class="cabecalho-logo-box">
+            <a href="https://www.amargosa.ba.gov.br/" target="_blank" rel="noreferrer" aria-label="Prefeitura de Amargosa">
+                <div class="cabecalho-logo"></div>
+            </a>
+        </div>
+
+        <div class="cabecalho-dir">
+            <div class="topo">
+                <div class="topo-txt">
+                    <span class="data">--</span>
+                    <span class="hora">--:--</span>
+                </div>
+            </div>
+
+            <div class="acessibilidade">
+                <div class="acessibilidade-itens">
+                    <button class="acessibilidade-btn accessibilidade_reset" type="button" data-action="reset-font" title="Reiniciar tamanho do texto">
+                        <span class="material-symbols-outlined">restart_alt</span>
+                    </button>
+                    <button class="acessibilidade-btn" type="button" data-action="increase-font" title="Aumentar tamanho do texto">
+                        <span class="material-symbols-outlined">add</span>
+                    </button>
+                    <button class="acessibilidade-btn" type="button" data-action="decrease-font" title="Diminuir tamanho do texto">
+                        <span class="material-symbols-outlined">remove</span>
+                    </button>
+                    <button class="acessibilidade-btn" type="button" data-action="dark-mode" title="Modo escuro">
+                        <span class="material-symbols-outlined">contrast</span>
+                    </button>
+                    <a class="acessibilidade-btn" href="https://www.amargosa.ba.gov.br/mapa" target="_blank" rel="noreferrer" title="Mapa do portal">
+                        <span class="material-symbols-outlined">schema</span>
+                    </a>
+                    <a class="acessibilidade-btn" href="https://www.amargosa.ba.gov.br/acessibilidade" target="_blank" rel="noreferrer" title="Página de acessibilidade">
+                        <span class="material-symbols-outlined">accessible</span>
+                    </a>
+
+                </div>
+            </div>
+
+            <div class="menu">
+                <div class="menu-btns-campo">
+                    <div class="menu-sub-campo hamburger">
+                        <button class="menu-btn" type="button" aria-label="Abrir menu de turismo" aria-expanded="false" aria-controls="submenu-turismo">
+                            <span class="menu-btn-nome material-symbols-outlined menu_item_principal">menu</span>
+                            <span class="menu-btn-base"></span>
+                        </button>
+
+                        <div class="submenu_horizontal submenu_horizontal--simple" id="submenu-turismo">
+                            <div class="submenu_horizontal_col_dir">
+                                <div class="submenu_horizontal_links_card">
+                                    <div class="submenu_horizontal-btn"><a href="./carnaval-cultural/" target="_blank" rel="noopener noreferrer"><span>Carnaval Cultural</span></a></div>
+                                    <div class="submenu_horizontal-btn"><a href="https://saojoaoemamargosa.com.br/" target="_blank" rel="noopener noreferrer"><span>S&atilde;o Jo&atilde;o</span></a></div>
+                                    <div class="submenu_horizontal-btn"><a href="./festival-de-forro/" target="_blank" rel="noopener noreferrer"><span>Festival de Forr&oacute;</span></a></div>
+                                    <div class="submenu_horizontal-btn"><a href="./wifi-publico.html" data-guide-modal-trigger aria-haspopup="dialog" aria-controls="guia-modal"><span>Guia do Turista</span></a></div>
+                                    <div class="submenu_horizontal-btn"><a href="#pontos"><span>Identidade Cultural</span></a></div>
+                                    <div class="submenu_horizontal-btn"><a href="#calendario"><span>Agenda Cultural</span></a></div>
+                                    <div class="submenu_horizontal-btn"><a href="#galeria" data-gallery-hub><span>Galeria</span></a></div>
+                                    <div class="submenu_horizontal-btn"><a href="https://api.whatsapp.com/send/?phone=557535127811&text=Ol%C3%A1%2C+preciso+de+ajuda&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer"><span>Contato</span></a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-sub-campo menu-sub-campo--link">
+                        <button class="menu-btn" type="button" data-target="#pontos">
+                            <span class="menu-btn-nome">Identidade Cultural</span>
+                            <span class="menu-btn-base"></span>
+                        </button>
+                        <div class="submenu">
+                            <div class="submenu-box">
+                                <div class="submenu-btn"><a href="https://pncp.gov.br/app/atas?q=986249&status=todos&pagina=1" target="_blank" rel="noreferrer"><span>Atas</span></a></div>
+                                <div class="submenu-btn"><a href="https://www.amargosa.ba.gov.br/chamadas-publicas" target="_blank" rel="noreferrer"><span>Chamadas Públicas</span></a></div>
+                                <div class="submenu-btn"><a href="https://pncp.gov.br/app/contratos?q=prefeitura%20municipal%20de%20amargosa&pagina=1" target="_blank" rel="noreferrer"><span>Contratos</span></a></div>
+                                <div class="submenu-btn"><a href="https://pncp.gov.br/app/editais?q=prefeitura%20municipal%20de%20amargosa&status=todos&pagina=1" target="_blank" rel="noreferrer"><span>Licitações</span></a></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-sub-campo menu-sub-campo--link">
+                        <button class="menu-btn" type="button" data-target="#calendario">
+                            <span class="menu-btn-nome">Agenda Cultural</span>
+                            <span class="menu-btn-base"></span>
+                        </button>
+                        <div class="submenu">
+                            <div class="submenu-box submenu-box--wide">
+                                <div class="submenu-btn"><a href="https://amargosa.ba.gov.br/administracao&secretaria=prefeito" target="_blank" rel="noreferrer"><span>01 - Prefeito</span></a></div>
+                                <div class="submenu-btn"><a href="https://amargosa.ba.gov.br/administracao&secretaria=gabinete-do-prefeito" target="_blank" rel="noreferrer"><span>02 - Gabinete do Prefeito</span></a></div>
+                                <div class="submenu-btn"><a href="https://amargosa.ba.gov.br/administracao&secretaria=vice-prefeito" target="_blank" rel="noreferrer"><span>03 - Vice-Prefeito</span></a></div>
+                                <div class="submenu-btn"><a href="https://amargosa.ba.gov.br/administracao&secretaria=viceprefeito" target="_blank" rel="noreferrer"><span>04 - Gabinete Vice-Prefeito</span></a></div>
+                                <div class="submenu-btn"><a href="https://amargosa.ba.gov.br/secretarias&secretaria=cgm" target="_blank" rel="noreferrer"><span>05 - Controladoria Geral do Município - CGM</span></a></div>
+                                <div class="submenu-btn"><a href="https://amargosa.ba.gov.br/secretarias&secretaria=pjm" target="_blank" rel="noreferrer"><span>06 - Procuradoria Jurídica do Município - PJM</span></a></div>
+                                <div class="submenu-btn"><a href="https://amargosa.ba.gov.br/secretarias&secretaria=assessoria-de-comunicacao" target="_blank" rel="noreferrer"><span>07 - Assessoria de Comunicação - ASCOM</span></a></div>
+                                <div class="submenu-btn"><a href="https://www.amargosa.ba.gov.br/secretarias&secretaria=casa-civil" target="_blank" rel="noreferrer"><span>08 - Secretaria Municipal da Casa Civil - SECAC</span></a></div>
+                                <div class="submenu-btn"><a href="https://www.amargosa.ba.gov.br/secretarias&secretaria=desenvolvimento-institucional" target="_blank" rel="noreferrer"><span>09 - Secretaria Municipal de Administração, Finanças e Desenvolvimento Institucional - SEAFI</span></a></div>
+                                <div class="submenu-btn"><a href="https://www.amargosa.ba.gov.br/secretarias&secretaria=obras-planejamento" target="_blank" rel="noreferrer"><span>10 - Secretaria Municipal de Serviços Públicos, Obras e Planejamento da Cidade - SEMOP</span></a></div>
+                                <div class="submenu-btn"><a href="https://www.amargosa.ba.gov.br/secretarias&secretaria=secretaria-de-educacao" target="_blank" rel="noreferrer"><span>11 - Secretaria Municipal de Educação - SEMED</span></a></div>
+                                <div class="submenu-btn"><a href="https://www.amargosa.ba.gov.br/secretarias&secretaria=secretaria-de-saude" target="_blank" rel="noreferrer"><span>12 - Secretaria Municipal de Saúde - SESAU</span></a></div>
+                                <div class="submenu-btn"><a href="https://www.amargosa.ba.gov.br/secretarias&secretaria=agricultura-meioambiente" target="_blank" rel="noreferrer"><span>13 - Secretaria Municipal de Agricultura e Meio Ambiente - SEAMA</span></a></div>
+                                <div class="submenu-btn"><a href="https://www.amargosa.ba.gov.br/secretarias&secretaria=secretaria-de-assistencia-social" target="_blank" rel="noreferrer"><span>14 - Secretaria Municipal de Assistência e Desenvolvimento Social - SADS</span></a></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-sub-campo menu-sub-campo--dropdown">
+                        <button class="menu-btn" type="button" data-gallery-hub aria-haspopup="dialog">
+                            <span class="menu-btn-nome">Galeria</span>
+                            <span class="menu-btn-base"></span>
+                        </button>
+                        <div class="submenu" id="submenu-galeria">
+                            <div class="submenu-box">
+                                <div class="submenu-btn"><a href="#" data-gallery-key="carnaval-cultural"><span>Carnaval Cultural</span></a></div>
+                                <div class="submenu-btn"><a href="#" data-gallery-key="sao-joao"><span>S&atilde;o Jo&atilde;o</span></a></div>
+                                <div class="submenu-btn"><a href="#" data-gallery-key="festival-de-forro"><span>Festival de Forró</span></a></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-sub-campo menu-sub-campo--guide">
+                        <button class="menu-btn" type="button" data-url="./wifi-publico.html" data-guide-modal-trigger aria-haspopup="dialog" aria-controls="guia-modal">
+                            <span class="menu-btn-nome">Guia do Turista</span>
+                            <span class="menu-btn-base"></span>
+                        </button>
+                    </div>
+
+                    <div class="menu-sub-campo menu-sub-campo--dropdown">
+                        <button class="menu-btn" type="button" aria-haspopup="true">
+                            <span class="menu-btn-nome">Contato</span>
+                            <span class="menu-btn-base"></span>
+                        </button>
+                        <div class="submenu" id="submenu-contato">
+                            <div class="submenu-box">
+                                <div class="submenu-btn"><a href="https://api.whatsapp.com/send/?phone=557535127811&text=Ol%C3%A1%2C+preciso+de+ajuda&type=phone_number&app_absent=0"><span>Amanda</span></a></div>
+                                <div class="submenu-btn"><a href="https://gustavodevgti.github.io/Amargosaturismo/formulario/" target="_blank" rel="noopener noreferrer"><span>Cadastre seu estabelecimento</span></a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="menu-mobile">
+        <button class="menu-mobile-hamburger" type="button" aria-expanded="false" aria-controls="menu-mobile-links">
+            <span class="menu-mobile-hamburger-01"></span>
+            <span class="menu-mobile-hamburger-02"></span>
+            <span class="menu-mobile-hamburger-03"></span>
+        </button>
+        <div class="menu-mobile-esquerda">
+            <a href="https://www.amargosa.ba.gov.br/" target="_blank" rel="noreferrer" aria-label="Prefeitura de Amargosa">
+                <div class="menu-mobile-logo"></div>
+            </a>
+        </div>
+    </div>
+
+    <div class="menu-mobile-links" id="menu-mobile-links">
+        <div class="menu-mobile-links-box">
+            <details class="menu-mobile-links-pai">
+                <summary>A Nossa Cidade</summary>
+                <a href="https://www.amargosa.ba.gov.br/dados-gerais" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Dados Gerais</div></a>
+                <a href="https://www.amargosa.ba.gov.br/hino" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Hino</div></a>
+                <a href="https://www.amargosa.ba.gov.br/historia" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">História</div></a>
+                <a href="https://www.amargosa.ba.gov.br/localizacao" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Localização</div></a>
+                <a href="https://www.amargosa.ba.gov.br/simbolos" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Símbolos</div></a>
+            </details>
+
+            <details class="menu-mobile-links-pai">
+                <summary>Diário Oficial</summary>
+                <a href="https://pmamargosaba.imprensaoficial.org/ultimas-publicacoes/" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Calendário de publicações</div></a>
+                <a href="https://pmamargosaba.imprensaoficial.org/ultimas-publicacoes/" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Últimas matérias publicadas</div></a>
+                <a href="https://pmamargosaba.imprensaoficial.org/ultimos-diarios/" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Últimos diários</div></a>
+            </details>
+
+            <details class="menu-mobile-links-pai">
+                <summary>Editais</summary>
+                <a href="https://pncp.gov.br/app/atas?q=986249&status=todos&pagina=1" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Atas</div></a>
+                <a href="https://www.amargosa.ba.gov.br/chamadas-publicas" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Chamadas Públicas</div></a>
+                <a href="https://pncp.gov.br/app/contratos?q=prefeitura%20municipal%20de%20amargosa&pagina=1" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Contratos</div></a>
+                <a href="https://pncp.gov.br/app/editais?q=prefeitura%20municipal%20de%20amargosa&status=todos&pagina=1" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Licitações</div></a>
+            </details>
+
+            <details class="menu-mobile-links-pai">
+                <summary>Institucional</summary>
+                <a href="https://amargosa.ba.gov.br/administracao&secretaria=prefeito" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">01 - Prefeito</div></a>
+                <a href="https://amargosa.ba.gov.br/administracao&secretaria=gabinete-do-prefeito" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">02 - Gabinete do Prefeito</div></a>
+                <a href="https://amargosa.ba.gov.br/administracao&secretaria=vice-prefeito" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">03 - Vice-Prefeito</div></a>
+                <a href="https://amargosa.ba.gov.br/administracao&secretaria=viceprefeito" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">04 - Gabinete Vice-Prefeito</div></a>
+                <a href="https://amargosa.ba.gov.br/secretarias&secretaria=cgm" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">05 - Controladoria Geral do Município - CGM</div></a>
+                <a href="https://amargosa.ba.gov.br/secretarias&secretaria=pjm" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">06 - Procuradoria Jurídica do Município - PJM</div></a>
+                <a href="https://amargosa.ba.gov.br/secretarias&secretaria=assessoria-de-comunicacao" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">07 - Assessoria de Comunicação - ASCOM</div></a>
+                <a href="https://www.amargosa.ba.gov.br/secretarias&secretaria=casa-civil" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">08 - Secretaria Municipal da Casa Civil - SECAC</div></a>
+                <a href="https://www.amargosa.ba.gov.br/secretarias&secretaria=desenvolvimento-institucional" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">09 - Secretaria Municipal de Administração, Finanças e Desenvolvimento Institucional - SEAFI</div></a>
+                <a href="https://www.amargosa.ba.gov.br/secretarias&secretaria=obras-planejamento" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">10 - Secretaria Municipal de Serviços Públicos, Obras e Planejamento da Cidade - SEMOP</div></a>
+                <a href="https://www.amargosa.ba.gov.br/secretarias&secretaria=secretaria-de-educacao" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">11 - Secretaria Municipal de Educação - SEMED</div></a>
+                <a href="https://www.amargosa.ba.gov.br/secretarias&secretaria=secretaria-de-saude" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">12 - Secretaria Municipal de Saúde - SESAU</div></a>
+                <a href="https://www.amargosa.ba.gov.br/secretarias&secretaria=agricultura-meioambiente" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">13 - Secretaria Municipal de Agricultura e Meio Ambiente - SEAMA</div></a>
+                <a href="https://www.amargosa.ba.gov.br/secretarias&secretaria=secretaria-de-assistencia-social" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">14 - Secretaria Municipal de Assistência e Desenvolvimento Social - SADS</div></a>
+            </details>
+
+            <details class="menu-mobile-links-pai">
+                <summary>Menu</summary>
+                <a href="https://gustavodevgti.github.io/Amargosaturismo/formulario/"><div class="menu-mobile-links-btn">Contato</div></a>
+                <a href="https://www.amargosa.ba.gov.br/downloads" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Galeria de Arquivos</div></a>
+                <a href="https://www.amargosa.ba.gov.br/galerias" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Galeria de Fotos</div></a>
+                <a href="https://www.amargosa.ba.gov.br/galeria-de-videos" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Galeria de Vídeos</div></a>
+                <a href="https://leismunicipais.com.br/prefeitura/ba/amargosa" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Leis Municipais</div></a>
+                <a href="https://www.amargosa.ba.gov.br/links-uteis" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Links úteis</div></a>
+                <a href="https://www.amargosa.ba.gov.br/news" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Notícias</div></a>
+                <a href="https://www.amargosa.ba.gov.br/telefones-uteis-amargosa" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Telefones Úteis</div></a>
+                <a href="https://amargosa.saatri.com.br/Inicio" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Tributos</div></a>
+            </details>
+
+            <details class="menu-mobile-links-pai">
+                <summary>Transparência</summary>
+                <a href="https://www.amargosa.ba.gov.br/metas-e-indicadores" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Metas e Indicadores</div></a>
+                <a href="https://www.amargosa.ba.gov.br/ouvidoria" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Ouvidoria</div></a>
+                <a href="https://www.amargosa.ba.gov.br/portal-da-transparencia" target="_blank" rel="noreferrer"><div class="menu-mobile-links-btn">Portal da Transparência</div></a>
+            </details>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero hero-carousel" aria-label="Destaques principais do turismo em Amargosa">
+        <div class="hero-slide hero-slide--welcome is-active" data-hero-slide aria-hidden="false">
+            <div class="hero-slide__content">
+                <span class="hero-slide__eyebrow">Portal de Turismo</span>
+                <h1 class="hero-slide__title">Bem-vindo a Amargosa</h1>
+                <p class="hero-slide__text">Descubra a magia da Cidade Jardim, onde hist&oacute;ria, cultura e natureza se encontram</p>
+                <span class="hero-slide__action">Ver mais</span>
+            <p>Descubra a magia da Cidade Jardim, onde história, cultura e natureza se encontram</p>
+        </div>
+        </div>
+
+        <a class="hero-slide hero-slide--guide" href="./wifi-publico.html" data-hero-slide data-guide-modal-trigger aria-haspopup="dialog" aria-controls="guia-modal" aria-hidden="true" tabindex="-1">
+            <div class="hero-slide__content">
+                <span class="hero-slide__eyebrow">Guia da cidade</span>
+                <h2 class="hero-slide__title">Guia</h2>
+                <p class="hero-slide__text">Abra o guia tur&iacute;stico e encontre roteiros, servi&ccedil;os e pontos de interesse em Amargosa</p>
+                <span class="hero-slide__action">Ver mais</span>
+            </div>
+        </a>
+
+        <a class="hero-slide hero-slide--events" href="#eventos" data-hero-slide aria-hidden="true" tabindex="-1">
+            <div class="hero-slide__content">
+                <span class="hero-slide__eyebrow">Eventos em destaque</span>
+                <h2 class="hero-slide__title">Principais Eventos</h2>
+                <p class="hero-slide__text">Conhe&ccedil;a o S&atilde;o Jo&atilde;o, o Carnaval e o Festival de Forr&oacute;, celebra&ccedil;&otilde;es que movimentam Amargosa</p>
+                <span class="hero-slide__action">Ver mais</span>
+            </div>
+        </a>
+
+        <a class="hero-slide hero-slide--calendar" href="#calendario" data-hero-slide aria-hidden="true" tabindex="-1">
+            <div class="hero-slide__content">
+                <span class="hero-slide__eyebrow">Agenda em destaque</span>
+                <h2 class="hero-slide__title">Agenda Cultural</h2>
+                <p class="hero-slide__text">Veja a programa&ccedil;&atilde;o cultural e acompanhe o que acontece em Amargosa durante o ano</p>
+                <span class="hero-slide__action">Ver mais</span>
+            </div>
+        </a>
+
+        <a class="hero-slide hero-slide--attractions" href="#pontos" data-hero-slide aria-hidden="true" tabindex="-1">
+            <div class="hero-slide__content">
+                <span class="hero-slide__eyebrow">Explore a cidade</span>
+                <h2 class="hero-slide__title">Identidade Cultural</h2>
+                <p class="hero-slide__text">Conhe&ccedil;a a hist&oacute;ria, a identidade cultural e os lugares marcantes da cidade</p>
+                <span class="hero-slide__action">Ver mais</span>
+            </div>
+        </a>
+
+        <a class="hero-slide hero-slide--gallery" href="#galeria" data-hero-slide data-gallery-hub aria-label="Abrir galeria de fotos" aria-hidden="true" tabindex="-1">
+            <div class="hero-slide__content">
+                <span class="hero-slide__eyebrow">Mem&oacute;rias visuais</span>
+                <h2 class="hero-slide__title">Galeria</h2>
+                <p class="hero-slide__text">Passe pelas cole&ccedil;&otilde;es de fotos e encontre registros das festas e paisagens de Amargosa</p>
+                <span class="hero-slide__action">Ver mais</span>
+            </div>
+        </a>
+
+        <div class="hero-carousel__pagination" aria-label="Selecionar destaque">
+            <button class="hero-carousel__dot is-active" type="button" data-hero-dot="0" aria-label="Mostrar destaque Bem-vindo a Amargosa" aria-pressed="true"></button>
+            <button class="hero-carousel__dot" type="button" data-hero-dot="1" aria-label="Mostrar destaque Guia" aria-pressed="false"></button>
+            <button class="hero-carousel__dot" type="button" data-hero-dot="2" aria-label="Mostrar destaque Principais Eventos" aria-pressed="false"></button>
+            <button class="hero-carousel__dot" type="button" data-hero-dot="3" aria-label="Mostrar destaque Agenda Cultural" aria-pressed="false"></button>
+            <button class="hero-carousel__dot" type="button" data-hero-dot="4" aria-label="Mostrar destaque Identidade Cultural" aria-pressed="false"></button>
+            <button class="hero-carousel__dot" type="button" data-hero-dot="5" aria-label="Mostrar destaque Galeria" aria-pressed="false"></button>
+        </div>
+
+        <div class="hero-carousel__controls" aria-label="Navegação do carrossel principal">
+            <button class="hero-carousel__control hero-carousel__control--prev" type="button" data-hero-control="prev" aria-label="Mostrar destaque anterior">
+                <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+            </button>
+            <button class="hero-carousel__control hero-carousel__control--next" type="button" data-hero-control="next" aria-label="Mostrar próximo destaque">
+                <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Seção Principais Eventos -->
+    <section id="eventos" class="attractions featured-events">
+        <div class="container">
+            <h2>Principais Eventos</h2>
+
+            <div class="attractions-grid">
+                <div class="attraction-card attraction-card--link attraction-card--event-modal attraction-card--carnaval-cultural" data-carnaval-cultural-modal-trigger tabindex="0" role="button" aria-haspopup="dialog" aria-controls="carnaval-cultural-modal" aria-label="Abrir especial do Carnaval Cultural de Amargosa">
+                    <img src="public/images/carnaval-cultural-2026-cover.png" alt="Carnaval de Amargosa" loading="lazy" decoding="async">
+                    <div class="card-content">
+                        <h3>Carnaval</h3>
+                        <p class="subtitle-card">Folia, identidade e cultura popular</p>
+                        <p>
+                            O Carnaval Cultural valoriza a criatividade local e transforma as ruas em um espa&ccedil;o
+                            de encontro, alegria e express&otilde;es culturais para moradores e visitantes
+                        </p>
+                        <p class="highlights">
+                            <strong>Destaques:</strong> Cultura popular, blocos, m&uacute;sica, arte e celebra&ccedil;&atilde;o nas ruas
+                        </p>
+                        <button class="gallery-name-card gallery-name-card--button event-gallery-button" type="button" data-event-modal-open="carnaval-cultural" aria-label="Abrir especial do Carnaval Cultural">
+                            <span class="event-gallery-button__text">Ver mais</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="attraction-card attraction-card--link attraction-card--event-modal attraction-card--sao-joao" data-sao-joao-modal-trigger tabindex="0" role="button" aria-haspopup="dialog" aria-controls="sao-joao-modal" aria-label="Abrir especial do S&atilde;o Jo&atilde;o de Amargosa">
+                    <img src="public/images/sao-joao-principais-eventos-2026.jpeg" alt="Show no S&atilde;o Jo&atilde;o de Amargosa" loading="lazy" decoding="async">
+                    <div class="card-content">
+                        <h3>S&atilde;o Jo&atilde;o</h3>
+                        <p class="subtitle-card">Tradi&ccedil;&atilde;o junina no cora&ccedil;&atilde;o da cidade</p>
+                        <p>
+                            O S&atilde;o Jo&atilde;o de Amargosa &eacute; uma das grandes celebra&ccedil;&otilde;es culturais do munic&iacute;pio,
+                            reunindo m&uacute;sica, forr&oacute;, culin&aacute;ria t&iacute;pica e a energia acolhedora da Cidade Jardim
+                        </p>
+                        <p class="highlights">
+                            <strong>Destaques:</strong> Forr&oacute;, tradi&ccedil;&atilde;o junina, gastronomia t&iacute;pica e programa&ccedil;&atilde;o cultural
+                        </p>
+                        <button class="gallery-name-card gallery-name-card--button event-gallery-button" type="button" data-event-modal-open="sao-joao" aria-label="Abrir especial do S&atilde;o Jo&atilde;o">
+                            <span class="event-gallery-button__text">Ver mais</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="attraction-card attraction-card--link attraction-card--event-modal attraction-card--festival-forro" data-festival-forro-modal-trigger tabindex="0" role="button" aria-haspopup="dialog" aria-controls="festival-forro-modal" aria-label="Abrir especial do Festival de Forr&oacute; de Amargosa">
+                    <img src="public/images/festival-forro/palco.jpg" alt="Apresenta&ccedil;&atilde;o no Festival de Forr&oacute; de Amargosa" loading="lazy" decoding="async">
+                    <div class="card-content">
+                        <h3>Festival de Forr&oacute;</h3>
+                        <p class="subtitle-card">M&uacute;sica e dan&ccedil;a para celebrar Amargosa</p>
+                        <p>
+                            O Festival de Forr&oacute; refor&ccedil;a a voca&ccedil;&atilde;o cultural de Amargosa, destacando ritmos,
+                            artistas e experi&ecirc;ncias que conectam o p&uacute;blico &agrave;s tradi&ccedil;&otilde;es nordestinas
+                        </p>
+                        <p class="highlights">
+                            <strong>Destaques:</strong> Shows, dan&ccedil;a, forr&oacute;, artistas regionais e clima de celebra&ccedil;&atilde;o
+                        </p>
+                        <button class="gallery-name-card gallery-name-card--button event-gallery-button" type="button" data-event-modal-open="festival-de-forro" aria-label="Abrir especial do Festival de Forr&oacute;">
+                            <span class="event-gallery-button__text">Ver mais</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Informações Práticas -->
+    <section class="practical-info" id="planeje-visita">
+        <div class="container" id="mapa-experiencias">
+            <h2>Informações Práticas</h2>
+
+            <div class="info-grid">
+                <div class="attraction-card info-card info-card--practical">
+                    <img class="info-card__image" src="public/images/practical-info/como-chegar-ba-026.jpeg" alt="Trecho da BA-026 com acesso rodoviário para Amargosa" loading="lazy" decoding="async">
+                    <div class="card-content">
+                        <h3>Como Chegar</h3>
+                        <p class="subtitle-card">Acesso rodoviário e opções de viagem</p>
+                        <p>
+                            Partindo de Salvador, Amargosa fica a cerca de 241 km, com viagem média de 3 horas: o caminho mais comum segue pela BR-324,
+                            acessa a BR-101 e depois a BA-046 até a cidade. Outra rota é ir pela BR-324 até Feira de Santana, descer pela BR-116 Sul até
+                            Milagres e então entrar na BA-046 por cerca de 50 km, totalizando aproximadamente 260 km. Também há opções de ônibus e agências de turismo.
+                        </p>
+                        <a class="gallery-name-card gallery-name-card--button event-gallery-button info-card__action" href="./wifi-publico.html?route=amargosa#mapa" data-guide-modal-trigger aria-haspopup="dialog" aria-controls="guia-modal">Ver mais</a>
+                    </div>
+                </div>
+
+                <div class="attraction-card info-card info-card--practical">
+                    <img class="info-card__image" src="public/images/practical-info/hospedagem-area-externa.jpeg" alt="Área externa de hospedagem com jardins e estrutura de descanso" loading="lazy" decoding="async">
+                    <div class="card-content">
+                        <h3>Hospedagem</h3>
+                        <p class="subtitle-card">Conforto, clima agradável e acolhimento</p>
+                        <p>
+                            Amargosa oferece boas opções de hospedagem, entre hotéis, pousadas e espaços com clima tranquilo para descanso. O tempo agradável da cidade
+                            e o jeito acolhedor e caloroso do povo amargosense tornam a estadia ainda mais especial, principalmente em períodos de maior movimento como o São João.
+                        </p>
+                        <a class="gallery-name-card gallery-name-card--button event-gallery-button info-card__action" href="./wifi-publico.html?filter=hotel#pontos" data-guide-modal-trigger aria-haspopup="dialog" aria-controls="guia-modal">Ver mais</a>
+                    </div>
+                </div>
+
+                <div class="attraction-card info-card info-card--practical">
+                    <img class="info-card__image" src="public/images/practical-info/gastronomia-prato.jpeg" alt="Prato típico da culinária local em Amargosa" loading="lazy" decoding="async">
+                    <div class="card-content">
+                        <h3>Gastronomia</h3>
+                        <p class="subtitle-card">Licores locais e sabores da nossa terra</p>
+                        <p>
+                            A gastronomia local reúne os sabores da nossa terra: licores artesanais, pratos com banana, derivados de cachaça, laticínios e a tradicional carne de sol,
+                            com receitas que valorizam a identidade de Amargosa e a cultura regional.
+                        </p>
+                        <a class="gallery-name-card gallery-name-card--button event-gallery-button info-card__action" href="./wifi-publico.html?filter=gastronomia#pontos" data-guide-modal-trigger aria-haspopup="dialog" aria-controls="guia-modal">Ver mais</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Identidade Cultural -->
+        <section id="pontos" class="about tourism-points">
+        <div class="container">
+            <h2>Identidade Cultural</h2>
+
+            <div class="about-content about-content--cultural">
+                <div class="about-text">
+                    <p>
+                        Localizada a aproximadamente 242 km de Salvador, no cora&ccedil;&atilde;o do Vale do Jiquiri&ccedil;&aacute;,
+                        Amargosa &eacute; um destino que encanta pela riqueza de seus atrativos tur&iacute;sticos e culturais,
+                        profundamente ligados &agrave; sua hist&oacute;ria, tradi&ccedil;&atilde;o e manifesta&ccedil;&otilde;es populares.
+                        Conhecida carinhosamente como &quot;Cidade Jardim&quot;, pela beleza de suas pra&ccedil;as e jardins bem
+                        cuidados, a cidade combina o charme hist&oacute;rico com a vibra&ccedil;&atilde;o de uma comunidade viva,
+                        acolhedora e marcada por forte identidade cultural.
+                    </p>
+                    <h3>Feira Livre</h3>
+                    <p>
+                        Um dos maiores destaques &eacute; a Feira Livre de Amargosa, considerada o cora&ccedil;&atilde;o da cidade.
+                        Nela, moradores e visitantes encontram alimentos frescos, artesanato local e o cotidiano
+                        acolhedor do povo amargosense. Nesse ambiente, a tradicional carne do sol, preparada de forma
+                        artesanal, &eacute; um dos sabores mais apreciados da regi&atilde;o.
+                    </p>
+                    <h3>Festivais Culturais</h3>
+                    <p>
+                        No calend&aacute;rio festivo, o S&atilde;o Jo&atilde;o de Amargosa &eacute; um dos mais importantes do estado, com
+                        decora&ccedil;&atilde;o tem&aacute;tica, shows e quadrilhas juninas que celebram a cultura nordestina.
+                        O Carnaval de Amargosa tamb&eacute;m movimenta a cidade com m&uacute;sica, alegria e forte participa&ccedil;&atilde;o popular.
+                    </p>
+                    <p>
+                        As manifesta&ccedil;&otilde;es culturais tradicionais s&atilde;o patrim&ocirc;nio de Amargosa: o samba de roda
+                        mant&eacute;m viva a ancestralidade, a capoeira representa resist&ecirc;ncia e identidade, e os mestres
+                        dos saberes preservam rezas, benzimentos e pr&aacute;ticas espirituais. Ternos de reis e cavalgadas
+                        tradicionais tamb&eacute;m fortalecem esse mosaico cultural, revelando a identidade de um povo que
+                        valoriza suas ra&iacute;zes e mant&eacute;m vivas suas tradi&ccedil;&otilde;es.
+                    </p>
+                    <h3>Manifesta&ccedil;&otilde;es Religiosas</h3>
+                    <p>
+                        A religiosidade ocupa papel central na vida cultural local e se expressa de forma diversa e
+                        inclusiva. Destaca-se a Festa de Nossa Senhora do Bom Conselho, padroeira do munic&iacute;pio, al&eacute;m
+                        da atua&ccedil;&atilde;o da Diocese de Amargosa, que re&uacute;ne 27 munic&iacute;pios baianos e refor&ccedil;a o papel
+                        regional da cidade.
+                    </p>
+                    <p>
+                        Tamb&eacute;m ganham for&ccedil;a as express&otilde;es de f&eacute; de matriz africana, como o Xir&ecirc; de Rua de
+                        Amargosa, realizado em novembro, com cantos, dan&ccedil;as e rituais que valorizam a cultura
+                        afro-brasileira. A diversidade religiosa se amplia com a Festa dos Evang&eacute;licos, no segundo
+                        s&aacute;bado de setembro, reunindo igrejas e fi&eacute;is em louvor, m&uacute;sica gospel e mensagens de f&eacute;.
+                    </p>
+                </div>
+
+                <div class="tourism-points__photo-stack tourism-points__photo-stack--merged" aria-label="Registros culturais de Amargosa">
+                    <div class="tourism-points__photo-frame">
+                        <img class="tourism-points__photo--placa" src="public/images/eu-amo-amargosa.jpg" alt="Placa Eu Amo Amargosa" loading="lazy" decoding="async">
+                    </div>
+                    <div class="tourism-points__photo-frame">
+                        <img src="public/images/feira-livre.png" alt="Feira livre de Amargosa" loading="lazy" decoding="async">
+                    </div>
+                    <div class="tourism-points__photo-frame">
+                        <img src="public/images/identidade-cultural-sao-joao-2018.jpg" alt="São João em Amargosa" loading="lazy" decoding="async">
+                    </div>
+                    <div class="tourism-points__photo-row tourism-points__photo-row--split" aria-label="Artesanato e quadrilha junina em Amargosa">
+                        <div class="tourism-points__photo-frame">
+                            <img src="public/images/identidade-artesanato-novo.jpg" alt="Artesanato em Amargosa" loading="lazy" decoding="async">
+                        </div>
+                        <div class="tourism-points__photo-frame">
+                            <img src="public/images/identidade-quadrilha-junina.jpg" alt="Quadrilha junina em Amargosa" loading="lazy" decoding="async">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-subtopic about-subtopic--attractions">
+                <h3 class="about-subtopic__title">Pontos tur&iacute;sticos</h3>
+
+                <div class="attractions-grid tourism-points__grid">
+                    <div class="attraction-card attraction-card--link" id="praca-lourival-monte" data-url="./wifi-publico.html" tabindex="0" role="link" aria-label="Abrir guia tur&iacute;stico de Amargosa">
+                        <img src="public/images/hero-amargosa.jpeg" alt="Pra&ccedil;a Lourival Monte" loading="lazy" decoding="async">
+                        <div class="card-content">
+                            <h3>Pra&ccedil;a Lourival Monte</h3>
+                            <p class="subtitle-card">O Cart&atilde;o-Postal de Amargosa</p>
+                            <p data-summary-text="S&iacute;mbolo de Amargosa, a Pra&ccedil;a Lourival Monte re&uacute;ne paisagismo marcante, vida urbana e a Catedral do Bom Conselho em um dos cen&aacute;rios mais tradicionais da cidade">
+                                A Pra&ccedil;a Lourival Monte, conhecida como &quot;Jardim&quot;, &eacute; um dos espa&ccedil;os
+                                mais simb&oacute;licos de Amargosa, reunindo paisagismo marcante, vida urbana
+                                e a presen&ccedil;a da Catedral de Nossa Senhora do Bom Conselho
+                            </p>
+                            <p class="highlights">
+                                <strong>Destaques:</strong> Catedral com arquitetura barroca, esculturas de anjos,
+                                jardins floridos, palmeiras imperiais
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="attraction-card attraction-card--link" id="catedral-bom-conselho" data-url="./wifi-publico.html" tabindex="0" role="link" aria-label="Abrir guia tur&iacute;stico de Amargosa">
+                        <img src="public/images/catedral-de-amargosa.webp" alt="Catedral de Amargosa" loading="lazy" decoding="async">
+                        <div class="card-content">
+                            <h3>Catedral de Nossa Senhora do Bom Conselho</h3>
+                            <p class="subtitle-card">Patrim&ocirc;nio Hist&oacute;rico e Arquitet&ocirc;nico</p>
+                            <p data-summary-text="Patrim&ocirc;nio hist&oacute;rico de Amargosa, a Catedral do Bom Conselho preserva arquitetura barroca e mem&oacute;rias religiosas, art&iacute;sticas e culturais da cidade">
+                                Localizada na Pra&ccedil;a Lourival Monte, a Catedral &eacute; um importante
+                                patrim&ocirc;nio hist&oacute;rico de Amargosa, sua arquitetura barroca preserva
+                                mem&oacute;rias religiosas, art&iacute;sticas e culturais da cidade
+                            </p>
+                            <p class="highlights">
+                                <strong>Destaques:</strong> Arquitetura barroca, esculturas de anjos, altar ornamentado,
+                                patrim&ocirc;nio hist&oacute;rico e cultural
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="attraction-card attraction-card--link" id="praca-do-bosque" data-url="./wifi-publico.html" tabindex="0" role="link" aria-label="Abrir guia tur&iacute;stico de Amargosa">
+                        <img src="public/images/praca-do-bosque-antiga-estacao.jpg" alt="Pra&ccedil;a do Bosque" loading="lazy" decoding="async">
+                        <div class="card-content">
+                            <h3>Pra&ccedil;a do Bosque</h3>
+                            <p class="subtitle-card">Espa&ccedil;o de conviv&ecirc;ncia e eventos</p>
+                            <p data-summary-text="A Pra&ccedil;a do Bosque &eacute; um espa&ccedil;o amplo e acolhedor para encontros, passeios em fam&iacute;lia e atividades culturais, com ambiente agrad&aacute;vel para lazer e conviv&ecirc;ncia">
+                                A Pra&ccedil;a do Bosque &eacute; um espa&ccedil;o amplo e acolhedor para encontros,
+                                passeios em fam&iacute;lia e atividades culturais, sua estrutura recebe eventos e
+                                oferece uma &aacute;rea agrad&aacute;vel para lazer e conviv&ecirc;ncia
+                            </p>
+                            <p class="highlights">
+                                <strong>Destaques:</strong> Infraestrutura para eventos, &aacute;reas de conviv&ecirc;ncia,
+                                lazer ao ar livre e passeio em fam&iacute;lia
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="attractions-cta">
+                    <a class="btn attractions-cta__button" href="./wifi-publico.html" data-guide-modal-trigger aria-haspopup="dialog" aria-controls="guia-modal">Ver mais</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Secao Agenda Cultural -->
+    <section id="calendario" class="calendar">
+        <div class="container container--calendar-embed">
+            <h2>Agenda Cultural</h2>
+
+            <div class="calendar-embed-shell">
+                <div class="calendar-embed-frame">
+                    <iframe
+                        class="calendar-embed-iframe"
+                        data-src="./Amargosacalendario/?embed=1"
+                        title="Agenda Cultural de Amargosa"
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen
+                    ></iframe>
+                </div>
+                <a class="calendar-embed-arrow" href="./Amargosacalendario/" aria-label="Abrir calendário completo">
+                    <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Galeria -->
+    <section id="galeria" class="gallery">
+        <div class="container">
+            <h2>Galeria de Fotos</h2>
+            <div class="gallery-names" aria-label="Temas da galeria">
+                <button class="gallery-name-card gallery-name-card--button" type="button" data-gallery-key="carnaval-cultural"><span class="gallery-name-card__title">Carnaval Cultural</span><span class="gallery-name-card__meta">Escolha o ano do Carnaval no modal</span></button>
+                <button class="gallery-name-card gallery-name-card--button" type="button" data-gallery-key="sao-joao"><span class="gallery-name-card__title">S&atilde;o Jo&atilde;o</span><span class="gallery-name-card__meta">Escolha o ano do S&atilde;o Jo&atilde;o no modal</span></button>
+                <button class="gallery-name-card gallery-name-card--button" type="button" data-gallery-key="festival-de-forro"><span class="gallery-name-card__title">Festival de Forr&oacute;</span><span class="gallery-name-card__meta">Escolha o ano do Festival no modal</span></button>
+            </div>
+            <p class="section-intro">Conheça a beleza de Amargosa através de nossas imagens</p>
+
+            <p class="gallery-status-note">Ao abrir Carnaval Cultural, S&atilde;o Jo&atilde;o ou Festival de Forr&oacute;, o visitante escolhe primeiro o ano e depois navega pelas fotos daquele per&iacute;odo.</p>
+
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="public/images/witgRPawk5Js.jpg" alt="Amargosa - Vista geral" loading="lazy" decoding="async">
+                    <div class="gallery-overlay">
+                        <p>Amargosa - A Cidade Jardim</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="public/images/vWIDhexeF1V9.jpg" alt="Praça Lourival Monte" loading="lazy" decoding="async">
+                    <div class="gallery-overlay">
+                        <p>Praça Lourival Monte</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="public/images/W8TfnWoEZhhV.jpg" alt="Praça do Bosque" loading="lazy" decoding="async">
+                    <div class="gallery-overlay">
+                        <p>Praça do Bosque</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="public/images/1wQIC7JVJHAg.jpg" alt="Catedral - Detalhe" loading="lazy" decoding="async">
+                    <div class="gallery-overlay">
+                        <p>Catedral de Nossa Senhora</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="public/images/ll2B4KApJOE9.jpg" alt="São João de Amargosa" loading="lazy" decoding="async">
+                    <div class="gallery-overlay">
+                        <p>São João - Festa Junina</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="public/images/mhIlnVvDGrCD.jpg" alt="Celebração Cultural" loading="lazy" decoding="async">
+                    <div class="gallery-overlay">
+                        <p>Celebração Cultural</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="public/images/6Q957UN92EK0.jpg" alt="Pontos Turísticos" loading="lazy" decoding="async">
+                    <div class="gallery-overlay">
+                        <p>Pontos Turísticos</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="public/images/tVaNKlldFSCB.jpg" alt="Jardins de Amargosa" loading="lazy" decoding="async">
+                    <div class="gallery-overlay">
+                        <p>Jardins Floridos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="gallery-modal" id="gallery-modal" hidden>
+        <div class="gallery-modal__backdrop" data-gallery-close></div>
+        <div class="gallery-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="gallery-modal-title">
+            <button class="gallery-modal__close" type="button" data-gallery-close aria-label="Fechar galeria">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+
+            <div class="gallery-modal__header">
+                <div class="gallery-modal__header-copy">
+                    <h3 id="gallery-modal-title">Carnaval Cultural</h3>
+                    <p class="gallery-modal__subtitle" id="gallery-modal-subtitle">Escolha o ano do Carnaval Cultural para abrir o &aacute;lbum correspondente.</p>
+                </div>
+                <div class="gallery-modal__meta" id="gallery-modal-meta"></div>
+            </div>
+
+            <div class="gallery-modal__status" id="gallery-modal-status" role="status" aria-live="polite"></div>
+            <div class="gallery-modal__toolbar" id="gallery-modal-toolbar" hidden>
+                <button class="gallery-modal__back" type="button" id="gallery-modal-back" hidden>Escolher outro ano</button>
+                <div class="gallery-modal__pagination gallery-modal__pagination--mobile" id="gallery-modal-mobile-pagination" hidden>
+                    <button class="gallery-modal__pagination-btn" type="button" id="gallery-modal-mobile-page-prev" aria-label="Voltar para a página anterior">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </button>
+                    <span class="gallery-modal__pagination-label" id="gallery-modal-mobile-page-label">P&aacute;gina 1 de 1</span>
+                    <button class="gallery-modal__pagination-btn" type="button" id="gallery-modal-mobile-page-next" aria-label="Ir para a próxima página">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </button>
+                </div>
+            </div>
+            <div class="gallery-modal__collections" id="gallery-modal-collections" aria-live="polite"></div>
+
+            <div class="gallery-modal__preview" id="gallery-modal-preview" hidden>
+                <div class="gallery-modal__preview-frame">
+                    <img id="gallery-modal-preview-image" src="" alt="">
+                </div>
+
+                <div class="gallery-modal__preview-footer">
+                    <a class="gallery-modal__preview-download" id="gallery-modal-preview-download" href="#" download hidden>Download</a>
+                    <p class="gallery-modal__preview-caption" id="gallery-modal-preview-caption"></p>
+                    <button class="gallery-modal__preview-close" type="button" id="gallery-modal-preview-close">Fechar foto</button>
+                </div>
+            </div>
+
+            <div class="gallery-modal__grid" id="gallery-modal-grid" aria-live="polite"></div>
+
+            <div class="gallery-modal__pagination gallery-modal__pagination--desktop" id="gallery-modal-pagination" hidden>
+                <button class="gallery-modal__pagination-btn" type="button" id="gallery-modal-page-prev" aria-label="Voltar para a página anterior">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <span class="gallery-modal__pagination-label" id="gallery-modal-page-label">P&aacute;gina 1 de 1</span>
+                <button class="gallery-modal__pagination-btn" type="button" id="gallery-modal-page-next" aria-label="Ir para a próxima página">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="event-modal event-modal--carnaval-cultural" id="carnaval-cultural-modal" hidden>
+        <div class="event-modal__backdrop" data-carnaval-cultural-modal-close></div>
+        <div class="event-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="carnaval-cultural-modal-title">
+            <button class="event-modal__close" type="button" data-carnaval-cultural-modal-close aria-label="Fechar especial do Carnaval Cultural">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+
+            <div class="event-modal__content">
+                <div class="event-modal__intro">
+                    <h3 id="carnaval-cultural-modal-title">Carnaval Cultural</h3>
+                    <p class="event-modal__lead">Folia popular, blocos tradicionais e fantasia tomam conta das ruas em uma festa aberta para todas as idades.</p>
+                    <p class="event-modal__copy">Aqui, o visitante confere um resumo da festa e acessa a galeria tem&aacute;tica do portal principal.</p>
+
+                    <div class="event-modal__actions">
+                        <a class="event-modal__action" href="./carnaval-cultural/" target="_blank" rel="noopener noreferrer">Abrir p&aacute;gina completa</a>
+                        <a class="event-modal__action event-modal__action--secondary" href="./?gallery=carnaval-cultural">Ir para a galeria</a>
+                    </div>
+
+                    <div class="event-modal__notice" role="note" aria-label="Aviso sobre festas da cidade">
+                        <p class="event-modal__notice-title"><strong>Aviso</strong></p>
+                        <p>Aviso sobre Programa&ccedil;&atilde;o das Festas</p>
+                        <p>As festas de Amargosa est&atilde;o sujeitas a altera&ccedil;&otilde;es de programa&ccedil;&atilde;o, hor&aacute;rios, atra&ccedil;&otilde;es, locais e regras de acesso por decis&atilde;o dos organizadores e dos &oacute;rg&atilde;os p&uacute;blicos.</p>
+                        <p>O Amargosa Turismo atua apenas na divulga&ccedil;&atilde;o informativa e n&atilde;o se responsabiliza por cancelamentos, mudan&ccedil;as, lota&ccedil;&atilde;o, comercializa&ccedil;&atilde;o de ingressos ou servi&ccedil;os de terceiros durante os eventos.</p>
+                        <p>Antes de participar, confirme as informa&ccedil;&otilde;es nos canais oficiais de cada festa.</p>
+                    </div>
+                </div>
+
+                <div class="event-modal__frame-shell">
+                    <iframe class="event-modal__frame" data-src="./carnaval-cultural/" title="Subsite do Carnaval Cultural de Amargosa" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="event-modal event-modal--sao-joao" id="sao-joao-modal" hidden>
+        <div class="event-modal__backdrop" data-sao-joao-modal-close></div>
+        <div class="event-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="sao-joao-modal-title">
+            <button class="event-modal__close" type="button" data-sao-joao-modal-close aria-label="Fechar especial do S&atilde;o Jo&atilde;o">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+
+            <div class="event-modal__content">
+                <div class="event-modal__intro">
+                    <h3 id="sao-joao-modal-title">S&atilde;o Jo&atilde;o de Amargosa</h3>
+                    <p class="event-modal__lead">Um preview do novo subsite com clima junino, imagens da festa e conte&uacute;dos inspirados no portal oficial do S&atilde;o Jo&atilde;o.</p>
+                    <p class="event-modal__copy">Neste espa&ccedil;o, o visitante encontra uma apresenta&ccedil;&atilde;o r&aacute;pida da festa, da Vila Junina, das tradi&ccedil;&otilde;es culturais e um atalho direto para a galeria tem&aacute;tica do portal principal.</p>
+
+                    <div class="event-modal__actions">
+                        <a class="event-modal__action" href="https://saojoaoemamargosa.com.br/" target="_blank" rel="noopener noreferrer">Abrir p&aacute;gina completa</a>
+                        <a class="event-modal__action event-modal__action--secondary" href="./?gallery=sao-joao">Ir para a galeria</a>
+                    </div>
+
+                    <div class="event-modal__notice" role="note" aria-label="Aviso sobre festas da cidade">
+                        <p class="event-modal__notice-title"><strong>Aviso</strong></p>
+                        <p>Aviso sobre Programa&ccedil;&atilde;o das Festas</p>
+                        <p>As festas de Amargosa est&atilde;o sujeitas a altera&ccedil;&otilde;es de programa&ccedil;&atilde;o, hor&aacute;rios, atra&ccedil;&otilde;es, locais e regras de acesso por decis&atilde;o dos organizadores e dos &oacute;rg&atilde;os p&uacute;blicos.</p>
+                        <p>O Amargosa Turismo atua apenas na divulga&ccedil;&atilde;o informativa e n&atilde;o se responsabiliza por cancelamentos, mudan&ccedil;as, lota&ccedil;&atilde;o, comercializa&ccedil;&atilde;o de ingressos ou servi&ccedil;os de terceiros durante os eventos.</p>
+                        <p>Antes de participar, confirme as informa&ccedil;&otilde;es nos canais oficiais de cada festa.</p>
+                    </div>
+                </div>
+
+                <div class="event-modal__frame-shell">
+                    <iframe class="event-modal__frame" data-src="./sãojoão/" title="Subsite do S&atilde;o Jo&atilde;o de Amargosa" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="event-modal event-modal--festival-forro" id="festival-forro-modal" hidden>
+        <div class="event-modal__backdrop" data-festival-forro-modal-close></div>
+        <div class="event-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="festival-forro-modal-title">
+            <button class="event-modal__close" type="button" data-festival-forro-modal-close aria-label="Fechar especial do Festival de Forr&oacute;">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+
+            <div class="event-modal__content">
+                <div class="event-modal__intro">
+                    <h3 id="festival-forro-modal-title">Festival de Forr&oacute;</h3>
+                    <p class="event-modal__lead">O Festival de Forr&oacute; re&uacute;ne artistas, dan&ccedil;a e tradi&ccedil;&atilde;o nordestina em uma programa&ccedil;&atilde;o que valoriza o forr&oacute; raiz.</p>
+                    <p class="event-modal__copy">Neste espa&ccedil;o, o visitante encontra uma apresenta&ccedil;&atilde;o r&aacute;pida da festa e um atalho direto para a galeria tem&aacute;tica do portal principal.</p>
+
+                    <div class="event-modal__actions">
+                        <a class="event-modal__action" href="./festival-de-forro/" target="_blank" rel="noopener noreferrer">Abrir p&aacute;gina completa</a>
+                        <a class="event-modal__action event-modal__action--secondary" href="./?gallery=festival-de-forro">Ir para a galeria</a>
+                    </div>
+
+                    <div class="event-modal__notice" role="note" aria-label="Aviso sobre festas da cidade">
+                        <p class="event-modal__notice-title"><strong>Aviso</strong></p>
+                        <p>Aviso sobre Programa&ccedil;&atilde;o das Festas</p>
+                        <p>As festas de Amargosa est&atilde;o sujeitas a altera&ccedil;&otilde;es de programa&ccedil;&atilde;o, hor&aacute;rios, atra&ccedil;&otilde;es, locais e regras de acesso por decis&atilde;o dos organizadores e dos &oacute;rg&atilde;os p&uacute;blicos.</p>
+                        <p>O Amargosa Turismo atua apenas na divulga&ccedil;&atilde;o informativa e n&atilde;o se responsabiliza por cancelamentos, mudan&ccedil;as, lota&ccedil;&atilde;o, comercializa&ccedil;&atilde;o de ingressos ou servi&ccedil;os de terceiros durante os eventos.</p>
+                        <p>Antes de participar, confirme as informa&ccedil;&otilde;es nos canais oficiais de cada festa.</p>
+                    </div>
+                </div>
+
+                <div class="event-modal__frame-shell">
+                    <iframe class="event-modal__frame" data-src="./festival-de-forro/" title="Subsite do Festival de Forr&oacute; de Amargosa" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="event-modal event-modal--guia" id="guia-modal" hidden>
+        <div class="event-modal__backdrop" data-guia-modal-close></div>
+        <div class="event-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="guia-modal-title">
+            <button class="event-modal__close" type="button" data-guia-modal-close aria-label="Fechar guia do turista">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+
+            <div class="event-modal__content">
+                <div class="event-modal__intro">
+                    <h3 id="guia-modal-title">Guia do Turista de Amargosa</h3>
+                    <p class="event-modal__lead">Encontre pontos tur&iacute;sticos, rede wi-fi p&uacute;blica, gastronomia e hospedagem em um guia completo da cidade.</p>
+                    <p class="event-modal__copy">No mapa interativo, voc&ecirc; pode explorar os locais por categoria e ir direto para cada ponto de interesse.</p>
+
+                    <div class="event-modal__actions">
+                        <a class="event-modal__action" href="./wifi-publico.html" data-guia-open-link>Abrir p&aacute;gina completa</a>
+                        <a class="event-modal__action event-modal__action--secondary" href="./wifi-publico.html#mapa" data-guia-map-link target="guia-modal-frame">Ver mapa</a>
+                    </div>
+
+                    <div class="event-modal__notice" role="note" aria-label="Aviso de responsabilidade">
+                        <p class="event-modal__notice-title"><strong>Aviso</strong></p>
+                        <p>Aviso de Responsabilidade</p>
+                        <p>O site Amargosa Turismo atua apenas como meio informativo e de divulga&ccedil;&atilde;o de estabelecimentos e servi&ccedil;os locais. N&atilde;o nos responsabilizamos por qualquer rela&ccedil;&atilde;o, negocia&ccedil;&atilde;o, contrata&ccedil;&atilde;o ou experi&ecirc;ncia entre turistas e os estabelecimentos divulgados.</p>
+                        <p>As informa&ccedil;&otilde;es apresentadas podem sofrer altera&ccedil;&otilde;es, sendo de responsabilidade do usu&aacute;rio confirm&aacute;-las diretamente com o estabelecimento.</p>
+                        <p>Ao utilizar este site, voc&ecirc; concorda com estes termos.</p>
+                    </div>
+                </div>
+
+                <div class="event-modal__frame-shell">
+                    <iframe class="event-modal__frame" name="guia-modal-frame" data-guia-frame data-src="./wifi-publico.html" title="Guia do Turista de Amargosa" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer__container">
+            <img class="footer-brand-mark" src="public/images/footer/logo-gustavo-borges.png" alt="Logo Gustavo Borges" loading="lazy" decoding="async">
+            <div class="footer__center">
+                <img class="footer-prefeitura-logo" src="public/images/footer/logo-prefeitura-amargosa.png" alt="Logo da Prefeitura de Amargosa" loading="lazy" decoding="async" style="max-width: 140px;">
+                <p>&copy; 2026 Prefeitura de Amargosa - BA. Todos os direitos reservados.</p>
+            </div>
+            <img class="footer-brand-mark footer-brand-mark--right" src="public/images/footer/logo-immanuel-vicente.png" alt="Logo Immanuel Vicente" loading="lazy" decoding="async">
+        </div>
+    </footer>
+
+    <script src="script.js?v=20260414-1045"></script>
+</body>
+</html>
+

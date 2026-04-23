@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Festival de Forr&oacute; de Amargosa</title>
+    <meta name="description" content="Especial do Festival de Forr&oacute; de Amargosa com imagens, descri&ccedil;&otilde;es da festa e acesso &agrave; galeria tem&aacute;tica do portal de turismo.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=20260412-2204">
+</head>
+<body>
+    <div class="ff-shell">
+        <main class="ff-main">
+            <section class="ff-section ff-story ff-story--merged" aria-labelledby="festa-title">
+                <div class="ff-story__header">
+                    <span class="ff-section__eyebrow">A festa</span>
+                    <h2 id="festa-title">O forr&oacute; ganha palco, rua e cor</h2>
+                </div>
+
+                <div class="ff-story__body">
+                    <div class="ff-story__media">
+                        <img src="../public/images/festival-forro/palco.jpg" alt="Apresenta&ccedil;&atilde;o do Festival de Forr&oacute; de Amargosa" loading="lazy" decoding="async">
+                    </div>
+
+                    <div class="ff-story__content">
+                        <p>O Festival de Forr&oacute; de Amargosa celebra a for&ccedil;a da m&uacute;sica nordestina, reunindo palco, dan&ccedil;a, artistas e manifesta&ccedil;&otilde;es culturais em uma atmosfera de encontro</p>
+                        <p>Inspirado no clima acolhedor do especial de S&atilde;o Jo&atilde;o, este subsite destaca o ritmo, a presen&ccedil;a popular e a mem&oacute;ria afetiva que fazem o forr&oacute; pulsar na Cidade Jardim</p>
+                    </div>
+                </div>
+
+                <div class="ff-story__experience">
+                    <div class="ff-section__heading">
+                        <span class="ff-section__eyebrow">Experi&ecirc;ncias</span>
+                        <h2 id="experiencia-title">O que o visitante encontra no festival</h2>
+                    </div>
+
+                    <div class="ff-experience__grid">
+                        <article class="ff-experience__card">
+                            <img src="../public/images/festival-forro/danca.jpg" alt="Quadrilha e dan&ccedil;arinos no Festival de Forr&oacute; de Amargosa" loading="lazy" decoding="async">
+                            <div>
+                                <h3>Dan&ccedil;a, figurino e energia popular</h3>
+                                <p>As apresenta&ccedil;&otilde;es ocupam a festa com movimento, cores vibrantes e a alegria coletiva que transforma cada noite em celebra&ccedil;&atilde;o</p>
+                            </div>
+                        </article>
+
+                        <article class="ff-experience__card">
+                            <img src="../public/images/festival-forro/tradicao.jpg" alt="Personagem e feira cultural no Festival de Forr&oacute; de Amargosa" loading="lazy" decoding="async">
+                            <div>
+                                <h3>Cultura, artesanato e tradi&ccedil;&atilde;o</h3>
+                                <p>A programa&ccedil;&atilde;o tamb&eacute;m aproxima o visitante das express&otilde;es locais, com mem&oacute;ria cultural, personagens populares e produ&ccedil;&atilde;o criativa</p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section class="ff-section ff-gallery-cta" aria-labelledby="galeria-cta-title">
+                <div>
+                    <span class="ff-section__eyebrow">Galeria tem&aacute;tica</span>
+                    <h2 id="galeria-cta-title">Quer ver os registros do Festival de Forr&oacute;?</h2>
+                    <p>Abra a galeria especial do portal principal para navegar pelos &aacute;lbuns do evento e acompanhar os diferentes anos da festa</p>
+                </div>
+
+                <a class="ff-button ff-button--primary" href="../?gallery=festival-de-forro" target="_top" data-open-parent-gallery="festival-de-forro">Ver Galeria</a>
+            </section>
+        </main>
+    </div>
+    <script>
+        document.querySelectorAll('[data-open-parent-gallery]').forEach((link) => {
+            link.addEventListener('click', (event) => {
+                const galleryKey = link.dataset.openParentGallery;
+
+                if (!galleryKey || window.parent === window) {
+                    return;
+                }
+
+                event.preventDefault();
+                const targetOrigin = window.location.origin === 'null' ? '*' : window.location.origin;
+                window.parent.postMessage({ type: 'amargosa-open-gallery', galleryKey }, targetOrigin);
+            });
+        });
+    </script>
+</body>
+</html>
