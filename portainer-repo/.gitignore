@@ -1,0 +1,21 @@
+# Sistema operacional
+Thumbs.db
+.DS_Store
+
+# Editores
+.vscode/
+.idea/
+.claude/
+
+# Dependencias e caches
+node_modules/
+.cache/
+
+# Arquivos de ambiente
+.env
+.env.*
+!.env.example
+
+# Supabase local
+supabase/.temp/
+
