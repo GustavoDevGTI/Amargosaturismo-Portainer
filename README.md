@@ -1,53 +1,33 @@
-# Amargosaturismo
+# Amargosaturismo-Portainer
 
-Site turistico de Amargosa preparado para hospedagem estatica no GitHub.
+Clone do projeto `Amargosaturismo` preparado para deploy em servidor via Portainer.
 
-## Estrutura
+## Objetivo
 
-- `index.html`: pagina principal
-- `styles.css`: estilos do site
-- `script.js`: interacoes, acessibilidade, carrossel e integracao da galeria
-- `public/images/`: imagens locais usadas no layout
-- `supabase/functions/tourism-gallery/`: Edge Function usada para carregar galerias externas
-- `supabase/DEPLOY.md`: passos para publicar a funcao no Supabase
+Este repositório foi ajustado para subir o site em container com `nginx` e publicar somente a porta `13013`, que será consumida externamente pelo seu túnel Cloudflare `cloudflare-gti`.
 
-## Como executar localmente
+## Stack
 
-Como o projeto e estatico, basta abrir `index.html` no navegador. Se preferir, rode um servidor local simples para testar melhor links e carregamentos.
+- imagem base: `nginx:1.27-alpine`
+- porta publicada no host: `13013`
+- porta interna do container: `80`
+- healthcheck: `GET /health`
 
-## Publicacao no GitHub
+## Arquivos principais
 
-Este repositorio foi estruturado para subir diretamente ao GitHub no repositorio `GustavoDevGTI/Amargosaturismo`.
+- `Dockerfile`: empacota apenas os arquivos públicos do site
+- `docker-compose.yml`: stack pronta para Portainer usando a porta `13013`
+- `nginx.conf`: entrega o site estático e expõe `/health`
+- `PORTAINER.md`: passo a passo de deploy com Portainer e Cloudflare Tunnel
 
-## Publicacao no servidor local via Portainer
+## Deploy rápido
 
-O projeto agora tambem esta pronto para deploy em container via Portainer usando o proprio repositorio GitHub.
+1. No Portainer, crie um novo stack apontando para este repositório.
+2. Use o arquivo `docker-compose.yml`.
+3. Faça o deploy.
+4. Valide localmente em `http://SEU_SERVIDOR:13013/`.
+5. Aponte o túnel `cloudflare-gti` para `http://SEU_SERVIDOR:13013`.
 
-Arquivos adicionados para essa subida:
+## Observação
 
-- `Dockerfile`: empacota o site em `nginx:alpine`
-- `nginx.conf`: configura a entrega estatica e um endpoint de healthcheck
-- `docker-compose.yml`: sobe o container expondo a porta `80`
-- `.dockerignore`: reduz o contexto de build
-
-Passo a passo sugerido no Portainer:
-
-1. Criar um stack apontando para este repositorio
-2. Usar o arquivo `docker-compose.yml`
-3. Publicar a porta do host desejada para a porta `80` do container
-4. Fazer o deploy da stack
-
-Observacoes importantes:
-
-- o site e estatico, mas depende de acesso externo para Google Maps, Google Fonts e servicos do Supabase
-- a galeria continua dependendo da Edge Function descrita em `supabase/DEPLOY.md`
-
-## Integracao da galeria
-
-A galeria usa:
-
-- projeto Supabase `yfrsruueklqbpycflgmh`
-- Edge Function `tourism-gallery`
-- chave publica anon no `script.js`
-
-Para a galeria funcionar em producao, a funcao precisa estar publicada e com o secret `FLICKR_API_KEY` configurado no Supabase. Os detalhes estao em `supabase/DEPLOY.md`.
+Se precisar trocar a porta no futuro, use outra livre entre `13014` e `13020`, mas esta cópia foi deixada pronta usando somente a `13013`.

@@ -1,8 +1,10 @@
 services:
-  amargosaturismo:
+  amargosaturismo-portainer:
     build:
       context: .
-    container_name: amargosaturismo
+      dockerfile: Dockerfile
+    image: amargosaturismo-portainer:latest
+    container_name: amargosaturismo-portainer
     restart: unless-stopped
     ports:
-      - "${SITE_PORT:-8080}:80"
+      - "13013:80"

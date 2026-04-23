@@ -8,3 +8,9 @@ node_modules
 Thumbs.db
 .DS_Store
 supabase/.temp
+supabase
+README.md
+PORTAINER.md
+docker-compose.yml
+Dockerfile
+amargosa_info.md
