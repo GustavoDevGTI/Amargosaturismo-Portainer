@@ -2000,8 +2000,11 @@
     const carouselRoot = document.querySelector("[data-carousel]");
     const carouselViewport = carouselRoot?.querySelector(".points-carousel__viewport");
     const carouselTrack = carouselRoot?.querySelector(".attractions-grid");
-    const GUIDE_STORAGE_KEY = "guia_turista_cadastros_v1";
+    const GUIDE_PUBLIC_API_URL = "/api/public/submissions";
+    const GUIDE_CARDS_API_URL = "/api/public/cards";
     const SHOW_SUBMITTED_GUIDE_POINTS_ON_MAP = false;
+    let publishedGuideRecords = [];
+    let submittedGuideRecords = [];
 
     const GUIDE_ICONS = {
       instagram: `<svg class="card-link__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5A3.95 3.95 0 0 0 16.25 3.8Zm8.93 1.35a1.07 1.07 0 1 1 0 2.14 1.07 1.07 0 0 1 0-2.14ZM12 6.85A5.15 5.15 0 1 1 6.85 12 5.16 5.16 0 0 1 12 6.85Zm0 1.8A3.35 3.35 0 1 0 15.35 12 3.35 3.35 0 0 0 12 8.65Z"/></svg>`,
@@ -2191,13 +2194,95 @@
       };
     }
 
-    function readSubmittedGuideRecords() {
+    async function fetchSubmittedGuideRecords() {
       try {
-        const parsed = JSON.parse(localStorage.getItem(GUIDE_STORAGE_KEY) || "[]");
-        return Array.isArray(parsed)
-          ? parsed
+        const response = await fetch(GUIDE_PUBLIC_API_URL);
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          throw new Error(result.message || "Nao foi possivel carregar os cadastros aprovados.");
+        }
+
+        return Array.isArray(result.records)
+          ? result.records
             .map(normalizeSubmittedGuideRecord)
             .filter((record) => record && record.approvalStatus === "approved")
+          : [];
+      } catch (_) {
+        return [];
+      }
+    }
+
+    function normalizePublishedGuideRecord(rawRecord) {
+      const category = normalizeText(rawRecord?.category).toLowerCase();
+      const name = normalizeText(rawRecord?.name);
+
+      if (!name || !["turistico", "gastronomia", "hotel"].includes(category)) {
+        return null;
+      }
+
+      const contacts = rawRecord?.contacts || {};
+      const addressLine = normalizeText(rawRecord?.addressLine);
+      const scheduleLine = normalizeText(rawRecord?.scheduleLine);
+      const email = normalizeText(contacts.email);
+      const phone = normalizeText(contacts.phone);
+      const phoneUrl = normalizeText(contacts.phoneUrl || buildPhoneUrl(phone));
+      const latitudeValue = Number(rawRecord?.latitude);
+      const longitudeValue = Number(rawRecord?.longitude);
+      const hasCoordinates = Number.isFinite(latitudeValue) && Number.isFinite(longitudeValue);
+      const slug = toSlug(name) || String(Date.now());
+      const markerIcon = normalizeText(rawRecord?.markerIcon).toLowerCase()
+        || (category === "hotel" ? "lodging" : category === "gastronomia" ? "gastronomy" : "attraction");
+      const directionsUrl = normalizeText(
+        rawRecord?.directionsUrl
+        || (hasCoordinates ? buildDirectionsUrl(`${latitudeValue},${longitudeValue}`) : "")
+      );
+
+      return {
+        id: normalizeText(rawRecord?.id) || (category + "-" + slug),
+        pointId: normalizeText(rawRecord?.pointId) || (category + "-" + slug),
+        category,
+        name,
+        subtitle: normalizeText(rawRecord?.subtitle),
+        description: normalizeText(rawRecord?.description) || "Sem descricao informada.",
+        photoSrc: normalizeText(rawRecord?.photoSrc),
+        imageAlt: normalizeText(rawRecord?.imageAlt || name),
+        addressLine,
+        scheduleLine,
+        displayOrder: Number(rawRecord?.displayOrder) || 0,
+        isActive: rawRecord?.isActive !== false,
+        latitude: hasCoordinates ? latitudeValue : null,
+        longitude: hasCoordinates ? longitudeValue : null,
+        directionsUrl,
+        markerIcon,
+        metaLines: category === "gastronomia"
+          ? [scheduleLine, addressLine].filter(Boolean)
+          : category === "hotel"
+            ? [addressLine, email || "E-mail nao informado", phone].filter(Boolean)
+            : [addressLine].filter(Boolean),
+        contacts: {
+          instagram: normalizeText(contacts.instagram),
+          whatsapp: normalizeText(contacts.whatsapp),
+          email,
+          phone,
+          phoneUrl
+        }
+      };
+    }
+
+    async function fetchPublishedGuideCards() {
+      try {
+        const response = await fetch(GUIDE_CARDS_API_URL);
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          throw new Error(result.message || "Nao foi possivel carregar os cards oficiais.");
+        }
+
+        return Array.isArray(result.records)
+          ? result.records
+            .map(normalizePublishedGuideRecord)
+            .filter((record) => record && record.isActive !== false)
           : [];
       } catch (_) {
         return [];
@@ -2226,6 +2311,7 @@
       article.dataset.category = record.category;
       article.dataset.pointId = record.pointId;
       article.hidden = true;
+      article.dataset.submittedCard = "true";
 
       const image = document.createElement("img");
       image.src = record.photoSrc || (record.category === "gastronomia"
@@ -2308,47 +2394,154 @@
       return article;
     }
 
-    const submittedGuideRecords = readSubmittedGuideRecords();
+    function buildPublishedGuideCard(record) {
+      const article = document.createElement("article");
+      article.className = "attraction-card";
+      article.dataset.category = record.category;
+      article.dataset.pointId = record.pointId;
+      article.hidden = true;
 
-    if (carouselTrack && submittedGuideRecords.length) {
-      const fragment = document.createDocumentFragment();
-      submittedGuideRecords.forEach((record) => {
-        fragment.appendChild(buildSubmittedGuideCard(record));
+      const image = document.createElement("img");
+      image.src = record.photoSrc || (record.category === "hotel"
+        ? "https://placehold.co/1200x800?text=Hotel+ou+Pousada"
+        : record.category === "gastronomia"
+          ? "https://placehold.co/1200x800?text=Bar+ou+Restaurante"
+          : "https://placehold.co/1200x800?text=Ponto+Turistico");
+      image.alt = record.imageAlt || record.name;
+      image.loading = "lazy";
+      image.decoding = "async";
+
+      const content = document.createElement("div");
+      content.className = "card-content";
+
+      const title = document.createElement("h3");
+      title.textContent = record.name;
+      content.appendChild(title);
+
+      if (record.subtitle) {
+        const subtitle = document.createElement("p");
+        subtitle.className = "subtitle-card";
+        subtitle.textContent = record.subtitle;
+        content.appendChild(subtitle);
+      }
+
+      const description = document.createElement("p");
+      description.textContent = record.description;
+      content.appendChild(description);
+
+      if (record.metaLines.length) {
+        const meta = document.createElement("div");
+        meta.className = "card-meta";
+        record.metaLines.forEach((line) => {
+          const span = document.createElement("span");
+          span.textContent = line;
+          meta.appendChild(span);
+        });
+        content.appendChild(meta);
+      }
+
+      const actions = document.createElement("div");
+      actions.className = "card-actions";
+
+      if (record.pointId) {
+        const mapButton = document.createElement("button");
+        mapButton.className = "card-button";
+        mapButton.type = "button";
+        mapButton.dataset.mapFocus = record.pointId;
+        mapButton.textContent = "Ver no mapa";
+        actions.appendChild(mapButton);
+      }
+
+      const linksInline = document.createElement("div");
+      linksInline.className = "card-actions-inline";
+      const contacts = record.contacts || {};
+      const contactLinks = record.category === "turistico"
+        ? []
+        : record.category === "gastronomia"
+          ? [
+              createGuideIconLink(contacts.instagram, "card-link--instagram", "Instagram", GUIDE_ICONS.instagram),
+              createGuideIconLink(contacts.whatsapp, "card-link--whatsapp", "WhatsApp", GUIDE_ICONS.whatsapp)
+            ]
+          : [
+              createGuideIconLink(contacts.instagram, "card-link--instagram", "Instagram", GUIDE_ICONS.instagram),
+              createGuideIconLink(contacts.email ? ("mailto:" + contacts.email) : "", "card-link--email", "E-mail", GUIDE_ICONS.email),
+              createGuideIconLink(contacts.whatsapp, "card-link--whatsapp", "WhatsApp", GUIDE_ICONS.whatsapp),
+              createGuideIconLink(contacts.phoneUrl, "card-link--phone", "Contato", GUIDE_ICONS.phone)
+            ];
+
+      contactLinks.forEach((link) => {
+        if (link) {
+          linksInline.appendChild(link);
+        }
       });
-      carouselTrack.appendChild(fragment);
+
+      if (linksInline.children.length) {
+        actions.appendChild(linksInline);
+      }
+
+      content.appendChild(actions);
+      article.appendChild(image);
+      article.appendChild(content);
+      return article;
     }
 
-    const allCarouselCards = carouselTrack ? Array.from(carouselTrack.children) : [];
+    async function appendSubmittedGuideCards() {
+      submittedGuideRecords = await fetchSubmittedGuideRecords();
+
+      if (!carouselTrack) {
+        return;
+      }
+
+      carouselTrack.querySelectorAll('[data-submitted-card="true"]').forEach((card) => {
+        card.remove();
+      });
+
+      if (submittedGuideRecords.length) {
+        const fragment = document.createDocumentFragment();
+        submittedGuideRecords.forEach((record) => {
+          fragment.appendChild(buildSubmittedGuideCard(record));
+        });
+        carouselTrack.appendChild(fragment);
+      }
+
+      syncGuideCardsDomState();
+      refreshVisibleCards();
+    }
+
+    async function loadGuideCards() {
+      if (!carouselTrack) {
+        return;
+      }
+
+      publishedGuideRecords = await fetchPublishedGuideCards();
+
+      if (publishedGuideRecords.length) {
+        const fragment = document.createDocumentFragment();
+        publishedGuideRecords.forEach((record) => {
+          fragment.appendChild(buildPublishedGuideCard(record));
+        });
+        carouselTrack.replaceChildren(fragment);
+      }
+
+      syncGuideCardsDomState();
+      refreshVisibleCards();
+      await appendSubmittedGuideCards();
+      syncMapPointCountsFromPublishedRecords();
+      updateFilterFeedback();
+
+      if (pageMap && window.google?.maps) {
+        initMap();
+      }
+    }
+
+    let allCarouselCards = carouselTrack ? Array.from(carouselTrack.children) : [];
     const carouselPrevButton = carouselRoot?.querySelector("[data-carousel-prev]");
     const carouselNextButton = carouselRoot?.querySelector("[data-carousel-next]");
     const filterButtons = Array.from(document.querySelectorAll("[data-filter]"));
     const filterFeedback = document.querySelector("[data-filter-feedback]");
     const filterEmpty = document.querySelector("[data-filter-empty]");
-    const mapFocusButtons = document.querySelectorAll("[data-map-focus]");
     const pointMarkers = new Map();
     const pointCategories = new Map();
-
-    document.querySelectorAll('img[loading="lazy"]').forEach((image) => {
-      image.decoding = "async";
-    });
-
-    document.querySelectorAll(".subtitle-card").forEach((subtitle) => {
-      const description = subtitle.nextElementSibling;
-      const subtitleText = subtitle.textContent.trim().replace(/\s+/g, " ");
-
-      if (description && description.tagName === "P" && subtitleText) {
-        const descriptionText = description.textContent.trim().replace(/\s+/g, " ");
-        const normalizedDescription = descriptionText
-          ? `${descriptionText.charAt(0).toLocaleLowerCase("pt-BR")}${descriptionText.slice(1)}`
-          : "";
-
-        description.textContent = normalizedDescription
-          ? `${subtitleText}, ${normalizedDescription}`
-          : subtitleText;
-      }
-
-      subtitle.remove();
-    });
 
     const TOURISM_POINT_IDS_WITH_WIFI = new Set([
       "tur-jardim",
@@ -2360,6 +2553,66 @@
       "tur-duque-caxias",
       "tur-cristo"
     ]);
+
+    function setLazyImageDecoding(cards = allCarouselCards) {
+      cards.forEach((card) => {
+        card.querySelectorAll('img[loading="lazy"]').forEach((image) => {
+          image.decoding = "async";
+        });
+      });
+    }
+
+    function mergeCardSubtitles(cards = allCarouselCards) {
+      cards.forEach((card) => {
+        const subtitle = card.querySelector(".subtitle-card");
+
+        if (!subtitle) {
+          return;
+        }
+
+        const description = subtitle.nextElementSibling;
+        const subtitleText = subtitle.textContent.trim().replace(/\s+/g, " ");
+
+        if (description && description.tagName === "P" && subtitleText) {
+          const descriptionText = description.textContent.trim().replace(/\s+/g, " ");
+          const normalizedDescription = descriptionText
+            ? (descriptionText.charAt(0).toLocaleLowerCase("pt-BR") + descriptionText.slice(1))
+            : "";
+
+          description.textContent = normalizedDescription
+            ? (subtitleText + ", " + normalizedDescription)
+            : subtitleText;
+        }
+
+        subtitle.remove();
+      });
+    }
+
+    function applyTourismWifiBadges(cards = allCarouselCards) {
+      cards.forEach((card) => {
+        if (card.dataset.category !== "turistico" || !TOURISM_POINT_IDS_WITH_WIFI.has(card.dataset.pointId)) {
+          return;
+        }
+
+        const actions = card.querySelector(".card-actions");
+        if (!actions || actions.querySelector(".card-button--wifi")) {
+          return;
+        }
+
+        const wifiBadge = document.createElement("span");
+        wifiBadge.className = "card-button card-button--wifi";
+        wifiBadge.textContent = "Wifi Gratuito";
+        wifiBadge.setAttribute("aria-label", "Wifi Gratuito");
+        actions.appendChild(wifiBadge);
+      });
+    }
+
+    function syncGuideCardsDomState() {
+      allCarouselCards = carouselTrack ? Array.from(carouselTrack.children) : [];
+      setLazyImageDecoding(allCarouselCards);
+      mergeCardSubtitles(allCarouselCards);
+      applyTourismWifiBadges(allCarouselCards);
+    }
 
     const filterLabels = {
       todos: "todos os locais",
@@ -2427,19 +2680,36 @@
     const initialGuideRouteTarget = getInitialGuideRouteTarget();
     const initialMapFocusTarget = getInitialMapFocusTarget();
     const extraTourismPoints = initialGuideRouteTarget === "amargosa" ? 1 : 0;
-    const submittedGuideCounts = submittedGuideRecords.reduce((accumulator, record) => {
-      accumulator.todos += 1;
-      accumulator[record.category] = (accumulator[record.category] || 0) + 1;
-      return accumulator;
-    }, { todos: 0, gastronomia: 0, hotel: 0 });
-    const mapPointCounts = {
-      todos: 32 + extraTourismPoints + submittedGuideCounts.todos,
-      turistico: 9 + extraTourismPoints,
-      gastronomia: 12 + submittedGuideCounts.gastronomia,
-      hotel: 11 + submittedGuideCounts.hotel
-    };
     const defaultMapCenter = { lat: -13.0265, lng: -39.6085 };
     const defaultMapZoom = 14;
+
+    function createEmptyMapCounts() {
+      return { todos: 0, turistico: 0, gastronomia: 0, hotel: 0 };
+    }
+
+    function buildMapCountsFromCards(cards, includeRoute = false) {
+      const counts = createEmptyMapCounts();
+
+      cards.forEach((card) => {
+        const category = card?.dataset?.category;
+
+        if (!categoryFilters.includes(category)) {
+          return;
+        }
+
+        counts.todos += 1;
+        counts[category] += 1;
+      });
+
+      if (includeRoute) {
+        counts.todos += 1;
+        counts.turistico += 1;
+      }
+
+      return counts;
+    }
+
+    let mapPointCounts = buildMapCountsFromCards(allCarouselCards, extraTourismPoints === 1);
     let visibleCarouselCards = [...allCarouselCards];
     let selectedCategories = getInitialSelectedCategories();
     let carouselIndex = 0;
@@ -2447,6 +2717,121 @@
     let pendingMapFocusId = initialMapFocusTarget || (initialGuideRouteTarget === "amargosa" ? "route-amargosa" : null);
     let pageMap = null;
     let pageInfoWindow = null;
+
+    function syncMapPointCountsFromPoints(points) {
+      const counts = createEmptyMapCounts();
+
+      points.forEach((point) => {
+        if (!categoryFilters.includes(point.category)) {
+          return;
+        }
+
+        counts.todos += 1;
+        counts[point.category] += 1;
+      });
+
+      mapPointCounts = counts;
+    }
+
+    function syncMapPointCountsFromPublishedRecords() {
+      if (!publishedGuideRecords.length) {
+        mapPointCounts = buildMapCountsFromCards(allCarouselCards, extraTourismPoints === 1);
+        return;
+      }
+
+      const counts = createEmptyMapCounts();
+
+      if (initialGuideRouteTarget === "amargosa") {
+        counts.todos += 1;
+        counts.turistico += 1;
+      }
+
+      publishedGuideRecords.forEach((record) => {
+        if (!categoryFilters.includes(record.category)) {
+          return;
+        }
+
+        counts.todos += 1;
+        counts[record.category] += 1;
+      });
+
+      if (SHOW_SUBMITTED_GUIDE_POINTS_ON_MAP) {
+        submittedGuideRecords.forEach((record) => {
+          if (!categoryFilters.includes(record.category)) {
+            return;
+          }
+
+          counts.todos += 1;
+          counts[record.category] += 1;
+        });
+      }
+
+      mapPointCounts = counts;
+    }
+
+    function resolveGuideMarkerIcon(markerIcon, attractionIcon, heritageIcon, gastronomyIcon, lodgingIcon, category) {
+      const normalized = normalizeText(markerIcon).toLowerCase();
+
+      if (normalized === "heritage") {
+        return heritageIcon;
+      }
+
+      if (normalized === "gastronomy") {
+        return gastronomyIcon;
+      }
+
+      if (normalized === "lodging") {
+        return lodgingIcon;
+      }
+
+      if (normalized === "attraction") {
+        return attractionIcon;
+      }
+
+      return category === "hotel"
+        ? lodgingIcon
+        : category === "gastronomia"
+          ? gastronomyIcon
+          : attractionIcon;
+    }
+
+    function buildGuideMarkerSummary(record) {
+      return normalizeText(record.subtitle || record.description) || "Ponto do Guia do Turista.";
+    }
+
+    function buildPublishedGuidePoint(record, attractionIcon, heritageIcon, gastronomyIcon, lodgingIcon) {
+      if (!Number.isFinite(record.latitude) || !Number.isFinite(record.longitude)) {
+        return null;
+      }
+
+      const titleColor = record.category === "hotel"
+        ? "#3568c9"
+        : record.category === "gastronomia"
+          ? "#c9642b"
+          : "#157c62";
+
+      return {
+        id: record.pointId,
+        name: record.name,
+        category: record.category,
+        coords: { lat: record.latitude, lng: record.longitude },
+        icon: resolveGuideMarkerIcon(
+          record.markerIcon,
+          attractionIcon,
+          heritageIcon,
+          gastronomyIcon,
+          lodgingIcon,
+          record.category
+        ),
+        directionsUrl: normalizeText(record.directionsUrl || buildDirectionsUrl(`${record.latitude},${record.longitude}`)),
+        content: `
+          <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+            <strong style="display: block; margin-bottom: 8px; color: ${titleColor}; font-size: 1.05rem;">${escapeHtml(record.name)}</strong>
+            <span style="font-size: 0.92rem;">${escapeHtml(buildGuideMarkerSummary(record))}</span>
+          </div>
+        `
+      };
+    }
 
     function areAllCategoriesSelected() {
       return categoryFilters.every((category) => selectedCategories.has(category));
@@ -2489,23 +2874,6 @@
     function matchesActiveCategory(category) {
       return categoryFilters.includes(category) && (areAllCategoriesSelected() || selectedCategories.has(category));
     }
-
-    document.querySelectorAll('.attraction-card[data-category="turistico"]').forEach((card) => {
-      if (!TOURISM_POINT_IDS_WITH_WIFI.has(card.dataset.pointId)) {
-        return;
-      }
-
-      const actions = card.querySelector(".card-actions");
-      if (!actions || actions.querySelector(".card-button--wifi")) {
-        return;
-      }
-
-      const wifiBadge = document.createElement("span");
-      wifiBadge.className = "card-button card-button--wifi";
-      wifiBadge.textContent = "Wifi Gratuito";
-      wifiBadge.setAttribute("aria-label", "Wifi Gratuito");
-      actions.appendChild(wifiBadge);
-    });
 
     function updateFilterButtons() {
       filterButtons.forEach((button) => {
@@ -2750,10 +3118,14 @@
       pageInfoWindow.open(pageMap, marker);
     }
 
-    mapFocusButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        focusPointOnMap(button.dataset.mapFocus);
-      });
+    document.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-map-focus]");
+
+      if (!button) {
+        return;
+      }
+
+      focusPointOnMap(button.dataset.mapFocus);
     });
 
     filterButtons.forEach((button) => {
@@ -2802,9 +3174,12 @@
         ]
       };
 
+      pointMarkers.forEach((marker) => marker.setMap(null));
+      pointMarkers.clear();
+      pointCategories.clear();
+
       pageMap = new google.maps.Map(document.getElementById("map"), mapOptions);
       pageInfoWindow = new google.maps.InfoWindow();
-      const geocoder = new google.maps.Geocoder();
 
       const attractionPath = "M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z";
       const heritagePath = "M4 10v2h2v6H4v2h16v-2h-2v-6h2v-2L12 4 4 10zm2 0 6-3.18L18 10H6zm2 2h2v6H8v-6zm6 0h2v6h-2v-6zm-3 0h2v6h-2v-6z";
@@ -2936,7 +3311,7 @@
           id: "tur-santa-rita",
           name: "PraÃ§a da Santa Rita",
           category: "turistico",
-          query: "PraÃ§a Constantino Sampaio, Santa Rita, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0232761, lng: -39.6028166 },
           icon: attractionIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Pra%C3%A7a%20Constantino%20Sampaio,%20Santa%20Rita,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -2992,7 +3367,7 @@
           id: "gas-casa-da-feijoada",
           name: "Casa da Feijoada",
           category: "gastronomia",
-          query: "Casa da Feijoada, Rua Conselheiro Dantas, 15, Centro, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0300058, lng: -39.5980395 },
           icon: gastronomyIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Casa%20da%20Feijoada,%20Rua%20Conselheiro%20Dantas,%2015,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3006,7 +3381,7 @@
           id: "gas-chef-restaurante",
           name: "Chef Restaurante e Pizzaria",
           category: "gastronomia",
-          query: "Chef Restaurante e Pizzaria, Valle Shopping, Avenida Doutor Luis Sande de Oliveira, 196, Centro, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0238365, lng: -39.605897 },
           icon: gastronomyIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Chef%20Restaurante%20e%20Pizzaria,%20Valle%20Shopping,%20Avenida%20Doutor%20Luis%20Sande%20de%20Oliveira,%20196,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3020,7 +3395,7 @@
           id: "gas-cantinho-da-evely",
           name: "Cantinho da Evely",
           category: "gastronomia",
-          query: "Cantinho da Evely, Valle Shopping, Avenida Doutor Luis Sande de Oliveira, 196, Centro, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0235967, lng: -39.6065712 },
           icon: gastronomyIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Cantinho%20da%20Evely,%20Valle%20Shopping,%20Avenida%20Doutor%20Luis%20Sande%20de%20Oliveira,%20196,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3034,7 +3409,7 @@
           id: "gas-3-marias",
           name: "3 Marias",
           category: "gastronomia",
-          query: "3 Marias, Praca dos Correios, Centro, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.02921, lng: -39.6047845 },
           icon: gastronomyIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=3%20Marias,%20Praca%20dos%20Correios,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3048,7 +3423,7 @@
           id: "gas-boteco-boliche",
           name: "Boteco Boliche",
           category: "gastronomia",
-          query: "Boteco Boliche, Valle Shopping, Avenida Doutor Luis Sande de Oliveira, 196, Centro, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0238365, lng: -39.605897 },
           icon: gastronomyIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Boteco%20Boliche,%20Valle%20Shopping,%20Avenida%20Doutor%20Luis%20Sande%20de%20Oliveira,%20196,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3062,7 +3437,7 @@
           id: "gas-villa-galicia",
           name: "Villa Galicia Horto Restaurante",
           category: "gastronomia",
-          query: "Villa Galicia Horto Restaurante, Avenida Lomanto Junior, 35, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0359043, lng: -39.6046664 },
           icon: gastronomyIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Villa%20Galicia%20Horto%20Restaurante,%20Avenida%20Lomanto%20Junior,%2035,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3076,7 +3451,7 @@
           id: "gas-bella-roma",
           name: "Restaurante Bella Roma",
           category: "gastronomia",
-          query: "Restaurante Bella Roma, Largo Maracana, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0300058, lng: -39.5980395 },
           icon: gastronomyIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Restaurante%20Bella%20Roma,%20Largo%20Maracana,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3090,7 +3465,7 @@
           id: "gas-volupe",
           name: "Volupe Gastro Bar",
           category: "gastronomia",
-          query: "Volupe Gastro Bar, Rua da Lapinha, 209, Centro, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.025113, lng: -39.606495 },
           icon: gastronomyIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Volupe%20Gastro%20Bar,%20Rua%20da%20Lapinha,%20209,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3104,7 +3479,7 @@
           id: "gas-saori",
           name: "Saori Sushi",
           category: "gastronomia",
-          query: "Saori Sushi, Travessa Benedito Almeida, Amarcenter, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0292654, lng: -39.605642 },
           icon: gastronomyIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Saori%20Sushi,%20Travessa%20Benedito%20Almeida,%20Amarcenter,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3118,7 +3493,7 @@
           id: "gas-americano",
           name: "Americano Bar e Lanchonete",
           category: "gastronomia",
-          query: "Americano Bar e Lanchonete, Avenida Lomanto Junior, 117, Centro, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0319602, lng: -39.604313 },
           icon: gastronomyIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Americano%20Bar%20e%20Lanchonete,%20Avenida%20Lomanto%20Junior,%20117,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3132,7 +3507,7 @@
           id: "gas-pug-efemero",
           name: "Pub e Bar Efemero",
           category: "gastronomia",
-          query: "Pub e Bar Efemero, Rua Carlos Gomes, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0312651, lng: -39.6001785 },
           icon: gastronomyIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Pub%20e%20Bar%20Efemero,%20Rua%20Carlos%20Gomes,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3146,7 +3521,7 @@
           id: "gas-restaurante-sias",
           name: "Restaurante e Pizzaria do Sias",
           category: "gastronomia",
-          query: "Restaurante e Pizzaria do Sias, Travessa Almeida Sampaio, 250, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0292726, lng: -39.6023098 },
           icon: gastronomyIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Restaurante%20e%20Pizzaria%20do%20Sias,%20Travessa%20Almeida%20Sampaio,%20250,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3160,7 +3535,7 @@
           id: "hotel-katiara",
           name: "Pousada Katiara",
           category: "hotel",
-          query: "Pousada Katiara, Avenida Abelardo Veloso, 470, Centro, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0302393, lng: -39.5941363 },
           icon: lodgingIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Pousada%20Katiara,%20Avenida%20Abelardo%20Veloso,%20470,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3174,7 +3549,7 @@
           id: "hotel-girassol",
           name: "Pousada Girassol",
           category: "hotel",
-          query: "Pousada Girassol, Avenida Doutor Abelardo Velloso, 522, Centro, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0301649, lng: -39.5937849 },
           icon: lodgingIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Pousada%20Girassol,%20Avenida%20Doutor%20Abelardo%20Velloso,%20522,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3188,7 +3563,7 @@
           id: "hotel-vale-aguas",
           name: "Hotel Fazenda Vale das Aguas",
           category: "hotel",
-          query: "Hotel Fazenda Vale das Aguas, BA-540, km 5, Fazenda Reunidas Ribeirao do Cupido, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0687402, lng: -39.5669952 },
           icon: lodgingIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Hotel%20Fazenda%20Vale%20das%20Aguas,%20BA-540,%20km%205,%20Fazenda%20Reunidas%20Ribeirao%20do%20Cupido,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3202,7 +3577,7 @@
           id: "hotel-calisto",
           name: "Pousada Calisto",
           category: "hotel",
-          query: "Pousada Calisto, Avenida Abelardo Veloso, 258, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0299687, lng: -39.5987767 },
           icon: lodgingIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Pousada%20Calisto,%20Avenida%20Abelardo%20Veloso,%20258,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3216,7 +3591,7 @@
           id: "hotel-bosque",
           name: "Pousada do Bosque",
           category: "hotel",
-          query: "Pousada do Bosque, Praca da Bandeira, 269, Centro, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0315483, lng: -39.6000694 },
           icon: lodgingIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Pousada%20do%20Bosque,%20Praca%20da%20Bandeira,%20269,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3230,7 +3605,7 @@
           id: "hotel-dona-marieta",
           name: "Pousada Dona Marieta",
           category: "hotel",
-          query: "Pousada Dona Marieta, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0231323, lng: -39.6028382 },
           icon: lodgingIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Pousada%20Dona%20Marieta,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3244,7 +3619,7 @@
           id: "hotel-imperial",
           name: "Hotel Imperial",
           category: "hotel",
-          query: "Pousada Imperial, Rua Aldemiro Vaz Sampaio, 100, Centro, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0285661, lng: -39.6043237 },
           icon: lodgingIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Pousada%20Imperial,%20Rua%20Aldemiro%20Vaz%20Sampaio,%20100,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3258,7 +3633,7 @@
           id: "hotel-colibri",
           name: "Hotel Fazenda Colibri",
           category: "hotel",
-          query: "Hotel Fazenda Colibri, Rodovia Amargosa-Mutuipe, km 2, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0421524, lng: -39.5816165 },
           icon: lodgingIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Hotel%20Fazenda%20Colibri,%20Rodovia%20Amargosa-Mutuipe,%20km%202,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3272,7 +3647,7 @@
           id: "hotel-sampaio",
           name: "Pousada Sampaio",
           category: "hotel",
-          query: "Pousada Sampaio, Rua Moreira Coelho, 28, Centro, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.03061, lng: -39.6013196 },
           icon: lodgingIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Pousada%20Sampaio,%20Rua%20Moreira%20Coelho,%2028,%20Centro,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3286,7 +3661,7 @@
           id: "hotel-baitinga",
           name: "Resort Baitinga",
           category: "hotel",
-          query: "Resort Baitinga, Povoado Baitinga, 15 - Rural, Amargosa - BA, 45300-000, Brasil",
+          coords: { lat: -13.0156032, lng: -39.5754319 },
           icon: lodgingIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Resort%20Baitinga,%20Povoado%20Baitinga,%2015%20-%20Rural,%20Amargosa%20-%20BA,%2045300-000,%20Brasil",
           content: `
@@ -3300,7 +3675,7 @@
           id: "hotel-asa-branca",
           name: "Motel Asa Branca",
           category: "hotel",
-          query: "Motel Asa Branca, BA-540, 400, Rodovia Amargosa-Mutuipe, Amargosa, Bahia, Brasil",
+          coords: { lat: -13.0130724, lng: -39.6114608 },
           icon: lodgingIcon,
           directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Motel%20Asa%20Branca,%20BA-540,%20400,%20Rodovia%20Amargosa-Mutuipe,%20Amargosa,%20Bahia,%20Brasil",
           content: `
@@ -3312,6 +3687,38 @@
         },
         ...submittedGuidePoints
       ];
+
+      const publishedGuidePoints = publishedGuideRecords
+        .map((record) => buildPublishedGuidePoint(record, attractionIcon, heritageIcon, gastronomyIcon, lodgingIcon))
+        .filter(Boolean);
+
+      const dynamicRoutePoint = initialGuideRouteTarget === "amargosa"
+        ? {
+            id: "route-amargosa",
+            name: "Amargosa",
+            category: "turistico",
+            coords: defaultMapCenter,
+            icon: attractionIcon,
+            directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Amargosa%2C%20Bahia%2C%20Brasil&travelmode=driving",
+            content: `
+              <div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">
+                <strong style="display: block; margin-bottom: 8px; color: #157c62; font-size: 1.05rem;">Amargosa</strong>
+                <span style="font-size: 0.92rem;">Abra a rota para chegar &agrave; cidade pelo bot&atilde;o abaixo</span>
+              </div>
+            `
+          }
+        : null;
+
+      const activePoints = publishedGuidePoints.length
+        ? [
+            ...(dynamicRoutePoint ? [dynamicRoutePoint] : []),
+            ...publishedGuidePoints,
+            ...submittedGuidePoints
+          ]
+        : points;
+
+      syncMapPointCountsFromPoints(activePoints);
+      updateFilterFeedback();
 
       function getPopupContent(point) {
         const template = document.createElement("template");
@@ -3330,12 +3737,15 @@
         return `<div style="font-family: Cabin, sans-serif; color: #243834; max-width: 260px; line-height: 1.45;">${title}${directionsButton}</div>`;
       }
 
-      points.forEach((point) => {
+      activePoints.forEach((point) => {
         pointCategories.set(point.id, point.category);
       });
 
+      const geocoder = activePoints.some((point) => !point.coords && point.query)
+        ? new google.maps.Geocoder()
+        : null;
       let mappedPoints = 0;
-      let pendingLookups = points.length;
+      let pendingLookups = activePoints.length;
 
       function finalizeMap() {
         pendingLookups -= 1;
@@ -3372,9 +3782,15 @@
         mappedPoints += 1;
       }
 
-      points.forEach((point) => {
+      activePoints.forEach((point) => {
         if (point.coords) {
           addMarker(point, point.coords);
+          finalizeMap();
+          return;
+        }
+
+        if (!geocoder || !point.query) {
+          console.warn("Ponto sem coordenadas ignorado no mapa:", point.name);
           finalizeMap();
           return;
         }
@@ -3391,11 +3807,12 @@
       });
     }
 
+    syncGuideCardsDomState();
     refreshVisibleCards();
+    loadGuideCards();
   </script>
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdddKSwLzMfQdvDOYIO2Qx5ZX7RiF6syc&callback=initMap"></script>
 </body>
 
 </html>
-
